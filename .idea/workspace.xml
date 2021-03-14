@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7c2740fd-230c-4d18-9ef1-6bfcb278a445" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/test/java/kwkw.tsh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/CurrPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/CurrPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/PageSize.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/PageSize.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/utils/SqlParseUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/utils/SqlParseUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/CurrPage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/CurrPage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/PageSize.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/PageSize.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/entity/ParameterInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/entity/ParameterInfo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/SqlParseUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/SqlParseUtils.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/lz_mybatis_plugin-2.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/lz_mybatis_plugin-2.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,7 +180,8 @@
       <workItem from="1615693339015" duration="1434000" />
       <workItem from="1615694935803" duration="5079000" />
       <workItem from="1615702791074" duration="6984000" />
-      <workItem from="1615723798481" duration="4078000" />
+      <workItem from="1615723798481" duration="4102000" />
+      <workItem from="1615733738509" duration="115000" />
     </task>
     <servers />
   </component>
