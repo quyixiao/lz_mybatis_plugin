@@ -6,10 +6,7 @@ import com.lz.mybatis.plugin.mapper.TableRowMapper;
 import com.lz.mybatis.plugin.service.MyBatisBaomidouService;
 import com.lz.mybatis.plugin.utils.SqlParseUtils;
 import com.lz.mybatis.plugin.utils.StringUtils;
-import com.lz.mybatis.plugin.utils.t.PluginTuple;
-import com.lz.mybatis.plugin.utils.t.Tuple1;
-import com.lz.mybatis.plugin.utils.t.Tuple2;
-import com.lz.mybatis.plugin.utils.t.Tuple3;
+import com.lz.mybatis.plugin.utils.t.*;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.binding.MapperMethod;
@@ -18,14 +15,18 @@ import org.apache.ibatis.binding.MapperRegistry;
 import org.apache.ibatis.builder.BuilderException;
 import org.apache.ibatis.builder.IncompleteElementException;
 import org.apache.ibatis.builder.MapperBuilderAssistant;
+import org.apache.ibatis.builder.ResultMapResolver;
 import org.apache.ibatis.builder.annotation.MapperAnnotationBuilder;
 import org.apache.ibatis.builder.annotation.MethodResolver;
 import org.apache.ibatis.cursor.Cursor;
+import org.apache.ibatis.executor.ErrorContext;
 import org.apache.ibatis.executor.keygen.Jdbc3KeyGenerator;
 import org.apache.ibatis.executor.keygen.KeyGenerator;
 import org.apache.ibatis.executor.keygen.NoKeyGenerator;
 import org.apache.ibatis.executor.keygen.SelectKeyGenerator;
 import org.apache.ibatis.mapping.*;
+import org.apache.ibatis.parsing.XNode;
+import org.apache.ibatis.parsing.XPathParser;
 import org.apache.ibatis.reflection.ParamNameResolver;
 import org.apache.ibatis.reflection.TypeParameterResolver;
 import org.apache.ibatis.scripting.LanguageDriver;
@@ -33,6 +34,7 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.type.TypeAliasRegistry;
 import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.UnknownTypeHandler;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -58,6 +60,8 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
     private List<String> primaryColumns;
     public final static String TABLENAME = "TableName";
     public MyBatisBaomidouService myBatisBaomidouService;
+    protected final TypeAliasRegistry typeAliasRegistry;
+    private Class entityType;
 
     public CustomerMapperBuilder(Configuration configuration, Class<?> type, MyBatisBaomidouService myBatisBaomidouService) {
         super(configuration, type);
@@ -66,6 +70,7 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
         this.configuration = configuration;
         this.type = type;
         this.myBatisBaomidouService = myBatisBaomidouService;
+        this.typeAliasRegistry = this.configuration.getTypeAliasRegistry();
         try {
             // 有些 mybatis Configuration 的 useGeneratedKeys 字段没有默认设置为true，为了保险起见，还是调用一下setUseGeneratedKeys
             // 设置其默认值为 true
@@ -87,6 +92,7 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
         // 获取表名,看Mapper的继承类中有没有配置泛型，如果配置泛型，看泛型对象是否有@TableName注解，如果有@TableName注解
         // 获取@TableName注解的 value 作为表名称
         tableName = SqlParseUtils.findTableName(type);
+        entityType = SqlParseUtils.findEntityType(type);    //找到实体名称
         if (StringUtils.isEmpty(tableName)) { //
             tableName = SqlParseUtils.getAnnotationValueByTypeName(type, TABLENAME);
         }
@@ -139,6 +145,8 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
                 }
             } catch (IncompleteElementException e) {
                 configuration.addIncompleteMethod(new MethodResolver(this, method));
+            }catch (Exception e ){
+                e.printStackTrace();
             }
         }
         // 这个方法的目的主要是解决：
@@ -240,9 +248,9 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
 
 
     private PluginTuple buildSqlSourceFromStrings(Method method, Class<?> parameterTypeClass, LanguageDriver languageDriver, SqlCommandType sqlCommandType) {
-        Tuple3<Boolean, String, String> data = SqlParseUtils.parse(tableName, primaryColumns, tableColumns, sqlCommandType, method).getData();
+        Tuple5<Boolean, String, String,String ,String> data = SqlParseUtils.parse(tableName, primaryColumns, tableColumns, sqlCommandType, method, entityType).getData();
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, data.getSecond().trim(), parameterTypeClass);
-        return new PluginTuple(data.getFirst(), sqlSource, data.getThird());
+        return new PluginTuple(data.getFirst(), sqlSource, data.getThird(),data.getFourth(),data.getFifth());
     }
 
     public PluginTuple getTableInfo(JdbcTemplate jdbcTemplate, String tableName) {
@@ -272,12 +280,17 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
         return languageDriver.createSqlSource(configuration, sql.toString().trim(), parameterTypeClass);
     }
 
-    PluginTuple parseStatement(Method method) {
+    PluginTuple parseStatement(Method method) throws Exception {
         Class<?> parameterTypeClass = getParameterType(method);
         LanguageDriver languageDriver = getLanguageDriver(method);
         SqlCommandType sqlCommandType = getSqlCommandType(method);
         PluginTuple data = getSqlSourceFromAnnotations(method, parameterTypeClass, languageDriver, sqlCommandType);
-        Tuple3<Boolean, SqlSource, String> tupleInfo = data.getData();
+        Tuple5<Boolean, SqlSource, String, String, String> tupleInfo = data.getData();
+        if (StringUtils.isNotEmpty(tupleInfo.getFourth())) {  //表示需要添加 Mapper
+            XPathParser xPathParser = new XPathParser(tupleInfo.getFifth());
+            List<XNode> xNodeList = xPathParser.evalNodes("/resultMap");
+            resultMapElement(xNodeList.get(0));
+        }
         SqlSource sqlSource = tupleInfo.getSecond();
         String keyPropertyPre = "";
         if (StringUtils.isNotEmpty(tupleInfo.getThird())) {
@@ -316,7 +329,6 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
             } else {
                 keyGenerator = NoKeyGenerator.INSTANCE;
             }
-
             if (options != null) {
                 if (Options.FlushCachePolicy.TRUE.equals(options.flushCache())) {
                     flushCache = true;
@@ -329,21 +341,24 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
                 statementType = options.statementType();
                 resultSetType = options.resultSetType();
             }
-
             String resultMapId = null;
-            ResultMap resultMapAnnotation = method.getAnnotation(ResultMap.class);
-            if (resultMapAnnotation != null) {
-                String[] resultMaps = resultMapAnnotation.value();
-                StringBuilder sb = new StringBuilder();
-                for (String resultMap : resultMaps) {
-                    if (sb.length() > 0) {
-                        sb.append(",");
+            if(StringUtils.isEmpty(tupleInfo.getFourth())){
+                ResultMap resultMapAnnotation = method.getAnnotation(ResultMap.class);
+                if (resultMapAnnotation != null) {
+                    String[] resultMaps = resultMapAnnotation.value();
+                    StringBuilder sb = new StringBuilder();
+                    for (String resultMap : resultMaps) {
+                        if (sb.length() > 0) {
+                            sb.append(",");
+                        }
+                        sb.append(resultMap);
                     }
-                    sb.append(resultMap);
+                    resultMapId = sb.toString();
+                } else if (isSelect) {
+                    resultMapId = parseResultMap(method);
                 }
-                resultMapId = sb.toString();
-            } else if (isSelect) {
-                resultMapId = parseResultMap(method);
+            }else{
+                resultMapId = tupleInfo.getFourth();
             }
 
             assistant.addMappedStatement(
@@ -373,6 +388,142 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
                     options != null ? nullOrEmpty(options.resultSets()) : null);
         }
         return data;
+    }
+
+    private org.apache.ibatis.mapping.ResultMap resultMapElement(XNode resultMapNode) throws Exception {
+        return resultMapElement(resultMapNode, Collections.<ResultMapping>emptyList());
+    }
+
+    private org.apache.ibatis.mapping.ResultMap resultMapElement(XNode resultMapNode, List<ResultMapping> additionalResultMappings) throws Exception {
+        ErrorContext.instance().activity("processing " + resultMapNode.getValueBasedIdentifier());
+        String id = resultMapNode.getStringAttribute("id",
+                resultMapNode.getValueBasedIdentifier());
+        String type = resultMapNode.getStringAttribute("type",
+                resultMapNode.getStringAttribute("ofType",
+                        resultMapNode.getStringAttribute("resultType",
+                                resultMapNode.getStringAttribute("javaType"))));
+        String extend = resultMapNode.getStringAttribute("extends");
+        Boolean autoMapping = resultMapNode.getBooleanAttribute("autoMapping");
+        Class<?> typeClass = resolveClass(type);
+        Discriminator discriminator = null;
+        List<ResultMapping> resultMappings = new ArrayList<ResultMapping>();
+        resultMappings.addAll(additionalResultMappings);
+        List<XNode> resultChildren = resultMapNode.getChildren();
+        for (XNode resultChild : resultChildren) {
+            if ("constructor".equals(resultChild.getName())) {
+                processConstructorElement(resultChild, typeClass, resultMappings);
+            } else if ("discriminator".equals(resultChild.getName())) {
+                discriminator = processDiscriminatorElement(resultChild, typeClass, resultMappings);
+            } else {
+                ArrayList<ResultFlag> flags = new ArrayList<ResultFlag>();
+                if ("id".equals(resultChild.getName())) {
+                    flags.add(ResultFlag.ID);
+                }
+                resultMappings.add(buildResultMappingFromContext(resultChild, typeClass, flags));
+            }
+        }
+        ResultMapResolver resultMapResolver = new ResultMapResolver(assistant, id, typeClass, extend, discriminator, resultMappings, autoMapping);
+        try {
+            return resultMapResolver.resolve();
+        } catch (IncompleteElementException e) {
+            configuration.addIncompleteResultMap(resultMapResolver);
+            throw e;
+        }
+    }
+
+    private Discriminator processDiscriminatorElement(XNode context, Class<?> resultType, List<ResultMapping> resultMappings) throws Exception {
+        String column = context.getStringAttribute("column");
+        String javaType = context.getStringAttribute("javaType");
+        String jdbcType = context.getStringAttribute("jdbcType");
+        String typeHandler = context.getStringAttribute("typeHandler");
+        Class<?> javaTypeClass = resolveClass(javaType);
+        @SuppressWarnings("unchecked")
+        Class<? extends TypeHandler<?>> typeHandlerClass = (Class<? extends TypeHandler<?>>) resolveClass(typeHandler);
+        JdbcType jdbcTypeEnum = resolveJdbcType(jdbcType);
+        Map<String, String> discriminatorMap = new HashMap<String, String>();
+        for (XNode caseChild : context.getChildren()) {
+            String value = caseChild.getStringAttribute("value");
+            String resultMap = caseChild.getStringAttribute("resultMap", processNestedResultMappings(caseChild, resultMappings));
+            discriminatorMap.put(value, resultMap);
+        }
+        return assistant.buildDiscriminator(resultType, column, javaTypeClass, jdbcTypeEnum, typeHandlerClass, discriminatorMap);
+    }
+
+    private ResultMapping buildResultMappingFromContext(XNode context, Class<?> resultType, List<ResultFlag> flags) throws Exception {
+        String property;
+        if (flags.contains(ResultFlag.CONSTRUCTOR)) {
+            property = context.getStringAttribute("name");
+        } else {
+            property = context.getStringAttribute("property");
+        }
+        String column = context.getStringAttribute("column");
+        String javaType = context.getStringAttribute("javaType");
+        String jdbcType = context.getStringAttribute("jdbcType");
+        String nestedSelect = context.getStringAttribute("select");
+        String nestedResultMap = context.getStringAttribute("resultMap",
+                processNestedResultMappings(context, Collections.<ResultMapping>emptyList()));
+        String notNullColumn = context.getStringAttribute("notNullColumn");
+        String columnPrefix = context.getStringAttribute("columnPrefix");
+        String typeHandler = context.getStringAttribute("typeHandler");
+        String resultSet = context.getStringAttribute("resultSet");
+        String foreignColumn = context.getStringAttribute("foreignColumn");
+        boolean lazy = "lazy".equals(context.getStringAttribute("fetchType", configuration.isLazyLoadingEnabled() ? "lazy" : "eager"));
+        Class<?> javaTypeClass = resolveClass(javaType);
+        @SuppressWarnings("unchecked")
+        Class<? extends TypeHandler<?>> typeHandlerClass = (Class<? extends TypeHandler<?>>) resolveClass(typeHandler);
+        JdbcType jdbcTypeEnum = resolveJdbcType(jdbcType);
+        return assistant.buildResultMapping(resultType, property, column, javaTypeClass, jdbcTypeEnum, nestedSelect, nestedResultMap, notNullColumn, columnPrefix, typeHandlerClass, flags, resultSet, foreignColumn, lazy);
+    }
+
+    private String processNestedResultMappings(XNode context, List<ResultMapping> resultMappings) throws Exception {
+        if ("association".equals(context.getName())
+                || "collection".equals(context.getName())
+                || "case".equals(context.getName())) {
+            if (context.getStringAttribute("select") == null) {
+                org.apache.ibatis.mapping.ResultMap resultMap = resultMapElement(context, resultMappings);
+                return resultMap.getId();
+            }
+        }
+        return null;
+    }
+
+
+    private void processConstructorElement(XNode resultChild, Class<?> resultType, List<ResultMapping> resultMappings) throws Exception {
+        List<XNode> argChildren = resultChild.getChildren();
+        for (XNode argChild : argChildren) {
+            List<ResultFlag> flags = new ArrayList<ResultFlag>();
+            flags.add(ResultFlag.CONSTRUCTOR);
+            if ("idArg".equals(argChild.getName())) {
+                flags.add(ResultFlag.ID);
+            }
+            resultMappings.add(buildResultMappingFromContext(argChild, resultType, flags));
+        }
+    }
+
+    protected JdbcType resolveJdbcType(String alias) {
+        if (alias == null) {
+            return null;
+        }
+        try {
+            return JdbcType.valueOf(alias);
+        } catch (IllegalArgumentException e) {
+            throw new BuilderException("Error resolving JdbcType. Cause: " + e, e);
+        }
+    }
+
+    protected Class<?> resolveClass(String alias) {
+        if (alias == null) {
+            return null;
+        }
+        try {
+            return resolveAlias(alias);
+        } catch (Exception e) {
+            throw new BuilderException("Error resolving class. Cause: " + e, e);
+        }
+    }
+
+    protected Class<?> resolveAlias(String alias) {
+        return typeAliasRegistry.resolveAlias(alias);
     }
 
     private SqlCommandType getSqlCommandType(Method method) {

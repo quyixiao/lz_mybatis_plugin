@@ -1,3 +1,4 @@
+com/lz/mybatis/plugin/entity/Page.class
 com/lz/mybatis/plugin/annotations/Realy.class
 com/lz/mybatis/plugin/utils/t/Tuple3.class
 com/lz/mybatis/plugin/utils/t/Tuple6.class
@@ -22,8 +23,10 @@ com/lz/mybatis/plugin/utils/t/Tuple7.class
 com/lz/mybatis/plugin/annotations/LT.class
 com/lz/mybatis/plugin/annotations/NotIn.class
 com/lz/mybatis/plugin/annotations/IF.class
+com/lz/mybatis/plugin/annotations/CurrPage.class
 com/lz/mybatis/plugin/entity/TableInfo.class
 com/lz/mybatis/plugin/service/MyBatisBaomidouService.class
+com/lz/mybatis/plugin/annotations/PageSize.class
 com/lz/mybatis/plugin/annotations/TableId.class
 com/lz/mybatis/plugin/annotations/LLIKE.class
 com/lz/mybatis/plugin/utils/t/Tuple1.class
@@ -34,6 +37,7 @@ com/lz/mybatis/plugin/annotations/IsNull.class
 com/lz/mybatis/plugin/annotations/Insert.class
 com/lz/mybatis/plugin/annotations/LIKE.class
 com/lz/mybatis/plugin/annotations/OrderType.class
+com/lz/mybatis/plugin/utils/POrderUtil.class
 com/lz/mybatis/plugin/annotations/Index.class
 com/lz/mybatis/plugin/utils/t/Tuple4.class
 com/lz/mybatis/plugin/annotations/OR.class

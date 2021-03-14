@@ -58,6 +58,13 @@ public class ParameterInfo {
     private boolean isBy;
     private String byParam;
 
+    private boolean isPageSize;
+    private boolean isCurrPage;
+
+    private String pageSize;
+
+    private String currPage;
+
     public boolean isBy() {
         return isBy;
     }
@@ -269,7 +276,6 @@ public class ParameterInfo {
         isGe = ge;
     }
 
-
     public boolean isLe() {
         return isLe;
     }
@@ -292,6 +298,39 @@ public class ParameterInfo {
 
     public void setRLike(boolean RLike) {
         isRLike = RLike;
+    }
+
+
+    public String getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(String pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public String getCurrPage() {
+        return currPage;
+    }
+
+    public void setCurrPage(String currPage) {
+        this.currPage = currPage;
+    }
+
+    public boolean isPageSize() {
+        return isPageSize;
+    }
+
+    public void setPageSize(boolean pageSize) {
+        isPageSize = pageSize;
+    }
+
+    public boolean isCurrPage() {
+        return isCurrPage;
+    }
+
+    public void setCurrPage(boolean currPage) {
+        isCurrPage = currPage;
     }
 
     @Override

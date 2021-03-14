@@ -4,9 +4,7 @@ import java.lang.annotation.*;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD})
-public @interface LIMIT {
-    int value() default 1;
-
-    int offset() default  0;
+@Target({ElementType.PARAMETER,ElementType.FIELD})
+public @interface PageSize {
+    String value();
 }

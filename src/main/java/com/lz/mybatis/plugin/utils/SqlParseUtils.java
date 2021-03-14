@@ -5,6 +5,7 @@ import com.lz.mybatis.plugin.annotations.*;
 import com.lz.mybatis.plugin.config.CustomerMapperBuilder;
 import com.lz.mybatis.plugin.entity.ByInfo;
 import com.lz.mybatis.plugin.entity.OrderByInfo;
+import com.lz.mybatis.plugin.entity.Page;
 import com.lz.mybatis.plugin.entity.ParameterInfo;
 import com.lz.mybatis.plugin.utils.t.PluginTuple;
 import com.lz.mybatis.plugin.utils.t.Tuple2;
@@ -64,47 +65,50 @@ public class SqlParseUtils {
 
     public static PluginTuple testSelect(Class clazz, String methodName) {
         SqlCommandType sqlCommandType = SqlCommandType.SELECT;
-        return parse("lz_test_user",primaryC, tableColumns, sqlCommandType, getMethod(clazz, methodName));
+        return parse("lz_test_user", primaryC, tableColumns, sqlCommandType, getMethod(clazz, methodName), null);
 
     }
 
     public static PluginTuple testInsert(Class clazz, String methodName) {
         SqlCommandType sqlCommandType = SqlCommandType.INSERT;
-        return parse("lz_test_user", primaryC,tableColumns, sqlCommandType, getMethod(clazz, methodName));
+        return parse("lz_test_user", primaryC, tableColumns, sqlCommandType, getMethod(clazz, methodName), null);
     }
 
     public static PluginTuple testUpdate(Class clazz, String methodName) {
         SqlCommandType sqlCommandType = SqlCommandType.UPDATE;
-        return parse("lz_test_user",primaryC, tableColumns, sqlCommandType, getMethod(clazz, methodName));
+        return parse("lz_test_user", primaryC, tableColumns, sqlCommandType, getMethod(clazz, methodName), null);
     }
 
 
     public static PluginTuple testDelete(Class clazz, String methodName) {
         SqlCommandType sqlCommandType = SqlCommandType.DELETE;
-        return parse("lz_test_user",primaryC, tableColumns, sqlCommandType, getMethod(clazz, methodName));
+        return parse("lz_test_user", primaryC, tableColumns, sqlCommandType, getMethod(clazz, methodName), null);
     }
 
     public static PluginTuple testCount(Class clazz, String methodName) {
         SqlCommandType sqlCommandType = SqlCommandType.UNKNOWN;
-        return parse("lz_test_user",primaryC, tableColumns, sqlCommandType, getMethod(clazz, methodName));
+        return parse("lz_test_user", primaryC, tableColumns, sqlCommandType, getMethod(clazz, methodName), null);
     }
 
 
-    public static PluginTuple parse(String tableName, List<String> primaryColumns,List<String> tableColumns, SqlCommandType sqlCommandType, Method method) {
+    public static PluginTuple parse(String tableName, List<String> primaryColumns, List<String> tableColumns,
+                                    SqlCommandType sqlCommandType, Method method, Class entityType) {
         DefaultParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
         String[] parameterNames = parameterNameDiscoverer.getParameterNames(method);
         StringBuilder sb = new StringBuilder();
         if (SqlCommandType.SELECT.equals(sqlCommandType)) {
             if (method.getName().startsWith("count")) {
                 return parseCount(tableName, tableColumns, parameterNames, method);
+            } else if (method.getReturnType().equals(Page.class)) {
+                return parseSelectPage(tableName, tableColumns, parameterNames, method, entityType);
             } else {
                 return parseSelect(tableName, tableColumns, parameterNames, method);
             }
         } else if (SqlCommandType.INSERT.equals(sqlCommandType)) {
-            if(method.getName().startsWith("insertOrUpdate")){
-                Tuple2<Boolean,String> tupleInsert = parseInsert(tableName, parameterNames, method).getData();
+            if (method.getName().startsWith("insertOrUpdate")) {
+                Tuple2<Boolean, String> tupleInsert = parseInsert(tableName, parameterNames, method).getData();
                 String insertSql = removeScript(tupleInsert.getSecond());
-                Tuple2<Boolean,String>  tupleUpdate = parseUpdate(tableName, parameterNames, method).getData();
+                Tuple2<Boolean, String> tupleUpdate = parseUpdate(tableName, parameterNames, method).getData();
                 String updateSql = removeScript(tupleUpdate.getSecond());
                 StringBuilder sBuild = new StringBuilder();
                 sBuild.append("<script> ").append("\n");
@@ -118,7 +122,7 @@ public class SqlParseUtils {
                     if (i != 0) {
                         sBuild.append(" AND ");
                     }
-                    sBuild.append( primaryColumns.get(i) + " != null ");
+                    sBuild.append(primaryColumns.get(i) + " != null ");
                 }
                 sBuild.append("\"");
                 sBuild.append(" >").append("\n");
@@ -140,12 +144,109 @@ public class SqlParseUtils {
         return new PluginTuple(true, sb.toString());
     }
 
+
+    private static PluginTuple parseSelectPage(String tableName, List<String> tableColumns, String[] parameterNames,
+                                               Method method, Class entityType) {
+        Class parameterTypes[] = method.getParameterTypes();
+        ParameterInfo[] parameterInfos = getMethodParameterInfoByAnnotation(method);
+        StringBuilder sql = new StringBuilder();
+        StringBuilder resultMap = new StringBuilder();
+        String resultMapId = POrderUtil.getUserPoolOrder(tableName);
+        Class clazz = findReturnGenericType(method, 0); //获取返回的第0们位置的泛型类型
+        if (clazz != null) {
+            entityType = clazz;
+        }
+
+        String entityName = entityType.getName();
+        Field fields[] = entityType.getDeclaredFields();
+        resultMap.append("<resultMap id=\"" + resultMapId + "\" type=\"com.lz.mybatis.plugin.entity.Page\">\n" +
+                "        <id property=\"totalCount\" column=\"totalCount\" />\n" +
+                "        <id property=\"pageCount\" column=\"pageCount\"></id>\n" +
+                "        <id property=\"pageSize\" column=\"pageSize\"></id>\n" +
+                "        <id property=\"currPage\" column=\"currPage\"></id>\n" +
+                "        <collection property=\"list\" ofType=\"" + entityName + "\">\n");
+        for (Field field : fields) {
+            String realFieldName = getRealFieldName(field);
+            String column = StringUtils.getDataBaseColumn(realFieldName);
+            if ("id".equals(column)) {
+                resultMap.append("            <id column=\"id\" property=\"id\"/>\n");
+            } else {
+                resultMap.append("            <result column=\"" + column + "\" property=\"" + realFieldName + "\"/>\n");
+            }
+        }
+        resultMap.append("        </collection>\n" +
+                "    </resultMap>");
+        sql.append("<script> \n");
+        sql.append(" select\n" +
+                "        t1.totalCount,\n" +
+                "        t1.pageCount,\n" +
+                "        t1.pageSize,\n" +
+                "        t1.currPage,\n");
+        for (int i = 0; i < fields.length; i++) {
+            Field field = fields[i];
+            String realFieldName = getRealFieldName(field);
+            String column = StringUtils.getDataBaseColumn(realFieldName);
+            sql.append("        t2." + column);
+            if (i < fields.length - 1) {
+                sql.append(",\n");
+            }
+        }
+
+        String pageSize = "";
+        String currPage = "";
+        if (parameterInfos != null) {
+            for (int i = 0; i < parameterInfos.length; i++) {
+                ParameterInfo parameterInfo = parameterInfos[i];
+                if (parameterInfo.isCurrPage()) {
+                    currPage = parameterInfo.getCurrPage();
+                    if (StringUtils.isEmpty(currPage)) {
+                        currPage = parameterNames[i];
+                    }
+                }
+                if (parameterInfo.isPageSize()) {
+                    pageSize = parameterInfo.getPageSize();
+                    if (StringUtils.isEmpty(pageSize)) {
+                        pageSize = parameterNames[i];
+                    }
+                }
+            }
+        }
+        sql.append("        from\n" +
+                "        (select totalCount,\n" +
+                "        (totalCount + #{" + pageSize + "} - 1) /  #{" + pageSize + "} as pageCount,\n" +
+                "        #{" + pageSize + "} as pageSize,\n" +
+                "        if(#{" + currPage + "}=0,1,#{" + currPage + "}) as currPage \n" +   // 如果传入的currPage为0，转变成1
+                "        from \n" +
+                "        (select count(*) as totalCount from");
+        sql.append(tableName);
+        String sqlCondition = doGetSqlCondition(parameterTypes, parameterInfos, parameterNames);
+        sql.append(sqlCondition);
+        sql.append(") a) as t1 ,\n" +
+                "        (");
+        sql.append("select * from ").append(tableName).append(sqlCondition);
+        sql.append(getOrderBySql(method));
+        // limit (#{currPage}-1)*#{pageSize},#{pageSize}
+        sql.append(" limit ").append("(if(#{" + currPage + "}=0,1,#{" + currPage + "}) -1 ) * #{" + pageSize + "} , #{" + pageSize + "}");
+        sql.append(") as t2 \n");
+        sql.append("</script>");
+        return new PluginTuple(true, sql.toString(), "", resultMapId, resultMap.toString());
+    }
+
     public static PluginTuple parseSelect(String tableName, List<String> tableColumns, String[] parameterNames, Method method) {
         Class parameterTypes[] = method.getParameterTypes();
         ParameterInfo[] parameterInfos = getMethodParameterInfoByAnnotation(method);
         StringBuilder sql = new StringBuilder();
         sql.append("<script> \n");
         sql.append(TAB).append("SELECT").append(" * ").append("FROM ").append(tableName);
+        sql.append(doGetSqlCondition(parameterTypes, parameterInfos, parameterNames));
+        sql.append(getOrderBySql(method));
+        sql.append(getLimit(method));
+        sql.append(" \n</script>");
+        return new PluginTuple(true, sql.toString().trim());
+    }
+
+    public static String doGetSqlCondition(Class parameterTypes[], ParameterInfo[] parameterInfos, String[] parameterNames) {
+        StringBuilder sql = new StringBuilder();
         if (parameterTypes != null && parameterTypes.length > 0) {
             sql.append(" WHERE ");
             for (int i = 0; i < parameterTypes.length; i++) {//遍历所有的参数
@@ -160,8 +261,7 @@ public class SqlParseUtils {
             }
             sql.append(" IS_DELETE = 0 ");
         }
-        sql.append(getOrderBySql(method)).append(" \n</script>");
-        return new PluginTuple(true, sql.toString().trim());
+        return sql.toString();
     }
 
     public static PluginTuple parseInsert(String tableName, String[] parameterNames, Method method) {
@@ -281,8 +381,54 @@ public class SqlParseUtils {
         if (StringUtils.isNotEmpty(realTableName)) {
             tableName = realTableName;
         }
-        Field fields[] = paramterType.getDeclaredFields();
-        if (!isBasicDataTypes(paramterType)) { //如果不是基本数据类型,且对于只有一个对象的时候
+        Field fields[] = null;
+        if (isAssignableFromCollection(paramterType)) {                    //如果是 list集合
+            //泛型的参数类型(如果只有一个参数，那么就取第一个)
+            Type[] types = method.getGenericParameterTypes();
+            ParameterizedType pType = (ParameterizedType) types[0];
+            Type type = pType.getActualTypeArguments()[0];
+            try {
+                Class clazz = Class.forName(type.getTypeName());
+                fields = clazz.getDeclaredFields();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (paramterType.isArray()) {
+            Class clazz = paramterType.getComponentType();
+            fields = clazz.getDeclaredFields();
+        } else {
+            fields = paramterType.getDeclaredFields();
+        }
+        if (isAssignableFromCollection(paramterType) || paramterType.isArray()) {
+            String collection = paramterType.isArray() ? "array" : "list";
+            bf.append(TAB).append(TAB).append("update").append(" ").append(tableName).append("\n");
+            bf.append(TAB).append(TAB).append("<trim prefix=\"set\" suffixOverrides=\",\">").append("\n");
+            for (Field field : fields) {
+                String realFieldName = getRealFieldName(field);
+                String column = StringUtils.getDataBaseColumn(realFieldName);
+                if ("id".equals(column)) {
+                    continue;
+                }
+                bf.append("             <trim prefix=\"" + column + " = case id\" suffix=\"end,\">\n" +
+                        "                <foreach collection=\"" + collection + "\" item=\"item\">\n" +
+                        "                     <if test=\"item." + realFieldName + "!=null\">\n" +
+                        "                        when #{item.id} then #{item." + realFieldName + "}\n" +
+                        "                     </if>\n" +
+                        "                </foreach>\n" +
+                        "            </trim>\n");
+            }
+            bf.append("             </trim>");
+            bf.append("         <where>\n" +
+                    "               id in\n" +
+                    "               <foreach collection=\"" + collection + "\" separator=\",\" item=\"item\" open=\"(\" close=\")\">\n" +
+                    "                   #{item.id}\n" +
+                    "               </foreach>\n" +
+                    "           </where>");
+
+            bf.append("\n");
+            bf.append("</script>");
+            return new PluginTuple(false, bf.toString());
+        } else if (!isBasicDataTypes(paramterType)) { //如果不是基本数据类型,且对于只有一个对象的时候
             String pre = "";
             bf.append(TAB).append(TAB).append("update").append("\n");
             bf.append(TAB).append(TAB).append(TAB).append(tableName).append("\n");
@@ -397,7 +543,7 @@ public class SqlParseUtils {
             }
         }
         //如果有Realy 注解，直接从数据库中删除数据
-        if (!hasAnnotation(method,"Realy") && tableColumns.contains("is_delete")) {
+        if (!hasAnnotation(method, "Realy") && tableColumns.contains("is_delete")) {
             bf.append(TAB).append("UPDATE ").append(tableName).append(" SET IS_DELETE = 1 ");
         } else {
             bf.append(TAB).append("DELETE FROM ").append(tableName);
@@ -514,6 +660,7 @@ public class SqlParseUtils {
             condition.append("<foreach collection=\"" + conditionName + "\" item=\"item\" index=\"index\" separator=\",\" open=\"(\" close=\")\">");
             condition.append("  #{item}");
             condition.append("</foreach>");
+        } else if (parameterInfos[i].isPageSize() || parameterInfos[i].isCurrPage()) { //如果是 pageSize 或 currPage 注解修饰的变量，不做处理
         } else {
             condition.append(getEQNEGTLTGELE(parameterInfos, parameterTypes, column, conditionName, "=", i));
         }
@@ -582,7 +729,6 @@ public class SqlParseUtils {
         }
         return parameterInfo;
     }
-
 
     public static String getEQNEGTLTGELE(ParameterInfo[] parameterInfos, Class[] parameterTypes, String column, String conditionName, String flag, int i) {
         StringBuilder condition = new StringBuilder();
@@ -740,6 +886,19 @@ public class SqlParseUtils {
         return sql.toString();
     }
 
+    public static String getLimit(Method method) {
+        StringBuilder sql = new StringBuilder();
+        LIMIT limit = method.getAnnotation(LIMIT.class);
+        if (limit != null) {
+            int index = limit.value();
+            sql.append(" LIMIT ").append(index);
+            if (limit.offset() > 0) {
+                sql.append(",").append(limit.offset());
+            }
+        }
+        return sql.toString();
+    }
+
     public static ParameterInfo[] getMethodParameterInfoByAnnotation(Method method) {
         Annotation[][] parameterAnnotations = method.getParameterAnnotations();
         if (parameterAnnotations == null || parameterAnnotations.length == 0) {
@@ -767,7 +926,6 @@ public class SqlParseUtils {
         } else {
             value = obj.toString();
         }
-
         if ("OR".equals(annotationName)) {              //默认为 AND 关系
             parameterInfo.setOr(true);
         } else if ("AND".equals(annotationName)) {
@@ -842,9 +1000,14 @@ public class SqlParseUtils {
             parameterInfo.setDateFormatParam(value);
         } else if ("By".equals(annotationName)) {
             parameterInfo.setBy(true);
+        } else if ("CurrPage".equals(annotationName)) {
+            parameterInfo.setCurrPage(true);
+            parameterInfo.setCurrPage(value);
+        } else if ("PageSize".equals(annotationName)) {
+            parameterInfo.setPageSize(true);
+            parameterInfo.setPageSize(value);
         }
     }
-
 
     public static List<ByInfo> getMethodParameterByByMethod(Method method) {
         Annotation[][] parameterAnnotations = method.getParameterAnnotations();
@@ -953,7 +1116,6 @@ public class SqlParseUtils {
         }
         return false;
     }
-
 
 
     public static boolean hasAnnotation(Method method, String name) {
@@ -1112,6 +1274,23 @@ public class SqlParseUtils {
     }
 
 
+    public static Class findEntityType(Class<?> type) {
+        //获取接口定义上的泛型类型
+        //一个类可能实现多个接口,每个接口上定义的泛型类型都可取到
+        Type[] interfacesTypes = type.getGenericInterfaces();
+        for (Type t : interfacesTypes) {
+            Type[] genericType2 = ((ParameterizedType) t).getActualTypeArguments();
+            for (Type t2 : genericType2) {
+                try {
+                    return Class.forName(t2.getTypeName());
+                } catch (Exception e) {
+                }
+            }
+        }
+        return null;
+    }
+
+
     public static Map<Integer, String> getParamsName(Method method) {
         final Class<?>[] paramTypes = method.getParameterTypes();
         DefaultParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
@@ -1186,6 +1365,21 @@ public class SqlParseUtils {
             sql = sql.substring(0, sql.length() - "</script>".length());
         }
         return sql;
+    }
+
+    public static Class findReturnGenericType(Method method, int i) {
+        Type genericReturnType = method.getGenericReturnType();
+        if (genericReturnType instanceof ParameterizedType) {
+            ParameterizedType parameterizedType = (ParameterizedType) genericReturnType;//如果包含泛型
+            Type[] types = parameterizedType.getActualTypeArguments();//获取真实类型
+            try {
+                Type type =  types[i];
+                return Class.forName(type.getTypeName());
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
 
