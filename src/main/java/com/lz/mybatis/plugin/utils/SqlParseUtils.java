@@ -176,12 +176,23 @@ public class SqlParseUtils {
         }
         resultMap.append("        </collection>\n" +
                 "    </resultMap>");
+
         sql.append("<script> \n");
+        sql.append(" <choose>");
+        sql.append(" <when test=\"currPage=='0'.toString()\">\n" +
+                "                <bind name=\"key_offset\" value=\"(currPage)*pageSize\"></bind>\n" +
+                "            </when>\n" +
+                "            <otherwise>\n" +
+                "                <bind name=\"key_offset\" value=\"(currPage-1)*pageSize\"></bind>\n" +
+                "            </otherwise>");
+        sql.append("</choose>");
         sql.append(" select\n" +
                 "        t1.totalCount,\n" +
                 "        t1.pageCount,\n" +
                 "        t1.pageSize,\n" +
                 "        t1.currPage,\n");
+
+
         for (int i = 0; i < fields.length; i++) {
             Field field = fields[i];
             String realFieldName = getRealFieldName(field);
@@ -217,16 +228,16 @@ public class SqlParseUtils {
                 "        #{" + pageSize + "} as pageSize,\n" +
                 "        if(#{" + currPage + "}=0,1,#{" + currPage + "}) as currPage \n" +   // 如果传入的currPage为0，转变成1
                 "        from \n" +
-                "        (select count(*) as totalCount from");
-        sql.append(tableName);
+                "        (select count(*) as totalCount from ");
+        sql.append(" ").append(tableName).append(" ");
         String sqlCondition = doGetSqlCondition(parameterTypes, parameterInfos, parameterNames);
         sql.append(sqlCondition);
         sql.append(") a) as t1 ,\n" +
                 "        (");
-        sql.append("select * from ").append(tableName).append(sqlCondition);
+        sql.append("select * from ").append(tableName).append(" ").append(sqlCondition);
         sql.append(getOrderBySql(method));
         // limit (#{currPage}-1)*#{pageSize},#{pageSize}
-        sql.append(" limit ").append("(if(#{" + currPage + "}=0,1,#{" + currPage + "}) -1 ) * #{" + pageSize + "} , #{" + pageSize + "}");
+        sql.append(" limit ").append("#{key_offset},#{" + pageSize + "}");
         sql.append(") as t2 \n");
         sql.append("</script>");
         return new PluginTuple(true, sql.toString(), "", resultMapId, resultMap.toString());
@@ -589,6 +600,9 @@ public class SqlParseUtils {
     public static String getCondition(String conditionNamePre, Class[] parameterTypes, ParameterInfo parameterInfos[], String[] parameterNames, int i) {
         StringBuilder condition = new StringBuilder();
         condition.append(getIfOrIfNullPre(parameterTypes, parameterInfos, parameterNames, i));
+        if (parameterInfos[i].isPageSize() || parameterInfos[i].isCurrPage()) { //如果是 pageSize 或 currPage 注解修饰的变量，不做处理
+            return "";
+        }
         if (i != 0) {
             if (parameterInfos[i].isOr()) {
                 condition.append(" OR ");
@@ -660,7 +674,6 @@ public class SqlParseUtils {
             condition.append("<foreach collection=\"" + conditionName + "\" item=\"item\" index=\"index\" separator=\",\" open=\"(\" close=\")\">");
             condition.append("  #{item}");
             condition.append("</foreach>");
-        } else if (parameterInfos[i].isPageSize() || parameterInfos[i].isCurrPage()) { //如果是 pageSize 或 currPage 注解修饰的变量，不做处理
         } else {
             condition.append(getEQNEGTLTGELE(parameterInfos, parameterTypes, column, conditionName, "=", i));
         }
@@ -1373,7 +1386,7 @@ public class SqlParseUtils {
             ParameterizedType parameterizedType = (ParameterizedType) genericReturnType;//如果包含泛型
             Type[] types = parameterizedType.getActualTypeArguments();//获取真实类型
             try {
-                Type type =  types[i];
+                Type type = types[i];
                 return Class.forName(type.getTypeName());
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
