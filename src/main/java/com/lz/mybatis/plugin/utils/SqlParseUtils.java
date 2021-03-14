@@ -151,13 +151,14 @@ public class SqlParseUtils {
         ParameterInfo[] parameterInfos = getMethodParameterInfoByAnnotation(method);
         StringBuilder sql = new StringBuilder();
         StringBuilder resultMap = new StringBuilder();
-        String resultMapId = POrderUtil.getUserPoolOrder(tableName);
+        int paramCount = method.getParameterTypes() != null ? method.getParameterTypes().length : 0;
+        String resultMapId = tableName + method.getName() + paramCount + "ResultMapId";
         Class clazz = findReturnGenericType(method, 0); //获取返回的第0们位置的泛型类型
         if (clazz != null) {
             entityType = clazz;
         }
 
-        String entityName = entityType.getName();
+        String entityName = entityType != null ? entityType.getName() : "";
         Field fields[] = entityType.getDeclaredFields();
         resultMap.append("<resultMap id=\"" + resultMapId + "\" type=\"com.lz.mybatis.plugin.entity.Page\">\n" +
                 "        <id property=\"totalCount\" column=\"totalCount\" />\n" +
@@ -223,7 +224,7 @@ public class SqlParseUtils {
             }
         }
         sql.append("        from\n" +
-                "        (select totalCount,\n" +
+                "        (select 1 as xxx, totalCount,\n" +
                 "        (totalCount + #{" + pageSize + "} - 1) /  #{" + pageSize + "} as pageCount,\n" +
                 "        #{" + pageSize + "} as pageSize,\n" +
                 "        if(#{" + currPage + "}=0,1,#{" + currPage + "}) as currPage \n" +   // 如果传入的currPage为0，转变成1
@@ -232,13 +233,13 @@ public class SqlParseUtils {
         sql.append(" ").append(tableName).append(" ");
         String sqlCondition = doGetSqlCondition(parameterTypes, parameterInfos, parameterNames);
         sql.append(sqlCondition);
-        sql.append(") a) as t1 ,\n" +
+        sql.append(") a) as t1  left join \n" +
                 "        (");
-        sql.append("select * from ").append(tableName).append(" ").append(sqlCondition);
+        sql.append("select *,1 as xxx from ").append(tableName).append(" ").append(sqlCondition);
         sql.append(getOrderBySql(method));
         // limit (#{currPage}-1)*#{pageSize},#{pageSize}
         sql.append(" limit ").append("#{key_offset},#{" + pageSize + "}");
-        sql.append(") as t2 \n");
+        sql.append(") as t2  on t1.xxx = t2.xxx \n");
         sql.append("</script>");
         return new PluginTuple(true, sql.toString(), "", resultMapId, resultMap.toString());
     }
