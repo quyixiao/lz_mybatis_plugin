@@ -1044,7 +1044,7 @@ public class SqlParseUtils {
 
     public static List<OrderByInfo> getMethodOrderByListByMethod(Method method) {
         List<OrderByInfo> byList = new ArrayList<>();
-        OrderBy orderBy = method.getAnnotation(OrderBy.class);
+        Order orderBy = method.getAnnotation(Order.class);
         if (orderBy != null) {
             By[] bys = getAnnotationValue(orderBy);
             if (bys != null && bys.length > 0) {

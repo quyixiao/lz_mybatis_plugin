@@ -3,10 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="7c2740fd-230c-4d18-9ef1-6bfcb278a445" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/OrderBy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/Order.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/utils/SqlParseUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/utils/SqlParseUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/OrderBy.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/SqlParseUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/SqlParseUtils.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/lz_mybatis_plugin-2.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/lz_mybatis_plugin-2.0-SNAPSHOT.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-Test.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-Test.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/surefire-reports/Test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/Test.txt" afterDir="false" />
     </list>
@@ -187,7 +191,9 @@
       <workItem from="1615702791074" duration="6984000" />
       <workItem from="1615723798481" duration="4102000" />
       <workItem from="1615733738509" duration="133000" />
-      <workItem from="1615764754554" duration="1189000" />
+      <workItem from="1615764754554" duration="1451000" />
+      <workItem from="1615781511265" duration="271000" />
+      <workItem from="1615781869127" duration="259000" />
     </task>
     <servers />
   </component>

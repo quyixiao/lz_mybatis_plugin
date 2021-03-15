@@ -14,6 +14,7 @@
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/EQ.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/Index.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/utils/t/Tuple8.java
+/Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/Order.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/utils/t/Tuple3.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/utils/t/ISuperTuple.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/AND.java
@@ -48,7 +49,6 @@
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/IF.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/TableName.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/utils/t/Tuple11.java
-/Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/OrderBy.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/LIKE.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/entity/Page.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/entity/ParameterInfo.java

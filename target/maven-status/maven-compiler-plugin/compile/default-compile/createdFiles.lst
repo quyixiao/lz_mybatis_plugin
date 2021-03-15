@@ -30,7 +30,6 @@ com/lz/mybatis/plugin/annotations/PageSize.class
 com/lz/mybatis/plugin/annotations/TableId.class
 com/lz/mybatis/plugin/annotations/LLIKE.class
 com/lz/mybatis/plugin/utils/t/Tuple1.class
-com/lz/mybatis/plugin/annotations/OrderBy.class
 com/lz/mybatis/plugin/utils/t/Tuple10.class
 com/lz/mybatis/plugin/annotations/DateFormat.class
 com/lz/mybatis/plugin/annotations/IsNull.class
@@ -50,6 +49,7 @@ com/lz/mybatis/plugin/utils/t/Tuple11.class
 com/lz/mybatis/plugin/config/CustomerJdbc3KeyGenerator.class
 com/lz/mybatis/plugin/utils/t/Tuple2.class
 com/lz/mybatis/plugin/annotations/GT.class
+com/lz/mybatis/plugin/annotations/Order.class
 com/lz/mybatis/plugin/utils/t/PluginTuple.class
 com/lz/mybatis/plugin/annotations/Column.class
 com/lz/mybatis/plugin/utils/t/Tuple5.class
