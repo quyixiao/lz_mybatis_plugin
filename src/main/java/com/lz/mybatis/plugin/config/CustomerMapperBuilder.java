@@ -576,6 +576,7 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
         try {
             return buildSqlSourceFromStrings(method, parameterType, languageDriver, sqlCommandType);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new BuilderException("Could not find value method on SQL annotation.  Cause: " + e, e);
         }
     }

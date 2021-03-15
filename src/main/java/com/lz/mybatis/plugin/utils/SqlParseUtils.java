@@ -236,7 +236,7 @@ public class SqlParseUtils {
         sql.append(") a) as t1  left join \n" +
                 "        (");
         sql.append("select *,1 as xxx from ").append(tableName).append(" ").append(sqlCondition);
-        sql.append(getOrderBySql(method));
+        sql.append(getOrderBySql(method, parameterInfos, parameterNames));
         // limit (#{currPage}-1)*#{pageSize},#{pageSize}
         sql.append(" limit ").append("#{key_offset},#{" + pageSize + "}");
         sql.append(") as t2  on t1.xxx = t2.xxx \n");
@@ -251,7 +251,7 @@ public class SqlParseUtils {
         sql.append("<script> \n");
         sql.append(TAB).append("SELECT").append(" * ").append("FROM ").append(tableName);
         sql.append(doGetSqlCondition(parameterTypes, parameterInfos, parameterNames));
-        sql.append(getOrderBySql(method));
+        sql.append(getOrderBySql(method, parameterInfos, parameterNames));
         sql.append(getLimit(method));
         sql.append(" \n</script>");
         return new PluginTuple(true, sql.toString().trim());
@@ -601,7 +601,8 @@ public class SqlParseUtils {
     public static String getCondition(String conditionNamePre, Class[] parameterTypes, ParameterInfo parameterInfos[], String[] parameterNames, int i) {
         StringBuilder condition = new StringBuilder();
         condition.append(getIfOrIfNullPre(parameterTypes, parameterInfos, parameterNames, i));
-        if (parameterInfos[i].isPageSize() || parameterInfos[i].isCurrPage()) { //如果是 pageSize 或 currPage 注解修饰的变量，不做处理
+        if (parameterInfos[i].isPageSize() || parameterInfos[i].isCurrPage()
+                || parameterInfos[i].isOrderBy()) { //如果是 pageSize 或 currPage, orderBy  注解修饰的变量，不做处理
             return "";
         }
         if (i != 0) {
@@ -871,11 +872,34 @@ public class SqlParseUtils {
         return condition.toString();
     }
 
-    public static String getOrderBySql(Method method) {
+    public static String getOrderBySql(Method method, ParameterInfo[] parameterInfos, String[] parameterNames) {
         StringBuilder sql = new StringBuilder();
         List<OrderByInfo> orderByInfos = getMethodOrderByListByMethod(method);
+        boolean flag = true;
+        if (parameterInfos != null && parameterInfos.length > 0) {
+            for (int i = 0; i < parameterInfos.length; i++) {
+                ParameterInfo parameterInfo = parameterInfos[i];
+                if (parameterInfo.isOrderBy()) {
+                    if (flag) {
+                        flag = false;
+                        sql.append(" ORDER BY ");
+                    }
+                    String[] bys = parameterInfo.getBys();
+                    StringBuilder sb = new StringBuilder();
+                    for (int j = 0; j < bys.length; j++) {
+                        if (j > 0) {
+                            sb.append(",");
+                        }
+                        sb.append(bys[j]);
+                    }
+                    sql.append(sb.toString()).append(" ").append("${").append(parameterNames[i]).append("}").append(",");
+                }
+            }
+        }
         if (orderByInfos != null && orderByInfos.size() > 0) {
-            sql.append(" ORDER BY ");
+            if (flag) {
+                sql.append(" ORDER BY ");
+            }
             int k = 0;
             for (OrderByInfo orderByInfo : orderByInfos) {
                 int j = 0;
@@ -897,7 +921,11 @@ public class SqlParseUtils {
                 k++;
             }
         }
-        return sql.toString();
+        String temp = sql.toString();
+        if (temp.endsWith(",")) {
+            temp = temp.substring(0, temp.length() - 1);
+        }
+        return temp;
     }
 
     public static String getLimit(Method method) {
@@ -1020,6 +1048,9 @@ public class SqlParseUtils {
         } else if ("PageSize".equals(annotationName)) {
             parameterInfo.setPageSize(true);
             parameterInfo.setPageSize(value);
+        } else if ("OrderBy".equals(annotationName)) {
+            parameterInfo.setOrderBy(true);
+            parameterInfo.setBys(getAnnotationValue(annotation));
         }
     }
 

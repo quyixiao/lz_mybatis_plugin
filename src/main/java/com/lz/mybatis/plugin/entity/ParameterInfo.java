@@ -10,6 +10,8 @@ public class ParameterInfo {
 
     private String column;
 
+    private String value;
+
     private boolean isAnd = true;
 
     private boolean isOr;
@@ -64,6 +66,33 @@ public class ParameterInfo {
     private String pageSize;
 
     private String currPage;
+
+    private boolean isOrderBy;
+    private String[] bys;
+
+    public String[] getBys() {
+        return bys;
+    }
+
+    public void setBys(String[] bys) {
+        this.bys = bys;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public boolean isOrderBy() {
+        return isOrderBy;
+    }
+
+    public void setOrderBy(boolean orderBy) {
+        isOrderBy = orderBy;
+    }
 
     public boolean isBy() {
         return isBy;

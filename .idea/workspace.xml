@@ -2,10 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7c2740fd-230c-4d18-9ef1-6bfcb278a445" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/OrderBy.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/OrderBy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/config/CustomerMapperBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/config/CustomerMapperBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/entity/ParameterInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/entity/ParameterInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/utils/SqlParseUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/utils/SqlParseUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/OrderBy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/config/CustomerMapperBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/config/CustomerMapperBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/entity/ParameterInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/entity/ParameterInfo.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/SqlParseUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/SqlParseUtils.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/lz_mybatis_plugin-2.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/lz_mybatis_plugin-2.0-SNAPSHOT.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
@@ -62,8 +65,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.lz.mybatis.plugin.utils" />
       <recent name="com.lz.mybatis.plugin.annotations" />
+      <recent name="com.lz.mybatis.plugin.utils" />
       <recent name="com.lz.mybatis.plugin.mapper" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
@@ -193,7 +196,7 @@
       <workItem from="1615733738509" duration="133000" />
       <workItem from="1615764754554" duration="1451000" />
       <workItem from="1615781511265" duration="271000" />
-      <workItem from="1615781869127" duration="259000" />
+      <workItem from="1615781869127" duration="2938000" />
     </task>
     <servers />
   </component>
@@ -201,12 +204,13 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="633" y="0" key="#com.intellij.ide.util.MemberChooser" timestamp="1615704113414">
-      <screen x="40" y="0" width="1400" height="900" />
+    <state x="637" y="0" key="#com.intellij.ide.util.MemberChooser" timestamp="1615784863367">
+      <screen x="47" y="0" width="1393" height="900" />
     </state>
     <state x="633" y="0" key="#com.intellij.ide.util.MemberChooser/40.0.1400.900@40.0.1400.900" timestamp="1615704113414" />
     <state x="635" y="0" key="#com.intellij.ide.util.MemberChooser/43.0.1397.900/-1080.-1954.1080.1920/0.-1080.1920.1080@0.-1080.1920.1080" timestamp="1613983882941" />
     <state x="635" y="0" key="#com.intellij.ide.util.MemberChooser/43.0.1397.900@43.0.1397.900" timestamp="1615695954086" />
+    <state x="637" y="0" key="#com.intellij.ide.util.MemberChooser/47.0.1393.900/-1920.-1080.1920.1080@47.0.1393.900" timestamp="1615784863367" />
     <state x="506" y="315" width="471" height="273" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1615693702821">
       <screen x="40" y="0" width="1400" height="900" />
     </state>
@@ -343,8 +347,8 @@
       <screen x="38" y="0" width="1402" height="900" />
     </state>
     <state x="230" y="33" key="SettingsEditor/38.0.1402.900@38.0.1402.900" timestamp="1615702242813" />
-    <state x="-1231" y="-800" width="746" height="525" key="StructurePopup" timestamp="1615765310684">
-      <screen x="-1920" y="-1080" width="1920" height="1080" />
+    <state x="547" y="233" width="543" height="438" key="StructurePopup" timestamp="1615784126772">
+      <screen x="47" y="0" width="1393" height="900" />
     </state>
     <state x="542" y="233" width="544" height="437" key="StructurePopup/39.0.1401.900@39.0.1401.900" timestamp="1615707798365" />
     <state x="543" y="233" width="543" height="437" key="StructurePopup/40.0.1400.900@40.0.1400.900" timestamp="1615704192727" />
@@ -353,6 +357,7 @@
     <state x="690" y="-801" width="543" height="524" key="StructurePopup/44.0.1396.900/-1080.-1954.1080.1920/0.-1080.1920.1080@0.-1080.1920.1080" timestamp="1615536443791" />
     <state x="-1231" y="-800" width="746" height="525" key="StructurePopup/44.0.1396.900/-1920.-1080.1920.1080@-1920.-1080.1920.1080" timestamp="1615765310684" />
     <state x="690" y="-801" width="543" height="524" key="StructurePopup/46.0.1394.900/-1080.-1954.1080.1920/0.-1080.1920.1080@0.-1080.1920.1080" timestamp="1615543756809" />
+    <state x="547" y="233" width="543" height="438" key="StructurePopup/47.0.1393.900/-1920.-1080.1920.1080@47.0.1393.900" timestamp="1615784126772" />
     <state x="690" y="-801" width="540" height="524" key="StructurePopup/49.0.1391.900/-1080.-1954.1080.1920/0.-1080.1920.1080@0.-1080.1920.1080" timestamp="1612509118898" />
     <state x="489" y="253" width="692" height="472" key="find.popup" timestamp="1615724243620">
       <screen x="41" y="0" width="1399" height="900" />
@@ -360,8 +365,8 @@
     <state x="489" y="253" width="692" height="472" key="find.popup/41.0.1399.900/-1920.-1080.1920.1080@41.0.1399.900" timestamp="1615724243620" />
     <state x="493" y="253" width="689" height="472" key="find.popup/47.0.1393.900/-1080.-1954.1080.1920/0.-1080.1920.1080@47.0.1393.900" timestamp="1615530574289" />
     <state x="615" y="-776" width="689" height="472" key="find.popup/49.0.1391.900/-1080.-1954.1080.1920/0.-1080.1920.1080@0.-1080.1920.1080" timestamp="1612427952977" />
-    <state x="496" y="201" width="676" height="565" key="search.everywhere.popup" timestamp="1615726481380">
-      <screen x="43" y="0" width="1397" height="900" />
+    <state x="497" y="201" width="676" height="565" key="search.everywhere.popup" timestamp="1615785517555">
+      <screen x="44" y="0" width="1396" height="900" />
     </state>
     <state x="493" y="201" width="677" height="565" key="search.everywhere.popup/38.0.1402.900@38.0.1402.900" timestamp="1615701810709" />
     <state x="494" y="201" width="676" height="565" key="search.everywhere.popup/39.0.1401.900@39.0.1401.900" timestamp="1615698639916" />
@@ -370,6 +375,7 @@
     <state x="496" y="201" width="676" height="565" key="search.everywhere.popup/43.0.1397.900/-1920.-1080.1920.1080@43.0.1397.900" timestamp="1615726481380" />
     <state x="497" y="201" width="673" height="565" key="search.everywhere.popup/43.0.1397.900@43.0.1397.900" timestamp="1615606793231" />
     <state x="624" y="-839" width="924" height="677" key="search.everywhere.popup/44.0.1396.900/-1080.-1954.1080.1920/0.-1080.1920.1080@0.-1080.1920.1080" timestamp="1615541515281" />
+    <state x="497" y="201" width="676" height="565" key="search.everywhere.popup/44.0.1396.900/-1920.-1080.1920.1080@44.0.1396.900" timestamp="1615785517555" />
     <state x="624" y="-839" width="924" height="677" key="search.everywhere.popup/46.0.1394.900/-1080.-1954.1080.1920/0.-1080.1920.1080@0.-1080.1920.1080" timestamp="1615543826356" />
     <state x="500" y="201" width="670" height="564" key="search.everywhere.popup/47.0.1393.900/-1080.-1954.1080.1920/0.-1080.1920.1080@47.0.1393.900" timestamp="1615532847358" />
     <state x="-728" y="-1526" width="670" height="1202" key="search.everywhere.popup/49.0.1391.900/-1080.-1954.1080.1920/0.-1080.1920.1080@-1080.-1954.1080.1920" timestamp="1612431289048" />
