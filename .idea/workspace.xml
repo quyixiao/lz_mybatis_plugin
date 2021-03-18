@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="7c2740fd-230c-4d18-9ef1-6bfcb278a445" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/config/ResolverBeanPostProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/config/ResolverBeanPostProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/config/ResolverBeanPostProcessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/config/ResolverBeanPostProcessor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/config/CustomerMapperBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/config/CustomerMapperBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/config/CustomerMapperBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/config/CustomerMapperBuilder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/lz_mybatis_plugin-2.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/lz_mybatis_plugin-2.0-SNAPSHOT.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-Test.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-Test.xml" afterDir="false" />
@@ -47,7 +47,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin" />
     <property name="nodejs_interpreter_path" value="/usr/local/bin/node" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
@@ -192,6 +192,7 @@
       <workItem from="1615894295241" duration="2600000" />
       <workItem from="1615945534285" duration="1463000" />
       <workItem from="1615962514696" duration="6230000" />
+      <workItem from="1616030111909" duration="12014000" />
     </task>
     <servers />
   </component>
@@ -199,6 +200,10 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="560" y="0" key="#Project_Structure" timestamp="1616032194741">
+      <screen x="41" y="0" width="1399" height="900" />
+    </state>
+    <state x="560" y="0" key="#Project_Structure/41.0.1399.900/-1080.-1954.1080.1920/0.-1080.1920.1080@0.-1080.1920.1080" timestamp="1616032194741" />
     <state x="637" y="0" key="#com.intellij.ide.util.MemberChooser" timestamp="1615784863367">
       <screen x="47" y="0" width="1393" height="900" />
     </state>
@@ -342,11 +347,12 @@
       <screen x="38" y="0" width="1402" height="900" />
     </state>
     <state x="230" y="33" key="SettingsEditor/38.0.1402.900@38.0.1402.900" timestamp="1615702242813" />
-    <state x="547" y="233" width="543" height="438" key="StructurePopup" timestamp="1615784126772">
-      <screen x="47" y="0" width="1393" height="900" />
+    <state x="689" y="-800" width="749" height="526" key="StructurePopup" timestamp="1616030819822">
+      <screen x="0" y="-1080" width="1920" height="1080" />
     </state>
     <state x="542" y="233" width="544" height="437" key="StructurePopup/39.0.1401.900@39.0.1401.900" timestamp="1615707798365" />
     <state x="543" y="233" width="543" height="437" key="StructurePopup/40.0.1400.900@40.0.1400.900" timestamp="1615704192727" />
+    <state x="689" y="-800" width="749" height="526" key="StructurePopup/41.0.1399.900/-1080.-1954.1080.1920/0.-1080.1920.1080@0.-1080.1920.1080" timestamp="1616030819822" />
     <state x="544" y="233" width="543" height="437" key="StructurePopup/42.0.1398.900@42.0.1398.900" timestamp="1615644766456" />
     <state x="690" y="-801" width="543" height="524" key="StructurePopup/43.0.1397.900/-1080.-1954.1080.1920/0.-1080.1920.1080@0.-1080.1920.1080" timestamp="1613984279573" />
     <state x="690" y="-801" width="543" height="524" key="StructurePopup/44.0.1396.900/-1080.-1954.1080.1920/0.-1080.1920.1080@0.-1080.1920.1080" timestamp="1615536443791" />
@@ -361,17 +367,19 @@
     <state x="615" y="-776" width="950" height="567" key="find.popup/42.0.1398.900/-1080.-1954.1080.1920/0.-1080.1920.1080@0.-1080.1920.1080" timestamp="1615981699486" />
     <state x="493" y="253" width="689" height="472" key="find.popup/47.0.1393.900/-1080.-1954.1080.1920/0.-1080.1920.1080@47.0.1393.900" timestamp="1615530574289" />
     <state x="615" y="-776" width="689" height="472" key="find.popup/49.0.1391.900/-1080.-1954.1080.1920/0.-1080.1920.1080@0.-1080.1920.1080" timestamp="1612427952977" />
-    <state x="624" y="-839" width="924" height="677" key="search.everywhere.popup" timestamp="1615981746584">
+    <state x="624" y="-839" width="924" height="677" key="search.everywhere.popup" timestamp="1616051165120">
       <screen x="0" y="-1080" width="1920" height="1080" />
     </state>
     <state x="493" y="201" width="677" height="565" key="search.everywhere.popup/38.0.1402.900@38.0.1402.900" timestamp="1615701810709" />
     <state x="494" y="201" width="676" height="565" key="search.everywhere.popup/39.0.1401.900@39.0.1401.900" timestamp="1615698639916" />
+    <state x="624" y="-839" width="924" height="677" key="search.everywhere.popup/41.0.1399.900/-1080.-1954.1080.1920/0.-1080.1920.1080@0.-1080.1920.1080" timestamp="1616030806820" />
     <state x="495" y="201" width="676" height="565" key="search.everywhere.popup/41.0.1399.900/-1920.-1080.1920.1080@41.0.1399.900" timestamp="1615724614776" />
     <state x="624" y="-839" width="924" height="677" key="search.everywhere.popup/42.0.1398.900/-1080.-1954.1080.1920/0.-1080.1920.1080@0.-1080.1920.1080" timestamp="1615981746584" />
     <state x="496" y="201" width="674" height="565" key="search.everywhere.popup/42.0.1398.900@42.0.1398.900" timestamp="1615622247606" />
+    <state x="624" y="-839" width="924" height="677" key="search.everywhere.popup/43.0.1397.900/-1080.-1954.1080.1920/0.-1080.1920.1080@0.-1080.1920.1080" timestamp="1616051165120" />
     <state x="496" y="201" width="676" height="565" key="search.everywhere.popup/43.0.1397.900/-1920.-1080.1920.1080@43.0.1397.900" timestamp="1615726481380" />
     <state x="497" y="201" width="673" height="565" key="search.everywhere.popup/43.0.1397.900@43.0.1397.900" timestamp="1615606793231" />
-    <state x="624" y="-839" width="924" height="677" key="search.everywhere.popup/44.0.1396.900/-1080.-1954.1080.1920/0.-1080.1920.1080@0.-1080.1920.1080" timestamp="1615965613028" />
+    <state x="624" y="-839" width="924" height="677" key="search.everywhere.popup/44.0.1396.900/-1080.-1954.1080.1920/0.-1080.1920.1080@0.-1080.1920.1080" timestamp="1616046506292" />
     <state x="497" y="201" width="676" height="565" key="search.everywhere.popup/44.0.1396.900/-1920.-1080.1920.1080@44.0.1396.900" timestamp="1615785517555" />
     <state x="624" y="-839" width="924" height="677" key="search.everywhere.popup/46.0.1394.900/-1080.-1954.1080.1920/0.-1080.1920.1080@0.-1080.1920.1080" timestamp="1615543826356" />
     <state x="500" y="201" width="670" height="564" key="search.everywhere.popup/47.0.1393.900/-1080.-1954.1080.1920/0.-1080.1920.1080@47.0.1393.900" timestamp="1615532847358" />
