@@ -15,6 +15,7 @@ import java.util.List;
 public class ResolverBeanPostProcessor implements BeanPostProcessor, ApplicationContextAware {
 
     private List<String> mappers = new ArrayList<>();
+    public ApplicationContext ac;
 
     private MyBatisBaomidouService myBatisBaomidouService;
 
@@ -22,13 +23,9 @@ public class ResolverBeanPostProcessor implements BeanPostProcessor, Application
 
     }
 
-
     public ResolverBeanPostProcessor(MyBatisBaomidouService myBatisBaomidouService) {
         this.myBatisBaomidouService = myBatisBaomidouService;
     }
-
-
-    public ApplicationContext ac;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
