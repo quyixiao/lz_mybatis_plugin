@@ -7,6 +7,7 @@ import com.lz.mybatis.plugin.service.MyBatisBaomidouService;
 import com.lz.mybatis.plugin.utils.SqlParseUtils;
 import com.lz.mybatis.plugin.utils.StringUtils;
 import com.lz.mybatis.plugin.utils.t.*;
+import com.oracle.tools.packager.Log;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.binding.MapperMethod;
@@ -245,7 +246,6 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
             e.printStackTrace();
         }
     }*/
-
 
     private PluginTuple buildSqlSourceFromStrings(Method method, Class<?> parameterTypeClass, LanguageDriver languageDriver, SqlCommandType sqlCommandType) {
         Tuple5<Boolean, String, String,String ,String> data = SqlParseUtils.parse(tableName, primaryColumns, tableColumns, sqlCommandType, method, entityType).getData();

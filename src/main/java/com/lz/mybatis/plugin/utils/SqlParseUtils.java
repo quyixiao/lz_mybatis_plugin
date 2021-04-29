@@ -90,7 +90,6 @@ public class SqlParseUtils {
         return parse("lz_test_user", primaryC, tableColumns, sqlCommandType, getMethod(clazz, methodName), null);
     }
 
-
     public static PluginTuple parse(String tableName, List<String> primaryColumns, List<String> tableColumns,
                                     SqlCommandType sqlCommandType, Method method, Class entityType) {
         DefaultParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
