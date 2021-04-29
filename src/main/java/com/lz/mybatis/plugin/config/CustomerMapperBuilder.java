@@ -6,8 +6,10 @@ import com.lz.mybatis.plugin.mapper.TableRowMapper;
 import com.lz.mybatis.plugin.service.MyBatisBaomidouService;
 import com.lz.mybatis.plugin.utils.SqlParseUtils;
 import com.lz.mybatis.plugin.utils.StringUtils;
-import com.lz.mybatis.plugin.utils.t.*;
-import com.oracle.tools.packager.Log;
+import com.lz.mybatis.plugin.utils.t.PluginTuple;
+import com.lz.mybatis.plugin.utils.t.Tuple1;
+import com.lz.mybatis.plugin.utils.t.Tuple2;
+import com.lz.mybatis.plugin.utils.t.Tuple5;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.binding.MapperMethod;
@@ -146,7 +148,7 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
                 }
             } catch (IncompleteElementException e) {
                 configuration.addIncompleteMethod(new MethodResolver(this, method));
-            }catch (Exception e ){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -248,9 +250,9 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
     }*/
 
     private PluginTuple buildSqlSourceFromStrings(Method method, Class<?> parameterTypeClass, LanguageDriver languageDriver, SqlCommandType sqlCommandType) {
-        Tuple5<Boolean, String, String,String ,String> data = SqlParseUtils.parse(tableName, primaryColumns, tableColumns, sqlCommandType, method, entityType).getData();
+        Tuple5<Boolean, String, String, String, String> data = SqlParseUtils.parse(tableName, primaryColumns, tableColumns, sqlCommandType, method, entityType).getData();
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, data.getSecond().trim(), parameterTypeClass);
-        return new PluginTuple(data.getFirst(), sqlSource, data.getThird(),data.getFourth(),data.getFifth());
+        return new PluginTuple(data.getFirst(), sqlSource, data.getThird(), data.getFourth(), data.getFifth());
     }
 
     public PluginTuple getTableInfo(JdbcTemplate jdbcTemplate, String tableName) {
@@ -342,7 +344,7 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
                 resultSetType = options.resultSetType();
             }
             String resultMapId = null;
-            if(StringUtils.isEmpty(tupleInfo.getFourth())){
+            if (StringUtils.isEmpty(tupleInfo.getFourth())) {
                 ResultMap resultMapAnnotation = method.getAnnotation(ResultMap.class);
                 if (resultMapAnnotation != null) {
                     String[] resultMaps = resultMapAnnotation.value();
@@ -357,7 +359,7 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
                 } else if (isSelect) {
                     resultMapId = parseResultMap(method);
                 }
-            }else{
+            } else {
                 resultMapId = tupleInfo.getFourth();
             }
 
