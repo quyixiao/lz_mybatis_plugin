@@ -253,7 +253,7 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
         Tuple5<Boolean, String, String, String, String> data = SqlParseUtils.parse(tableName, primaryColumns, tableColumns, sqlCommandType, method, entityType).getData();
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, data.getSecond().trim(), parameterTypeClass);
         if(myBatisBaomidouService !=null){
-            myBatisBaomidouService.info(data.getSecond());
+            myBatisBaomidouService.info( type.getSimpleName() + "." + method.getName()  +"\t" +  data.getSecond());
         }
         return new PluginTuple(data.getFirst(), sqlSource, data.getThird(), data.getFourth(), data.getFifth());
     }
