@@ -50,6 +50,8 @@ public class SqlParseUtils {
         primitiveTypes.add(long.class);
         primitiveTypes.add(short.class);
         primitiveTypes.add(String.class);
+        primitiveTypes.add(Date.class);
+        primitiveTypes.add(java.sql.Date.class);
 
         primitiveTypes.addAll(Arrays.asList(new Class<?>[]{
                 boolean[].class, byte[].class, char[].class, double[].class,
@@ -748,8 +750,8 @@ public class SqlParseUtils {
         StringBuilder condition = new StringBuilder();
         String columnName = ifNullGetDefault(parameterInfos[i].getColumn(), column);
         if (isDateTypes(parameterTypes[i])) {
-            condition.append("AND DATE_FORMAT(" + columnName + ", '" + ifNullGetDefault(parameterInfos[i].getDateFormatParam(), "%Y-%m-%d %H:%i:%S") + "') " +
-                    " DATE_FORMAT(#{" + conditionName + "}, '" + ifNullGetDefault(parameterInfos[i].getDateFormatParam(), "%Y-%m-%d %H:%i:%S") + "')");
+            condition.append(" DATE_FORMAT(" + columnName + ", '" + ifNullGetDefault(parameterInfos[i].getDateFormatParam(), "%Y-%m-%d %H:%i:%S") + "')  " + flag +
+                    "  DATE_FORMAT(#{" + conditionName + "}, '" + ifNullGetDefault(parameterInfos[i].getDateFormatParam(), "%Y-%m-%d %H:%i:%S") + "')");
         } else {
             condition.append(columnName).append(" ").append(flag).append(" #{").append(conditionName).append("}");
         }
