@@ -645,9 +645,9 @@ public class SqlParseUtils {
             if (isStringTypes(parameterTypes[i])) {
                 condition.append("(${").append(conditionName).append("})");
             } else {
-                condition.append("<foreach collection=\"" + conditionName + "\" item=\"item\" index=\"index\" separator=\",\" open=\"(\" close=\")\">");
-                condition.append("  #{item}");
-                condition.append("</foreach>");
+                condition.append("\n").append("<foreach collection=\"" + conditionName + "\" item=\"item\" index=\"index\" separator=\",\" open=\"(\" close=\")\">").append("\n");
+                condition.append("  #{item}").append("\n");
+                condition.append("</foreach>").append("\n");
             }
         } else if (parameterInfos[i].isNotIn()) {
             String notInParam = parameterInfos[i].getColumn();
@@ -658,9 +658,9 @@ public class SqlParseUtils {
             if (isStringTypes(parameterTypes[i])) {
                 condition.append("(${").append(conditionName).append("})");
             } else {
-                condition.append("<foreach collection=\"" + conditionName + "\" item=\"item\" index=\"index\" separator=\",\" open=\"(\" close=\")\">");
-                condition.append("  #{item}");
-                condition.append("</foreach>");
+                condition.append("\n").append("<foreach collection=\"" + conditionName + "\" item=\"item\" index=\"index\" separator=\",\" open=\"(\" close=\")\">").append("\n");
+                condition.append("  #{item}").append("\n");
+                condition.append("</foreach>").append("\n");
             }
         } else if (parameterInfos[i].isLike()) {
             condition.append(column).append(" LIKE CONCAT('%',#{" + conditionName + "},'%') ");
@@ -674,9 +674,9 @@ public class SqlParseUtils {
                 inParam = column;
             }
             condition.append(inParam).append(" IN ");
-            condition.append("<foreach collection=\"" + conditionName + "\" item=\"item\" index=\"index\" separator=\",\" open=\"(\" close=\")\">");
-            condition.append("  #{item}");
-            condition.append("</foreach>");
+            condition.append("\n").append("<foreach collection=\"" + conditionName + "\" item=\"item\" index=\"index\" separator=\",\" open=\"(\" close=\")\">").append("\n");
+            condition.append("  #{item}").append("\n");
+            condition.append("</foreach>").append("\n");
         } else {
             condition.append(getEQNEGTLTGELE(parameterInfos, parameterTypes, column, conditionName, "=", i));
         }

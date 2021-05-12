@@ -2,6 +2,12 @@ package com.lz.mybatis.plugin.annotations;
 
 import java.lang.annotation.*;
 
+
+/**
+ * 就是 GREATER THAN OR EQUAL     大于等于
+ *
+ * >=
+ */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER,ElementType.FIELD})
