@@ -508,7 +508,21 @@ public class SqlParseUtils {
                         bf.append(" , ");
                     }
                     String conditionName = getConditionName(paramInfo, parameterNames[i]);
-                    bf.append(StringUtils.getDataBaseColumn(conditionName)).append(" = ").append("#{").append(conditionName).append("}");
+                    String datasourceName = StringUtils.getDataBaseColumn(conditionName);
+                    if(StringUtils.isNotEmpty(paramInfo.getColumn())){
+                        datasourceName = StringUtils.getDataBaseColumn(paramInfo.getColumn());
+                    }
+                    if (paramInfo.isPlus()) {
+                        bf.append(datasourceName).append(" = ").append(datasourceName).append(" + ").append("#{").append(conditionName).append("}");
+                    } else if (paramInfo.isSubtract()) {
+                        bf.append(datasourceName).append(" = ").append(datasourceName).append(" + ").append("#{").append(conditionName).append("}");
+                    } else if (paramInfo.isMultiply()) {
+                        bf.append(datasourceName).append(" = ").append(datasourceName).append(" * ").append("#{").append(conditionName).append("}");
+                    } else if (paramInfo.isDivide()) {
+                        bf.append(datasourceName).append(" = ").append(datasourceName).append(" / ").append("#{").append(conditionName).append("}");
+                    } else {
+                        bf.append(StringUtils.getDataBaseColumn(conditionName)).append(" = ").append("#{").append(conditionName).append("}");
+                    }
                     flag++;
                 }
                 i++;
@@ -601,7 +615,10 @@ public class SqlParseUtils {
 
     public static String getCondition(String conditionNamePre, Class[] parameterTypes, ParameterInfo parameterInfos[], String[] parameterNames, int i) {
         StringBuilder condition = new StringBuilder();
-        condition.append(getIfOrIfNullPre(parameterTypes, parameterInfos, parameterNames, i));
+        Tuple2<Boolean,String> ifResult = getIfOrIfNullPre(parameterTypes, parameterInfos, parameterNames, i);
+        if(ifResult.getFirst()){
+            condition.append("\n").append(ifResult.getSecond());
+        }
         if (parameterInfos[i].isPageSize() || parameterInfos[i].isCurrPage()
                 || parameterInfos[i].isOrderBy()) { //如果是 pageSize 或 currPage, orderBy  注解修饰的变量，不做处理
             return "";
@@ -679,6 +696,9 @@ public class SqlParseUtils {
             condition.append("</foreach>").append("\n");
         } else {
             condition.append(getEQNEGTLTGELE(parameterInfos, parameterTypes, column, conditionName, "=", i));
+        }
+        if(ifResult.getFirst()){
+            condition.append(" </if>").append("\n");
         }
         return condition.toString().trim();
     }
@@ -758,11 +778,13 @@ public class SqlParseUtils {
         return condition.toString();
     }
 
-    public static String getIfOrIfNullPre(Class[] parameterTypes, ParameterInfo[] parameterInfos, String parameterNames[], int i) {
+    public static Tuple2<Boolean,String> getIfOrIfNullPre(Class[] parameterTypes, ParameterInfo[] parameterInfos, String parameterNames[], int i) {
         Class parameterType = parameterTypes[i];
         String parameterName = parameterNames[i];
         StringBuilder sb = new StringBuilder();
+        boolean flag = false;
         if (parameterInfos[i].isIF()) {
+            flag = true;
             List<String> values = parameterInfos[i].getIfParams();
             if (values != null && values.size() > 0) {
                 sb.append(getIfPreByValues(parameterTypes, parameterNames, parameterInfos, values, i));
@@ -770,6 +792,7 @@ public class SqlParseUtils {
                 sb.append(getIfNotNullByType(parameterType, parameterName));
             }
         } else if (parameterInfos[i].isIfNull()) {
+            flag = true;
             List<String> values = parameterInfos[i].getIfParams();
             if (values != null && values.size() > 0) {
                 sb.append(getIfNullPreByValues(parameterTypes, parameterNames, parameterInfos, values, i));
@@ -781,7 +804,7 @@ public class SqlParseUtils {
                 }
             }
         }
-        return sb.toString();
+        return new Tuple2<>(flag,sb.toString());
     }
 
     public static String getIfNotNullByType(Class parameterType, String parameterName) {
@@ -1022,13 +1045,31 @@ public class SqlParseUtils {
         } else if ("IsNotNull".equals(annotationName)) {
             parameterInfo.setNotNull(true);
             parameterInfo.setColumn(value);
+        } else if ("Plus".equals(annotationName)) {
+            parameterInfo.setPlus(true);
+            parameterInfo.setColumn(value);
+        } else if ("Subtract".equals(annotationName)) {
+            parameterInfo.setSubtract(true);
+            parameterInfo.setColumn(value);
+        } else if ("Multiply".equals(annotationName)) {
+            parameterInfo.setMultiply(true);
+            parameterInfo.setColumn(value);
+        } else if ("Divide".equals(annotationName)) {
+            parameterInfo.setDivide(true);
+            parameterInfo.setColumn(value);
         } else if ("IF".equals(annotationName)) {
             parameterInfo.setIF(true);
             List<String> list = parameterInfo.getIfParams();
             if (list == null) {
                 list = new ArrayList<>();
             }
-            list.add(value);
+            if(obj !=null){
+                if(obj instanceof String[]){
+                    for(String s : (String[])obj){
+                        list.add(s);
+                    }
+                }
+            }
             parameterInfo.setIfParams(list);
         } else if ("IFNull".equals(annotationName)) {
             parameterInfo.setIfNull(true);
@@ -1036,7 +1077,13 @@ public class SqlParseUtils {
             if (list == null) {
                 list = new ArrayList<>();
             }
-            list.add(value);
+            if(obj !=null){
+                if(obj instanceof String[]){
+                    for(String s : (String[])obj){
+                        list.add(s);
+                    }
+                }
+            }
             parameterInfo.setIfNullParams(list);
         } else if ("DateFormat".equals(annotationName)) {
             parameterInfo.setDateFormat(true);

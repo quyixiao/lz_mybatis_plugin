@@ -11,8 +11,10 @@
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/utils/StringUtils.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/LIMIT.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/entity/ByInfo.java
+/Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/Multiply.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/EQ.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/Index.java
+/Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/Subtract.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/utils/t/Tuple8.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/Order.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/utils/t/Tuple3.java
@@ -23,10 +25,12 @@
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/RLIKE.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/IN.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/config/ResolverBeanPostProcessor.java
+/Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/Plus.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/utils/t/SuperTuple.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/TableId.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/utils/t/Tuple4.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/Delete.java
+/Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/Divide.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/CurrPage.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/IsNotNull.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/OrderType.java

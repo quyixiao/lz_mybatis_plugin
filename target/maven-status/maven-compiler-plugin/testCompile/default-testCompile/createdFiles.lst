@@ -1,1 +1,5 @@
+com/test/test/Test1.class
 Test.class
+com/test/test/MyBaseMapper.class
+com/test/test/TestUserMapper.class
+com/test/test/TestUser.class

@@ -6,7 +6,7 @@
 
     <groupId>com.lz.mybatis.plugin</groupId>
     <artifactId>lz_mybatis_plugin</artifactId>
-    <version>4.0-SNAPSHOT</version>
+    <version>5.0-SNAPSHOT</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

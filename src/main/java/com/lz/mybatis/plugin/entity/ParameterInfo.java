@@ -48,6 +48,14 @@ public class ParameterInfo {
 
     private boolean isNotNull;
 
+    private boolean isDivide;
+
+    private boolean isSubtract;
+
+    private boolean isMultiply;
+
+    private boolean isPlus;
+
     private boolean isIF;
     private List<String> ifParams;
 
@@ -69,6 +77,39 @@ public class ParameterInfo {
 
     private boolean isOrderBy;
     private String[] bys;
+
+
+    public boolean isDivide() {
+        return isDivide;
+    }
+
+    public void setDivide(boolean divide) {
+        isDivide = divide;
+    }
+
+    public boolean isSubtract() {
+        return isSubtract;
+    }
+
+    public void setSubtract(boolean subtract) {
+        isSubtract = subtract;
+    }
+
+    public boolean isMultiply() {
+        return isMultiply;
+    }
+
+    public void setMultiply(boolean multiply) {
+        isMultiply = multiply;
+    }
+
+    public boolean isPlus() {
+        return isPlus;
+    }
+
+    public void setPlus(boolean plus) {
+        isPlus = plus;
+    }
 
     public String[] getBys() {
         return bys;
