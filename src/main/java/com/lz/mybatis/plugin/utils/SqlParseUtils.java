@@ -898,6 +898,9 @@ public class SqlParseUtils {
 
     public static String getOrderBySql(Method method, ParameterInfo[] parameterInfos, String[] parameterNames) {
         StringBuilder sql = new StringBuilder();
+        if(isOrderByIdDesc(method)){
+            return " ORDER BY id DESC ";
+        }
         List<OrderByInfo> orderByInfos = getMethodOrderByListByMethod(method);
         boolean flag = true;
         if (parameterInfos != null && parameterInfos.length > 0) {
@@ -1057,6 +1060,8 @@ public class SqlParseUtils {
         } else if ("Divide".equals(annotationName)) {
             parameterInfo.setDivide(true);
             parameterInfo.setColumn(value);
+        }else if ("OrderByIdDesc".equals(annotationName)){
+            parameterInfo.setOrderByIdDesc(true);
         } else if ("IF".equals(annotationName)) {
             parameterInfo.setIF(true);
             List<String> list = parameterInfo.getIfParams();
@@ -1119,6 +1124,15 @@ public class SqlParseUtils {
             }
         }
         return by;
+    }
+
+    public static boolean isOrderByIdDesc(Method method) {
+        List<OrderByInfo> byList = new ArrayList<>();
+        OrderByIdDesc orderBy = method.getAnnotation(OrderByIdDesc.class);
+        if(orderBy !=null){
+            return true;
+        }
+        return false;
     }
 
     public static List<OrderByInfo> getMethodOrderByListByMethod(Method method) {

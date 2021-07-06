@@ -46,6 +46,8 @@ public class ParameterInfo {
 
     private boolean isNotEmpty;
 
+    private boolean isOrderByIdDesc;
+
     private boolean isNotNull;
 
     private boolean isDivide;
@@ -109,6 +111,14 @@ public class ParameterInfo {
 
     public void setPlus(boolean plus) {
         isPlus = plus;
+    }
+
+    public boolean isOrderByIdDesc() {
+        return isOrderByIdDesc;
+    }
+
+    public void setOrderByIdDesc(boolean orderByIdDesc) {
+        isOrderByIdDesc = orderByIdDesc;
     }
 
     public String[] getBys() {

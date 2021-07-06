@@ -2,8 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7c2740fd-230c-4d18-9ef1-6bfcb278a445" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/OrderByIdDesc.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/entity/ParameterInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/entity/ParameterInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/utils/SqlParseUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/utils/SqlParseUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/test/TestUserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/test/test/TestUserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/lz_mybatis_plugin-5.0-SNAPSHOT-sources.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/lz_mybatis_plugin-5.0-SNAPSHOT-sources.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/lz_mybatis_plugin-5.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/lz_mybatis_plugin-5.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-Test.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-Test.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.test.test.TestUser.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.test.test.TestUser.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/Test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/Test.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.test.test.TestUser.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.test.test.TestUser.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -225,7 +235,8 @@
       <workItem from="1625299499245" duration="653000" />
       <workItem from="1625329682611" duration="54000" />
       <workItem from="1625556478563" duration="4268000" />
-      <workItem from="1625565750990" duration="20000" />
+      <workItem from="1625565750990" duration="187000" />
+      <workItem from="1625586790769" duration="570000" />
     </task>
     <servers />
   </component>
@@ -233,10 +244,11 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="773" y="0" key="#com.intellij.ide.util.MemberChooser" timestamp="1625559922734">
-      <screen x="43" y="0" width="1397" height="900" />
+    <state x="777" y="0" key="#com.intellij.ide.util.MemberChooser" timestamp="1625586970345">
+      <screen x="51" y="0" width="1389" height="900" />
     </state>
     <state x="773" y="0" key="#com.intellij.ide.util.MemberChooser/43.0.1397.900/-1080.-1954.1080.1920/0.-1080.1920.1080@0.-1080.1920.1080" timestamp="1625559922734" />
+    <state x="777" y="0" key="#com.intellij.ide.util.MemberChooser/51.0.1389.900@51.0.1389.900" timestamp="1625586970345" />
     <state x="533" y="0" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1625557892592">
       <screen x="43" y="0" width="1397" height="900" />
     </state>
