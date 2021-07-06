@@ -515,7 +515,7 @@ public class SqlParseUtils {
                     if (paramInfo.isPlus()) {
                         bf.append(datasourceName).append(" = ").append(datasourceName).append(" + ").append("#{").append(conditionName).append("}");
                     } else if (paramInfo.isSubtract()) {
-                        bf.append(datasourceName).append(" = ").append(datasourceName).append(" + ").append("#{").append(conditionName).append("}");
+                        bf.append(datasourceName).append(" = ").append(datasourceName).append(" - ").append("#{").append(conditionName).append("}");
                     } else if (paramInfo.isMultiply()) {
                         bf.append(datasourceName).append(" = ").append(datasourceName).append(" * ").append("#{").append(conditionName).append("}");
                     } else if (paramInfo.isDivide()) {
