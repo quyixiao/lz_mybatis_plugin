@@ -42,6 +42,7 @@ com/lz/mybatis/plugin/annotations/OrderType.class
 com/lz/mybatis/plugin/utils/POrderUtil.class
 com/lz/mybatis/plugin/annotations/Index.class
 com/lz/mybatis/plugin/utils/t/Tuple4.class
+com/lz/mybatis/plugin/annotations/OrderByIdDesc.class
 com/lz/mybatis/plugin/annotations/OR.class
 com/lz/mybatis/plugin/annotations/RLIKE.class
 com/lz/mybatis/plugin/annotations/Divide.class

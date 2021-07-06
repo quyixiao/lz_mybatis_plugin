@@ -75,6 +75,7 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
 
     void testBatchUpdatexx(List<TestUser> testUsers);
 
+    // @Order({@By(value = "id" ,type = OrderType.DESC)})
     @OrderByIdDesc
     List<TestUser> selectActGoldCoinByActAccountTypeStatusList(Long actAccountId,@IF Integer type,List<Integer> status);
 

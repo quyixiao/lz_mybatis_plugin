@@ -2,6 +2,7 @@
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/IFNull.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/By.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/LE.java
+/Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/OrderByIdDesc.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/IsNull.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/entity/TableInfo.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/utils/t/Tuple6.java
