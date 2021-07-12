@@ -795,7 +795,7 @@ public class SqlParseUtils {
             }
         } else if (parameterInfos[i].isIfNull()) {
             flag = true;
-            List<String> values = parameterInfos[i].getIfParams();
+            List<String> values = parameterInfos[i].getIfNullParams();
             if (values != null && values.size() > 0) {
                 sb.append(getIfNullPreByValues(parameterTypes, parameterNames, parameterInfos, values, i));
             } else {
