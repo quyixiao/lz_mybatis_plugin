@@ -5,10 +5,10 @@ import java.lang.annotation.*;
 
 /***
  *
- * LE 就是 LESS THAN OR EQUAL 小于等于
+ * LT 就是 LESS THAN OR EQUAL 小于
  *
  *
- * <=
+ * <
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

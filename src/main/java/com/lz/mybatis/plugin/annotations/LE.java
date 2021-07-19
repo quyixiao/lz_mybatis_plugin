@@ -3,9 +3,9 @@ package com.lz.mybatis.plugin.annotations;
 import java.lang.annotation.*;
 
 /**
- * LT 就是 LESS THAN   小于
+ * LE 就是 LESS THAN   小于等于
  *
- * <
+ * <=
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
