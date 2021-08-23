@@ -6,7 +6,7 @@ import com.lz.mybatis.plugin.utils.t.Tuple2;
 public class Test1 {
 
     public static void main(String[] args) {
-        Tuple2<Boolean,String> a = SqlParseUtils.testUpdate(TestUserMapper.class,"updateCurRedPrtInvalidRedPrtById").getData();
+        Tuple2<Boolean,String> a = SqlParseUtils.testUpdate(TestUserMapper.class,"updateTestUserById").getData();
         System.out.println(a.getSecond());
 
     }

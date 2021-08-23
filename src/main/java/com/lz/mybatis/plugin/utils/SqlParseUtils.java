@@ -29,6 +29,7 @@ public class SqlParseUtils {
     public final static String GMT_MODIFIED = "gmtModified";
     public final static String TABLE_ID = "TableId";
     public final static String BY = "By";
+    public final static String ID = "id";
     public static String TAB = "    ";
     private static final List<Class<?>> primitiveTypes = new ArrayList<>(8);
 
@@ -454,6 +455,9 @@ public class SqlParseUtils {
                 String realFieldName = getRealFieldName(field);
                 if (GMT_MODIFIED.equals(realFieldName)) {
                     flag = true;
+                    continue;
+                }
+                if(ID.equals(realFieldName)) {
                     continue;
                 }
                 if (hasAnnotation(field, BY)) {
