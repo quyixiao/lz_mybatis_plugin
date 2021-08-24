@@ -265,10 +265,13 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
         List<String> primaryColumns = new ArrayList<>();
         if (tableInfos != null && tableInfos.size() > 0) {
             for (TableInfo tableInfo : tableInfos) {
-                tableColumns.add(tableInfo.getColumnName());
-                //
+                if(!tableColumns.contains(tableInfo.getColumnName())){
+                    tableColumns.add(tableInfo.getColumnName());
+                }
                 if ("PRI".equals(tableInfo.getColumnKey())) {           // 获取主键
-                    primaryColumns.add(tableInfo.getColumnName());
+                    if(!primaryColumns.contains(tableInfo.getColumnName())){
+                        primaryColumns.add(tableInfo.getColumnName());
+                    }
                 }
             }
         }
