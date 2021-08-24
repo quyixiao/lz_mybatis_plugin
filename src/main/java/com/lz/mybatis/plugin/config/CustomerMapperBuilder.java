@@ -259,7 +259,9 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
     }
 
     public PluginTuple getTableInfo(JdbcTemplate jdbcTemplate, String tableName) {
-        String sql = "SELECT COLUMN_NAME columnName, DATA_TYPE dataType, COLUMN_COMMENT columnComment,COLUMN_KEY columnKey FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '" + tableName + "'";
+        String sql = "SELECT COLUMN_NAME columnName, DATA_TYPE dataType, COLUMN_COMMENT" +
+                "  columnComment,COLUMN_KEY columnKey FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '" + tableName + "'";
+
         List<TableInfo> tableInfos = jdbcTemplate.query(sql, new TableRowMapper());
         List<String> tableColumns = new ArrayList<>();
         List<String> primaryColumns = new ArrayList<>();

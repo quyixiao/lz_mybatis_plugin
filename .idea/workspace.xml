@@ -4,6 +4,13 @@
     <list default="true" id="7c2740fd-230c-4d18-9ef1-6bfcb278a445" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/config/CustomerMapperBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/config/CustomerMapperBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/service/MyBatisBaomidouService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/service/MyBatisBaomidouService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/config/CustomerMapperBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/config/CustomerMapperBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/service/MyBatisBaomidouService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/service/MyBatisBaomidouService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/lz_mybatis_plugin-6.0-SNAPSHOT-sources.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/lz_mybatis_plugin-6.0-SNAPSHOT-sources.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/lz_mybatis_plugin-6.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/lz_mybatis_plugin-6.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-Test.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-Test.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -268,7 +275,8 @@
       <workItem from="1626430265660" duration="555000" />
       <workItem from="1626665887255" duration="143000" />
       <workItem from="1629700915919" duration="343000" />
-      <workItem from="1629774317714" duration="72000" />
+      <workItem from="1629774317714" duration="145000" />
+      <workItem from="1629775850283" duration="1097000" />
     </task>
     <servers />
   </component>
