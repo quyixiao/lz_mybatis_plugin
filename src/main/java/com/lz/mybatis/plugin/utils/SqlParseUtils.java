@@ -265,17 +265,20 @@ public class SqlParseUtils {
         StringBuilder sql = new StringBuilder();
         if (parameterTypes != null && parameterTypes.length > 0) {
             sql.append(" WHERE ");
+            if (tableColumns.contains(IS_DELETE)) {
+                sql.append(" IS_DELETE = 0 ");
+            }
+            String temp = sql.toString().trim();
+            if (!temp.endsWith("AND") &&  !temp.endsWith("WHERE")) {
+                sql.append(" AND ");
+            }
             for (int i = 0; i < parameterTypes.length; i++) {//遍历所有的参数
                 sql.append(" ").append(getCondition("", parameterTypes, parameterInfos, parameterNames, i));
             }
         } else {
-            sql.append(" WHERE 1 = 1 ");
-        }
-        if (tableColumns.contains(IS_DELETE)) {
-            if (!sql.toString().trim().endsWith("AND")) {
-                sql.append(" AND ");
+            if (tableColumns.contains(IS_DELETE)) {
+                sql.append(" WHERE IS_DELETE = 0 ");
             }
-            sql.append(" IS_DELETE = 0 ");
         }
         return sql.toString();
     }

@@ -23,6 +23,11 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
 
     List<TestUser> selectAll();
 
+
+
+    List<TestUser> selectByIF(@IF Long companyId);
+
+
     Page<TestUser> selectPage(String username, String mobile, @CurrPage int currPage, @PageSize int pageSize);
 
     List<TestUser> selectByTaskRealNameMobile(@IsNotEmpty String mobile, @IsEmpty String realName);
