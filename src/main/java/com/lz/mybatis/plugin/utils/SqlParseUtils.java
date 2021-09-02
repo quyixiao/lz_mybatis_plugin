@@ -268,10 +268,6 @@ public class SqlParseUtils {
             if (tableColumns.contains(IS_DELETE)) {
                 sql.append(" IS_DELETE = 0 ");
             }
-            String temp = sql.toString().trim();
-            if (!temp.endsWith("AND") &&  !temp.endsWith("WHERE")) {
-                sql.append(" AND ");
-            }
             for (int i = 0; i < parameterTypes.length; i++) {//遍历所有的参数
                 sql.append(" ").append(getCondition("", parameterTypes, parameterInfos, parameterNames, i));
             }
@@ -707,7 +703,7 @@ public class SqlParseUtils {
             condition.append(getEQNEGTLTGELE(parameterInfos, parameterTypes, column, conditionName, "=", i));
         }
         if(ifResult.getFirst()){
-            condition.append(" </if>").append("\n");
+            condition.append("\n </if>").append("\n");
         }
         return condition.toString().trim();
     }
@@ -811,6 +807,8 @@ public class SqlParseUtils {
                 } else {
                     sb.append("<if test=\"" + parameterName + " == null\">");
                 }
+                sb.append("\n");
+                sb.append(" AND ");
             }
         }
         return new Tuple2<>(flag,sb.toString());
@@ -823,6 +821,8 @@ public class SqlParseUtils {
         } else {
             sb.append("<if test=\"" + parameterName + " != null\">");
         }
+        sb.append("\n");
+        sb.append(" AND ");
         return sb.toString();
     }
 
@@ -847,6 +847,8 @@ public class SqlParseUtils {
             k++;
         }
         sb.append("\">");
+        sb.append("\n");
+        sb.append(" AND ");
         return sb.toString();
     }
 
@@ -872,6 +874,8 @@ public class SqlParseUtils {
             k++;
         }
         sb.append("\">");
+        sb.append("\n");
+        sb.append(" AND ");
         return sb.toString();
     }
 
