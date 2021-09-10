@@ -253,11 +253,20 @@ public class SqlParseUtils {
         ParameterInfo[] parameterInfos = getMethodParameterInfoByAnnotation(method);
         StringBuilder sql = new StringBuilder();
         sql.append("<script> \n");
+
         sql.append(TAB).append("SELECT").append(" * ").append("FROM ").append(tableName);
+
+
+
+
         sql.append(doGetSqlCondition(parameterTypes, parameterInfos, parameterNames));
+
         sql.append(getOrderBySql(method, parameterInfos, parameterNames));
+
         sql.append(getLimit(method));
+
         sql.append(" \n</script>");
+
         return new PluginTuple(true, sql.toString().trim());
     }
 
@@ -269,7 +278,7 @@ public class SqlParseUtils {
                 sql.append(" IS_DELETE = 0 ");
             }
             for (int i = 0; i < parameterTypes.length; i++) {//遍历所有的参数
-                sql.append(" ").append(getCondition("", parameterTypes, parameterInfos, parameterNames, i));
+                sql.append(" ").append(getCondition(sql, "", parameterTypes, parameterInfos, parameterNames, i));
             }
         } else {
             if (tableColumns.contains(IS_DELETE)) {
@@ -456,7 +465,7 @@ public class SqlParseUtils {
                     flag = true;
                     continue;
                 }
-                if(ID.equals(realFieldName)) {
+                if (ID.equals(realFieldName)) {
                     continue;
                 }
                 if (hasAnnotation(field, BY)) {
@@ -514,16 +523,16 @@ public class SqlParseUtils {
                     }
                     String conditionName = getConditionName(paramInfo, parameterNames[i]);
                     String datasourceName = StringUtils.getDataBaseColumn(conditionName);
-                    if(StringUtils.isNotEmpty(paramInfo.getColumn())){
+                    if (StringUtils.isNotEmpty(paramInfo.getColumn())) {
                         datasourceName = StringUtils.getDataBaseColumn(paramInfo.getColumn());
                     }
                     if (paramInfo.isPlus()) {
                         bf.append(datasourceName).append(" = ").append(datasourceName).append(" + ").append("#{").append(conditionName).append("}");
-                    } else if (paramInfo.isSubtract()) {
+                    } else if (paramInfo.isSub()) {
                         bf.append(datasourceName).append(" = ").append(datasourceName).append(" - ").append("#{").append(conditionName).append("}");
-                    } else if (paramInfo.isMultiply()) {
+                    } else if (paramInfo.isMul()) {
                         bf.append(datasourceName).append(" = ").append(datasourceName).append(" * ").append("#{").append(conditionName).append("}");
-                    } else if (paramInfo.isDivide()) {
+                    } else if (paramInfo.isDiv()) {
                         bf.append(datasourceName).append(" = ").append(datasourceName).append(" / ").append("#{").append(conditionName).append("}");
                     } else {
                         bf.append(StringUtils.getDataBaseColumn(conditionName)).append(" = ").append("#{").append(conditionName).append("}");
@@ -556,7 +565,7 @@ public class SqlParseUtils {
                     childParameterTypes[y] = parameterTypes[parameterInfos.length - 1];
                 }
                 for (int x = 0; x < parameterInfos.length - flag; x++) {
-                    bf.append(" ").append(getCondition("", childParameterTypes, childParameterInfos, childParameterNames, x));
+                    bf.append(" ").append(getCondition(bf, "", childParameterTypes, childParameterInfos, childParameterNames, x));
                 }
             }
             bf.append("\n");
@@ -585,7 +594,7 @@ public class SqlParseUtils {
             Class parameterTypes[] = method.getParameterTypes();
             ParameterInfo[] parameterInfos = getMethodParameterInfoByAnnotation(method);
             for (int i = 0; i < parameterTypes.length; i++) {//遍历所有的参数
-                bf.append(" ").append(getCondition("", parameterTypes, parameterInfos, parameterNames, i));
+                bf.append(" ").append(getCondition(bf, "", parameterTypes, parameterInfos, parameterNames, i));
             }
         }
         bf.append("\n");
@@ -609,7 +618,7 @@ public class SqlParseUtils {
             Class parameterTypes[] = method.getParameterTypes();
             ParameterInfo[] parameterInfos = getMethodParameterInfoByAnnotation(method);
             for (int i = 0; i < parameterTypes.length; i++) {//遍历所有的参数
-                bf.append(" ").append(getCondition("", parameterTypes, parameterInfos, parameterNames, i));
+                bf.append(" ").append(getCondition(bf, "", parameterTypes, parameterInfos, parameterNames, i));
             }
         }
         bf.append("\n");
@@ -618,17 +627,19 @@ public class SqlParseUtils {
     }
 
 
-    public static String getCondition(String conditionNamePre, Class[] parameterTypes, ParameterInfo parameterInfos[], String[] parameterNames, int i) {
+    public static String getCondition(StringBuilder sb, String conditionNamePre, Class[] parameterTypes, ParameterInfo parameterInfos[], String[] parameterNames, int i) {
         StringBuilder condition = new StringBuilder();
-        Tuple2<Boolean,String> ifResult = getIfOrIfNullPre(parameterTypes, parameterInfos, parameterNames, i);
-        if(ifResult.getFirst()){
+        Tuple2<Boolean, String> ifResult = getIfOrIfNullPre(parameterTypes, parameterInfos, parameterNames, i);
+        if (ifResult.getFirst()) {
             condition.append("\n").append(ifResult.getSecond());
         }
         if (parameterInfos[i].isPageSize() || parameterInfos[i].isCurrPage()
                 || parameterInfos[i].isOrderBy()) { //如果是 pageSize 或 currPage, orderBy  注解修饰的变量，不做处理
             return "";
         }
-        if (i != 0) {
+
+        String preSql = sb.toString().trim();
+        if (!preSql.endsWith("WHERE") && !preSql.endsWith("where")) {
             if (parameterInfos[i].isOr()) {
                 condition.append(" OR ");
             } else {
@@ -702,7 +713,7 @@ public class SqlParseUtils {
         } else {
             condition.append(getEQNEGTLTGELE(parameterInfos, parameterTypes, column, conditionName, "=", i));
         }
-        if(ifResult.getFirst()){
+        if (ifResult.getFirst()) {
             condition.append("\n </if>").append("\n");
         }
         return condition.toString().trim();
@@ -740,20 +751,13 @@ public class SqlParseUtils {
             childParameterNames[f] = fields[f].getName();
         }
         for (int k = 0; k < fields.length; k++) {
-            sql.append(" ").append(getCondition(getConditionName(parameterInfos[i], parameterNames[i]) + ".", childParameterTypes, childParameterInfos, childParameterNames, k));
+            sql.append(" ").append(getCondition(sql, getConditionName(parameterInfos[i], parameterNames[i]) + ".", childParameterTypes, childParameterInfos, childParameterNames, k));
         }
         sql.append(" ) ");
         return sql.toString();
     }
 
 
-    public static ParameterInfo getParameterInfo(Class clazz) {
-        ParameterInfo parameterInfo = new ParameterInfo();
-        for (Annotation annotation : clazz.getAnnotations()) {
-            fillParameterInfo(parameterInfo, annotation);
-        }
-        return parameterInfo;
-    }
 
 
     public static String getRealFieldName(Field field) {
@@ -783,7 +787,7 @@ public class SqlParseUtils {
         return condition.toString();
     }
 
-    public static Tuple2<Boolean,String> getIfOrIfNullPre(Class[] parameterTypes, ParameterInfo[] parameterInfos, String parameterNames[], int i) {
+    public static Tuple2<Boolean, String> getIfOrIfNullPre(Class[] parameterTypes, ParameterInfo[] parameterInfos, String parameterNames[], int i) {
         Class parameterType = parameterTypes[i];
         String parameterName = parameterNames[i];
         StringBuilder sb = new StringBuilder();
@@ -803,32 +807,30 @@ public class SqlParseUtils {
                 sb.append(getIfNullPreByValues(parameterTypes, parameterNames, parameterInfos, values, i));
             } else {
                 if (isStringTypes(parameterType)) {
-                    sb.append("<if test=\"" + parameterName + " == null OR " + parameterName + " == '' \">");
+                    sb.append("\n<if test=\"" + parameterName + " == null OR " + parameterName + " == '' \">");
                 } else {
-                    sb.append("<if test=\"" + parameterName + " == null\">");
+                    sb.append(" \n <if test=\"" + parameterName + " == null\">");
                 }
                 sb.append("\n");
-                sb.append(" AND ");
             }
         }
-        return new Tuple2<>(flag,sb.toString());
+        return new Tuple2<>(flag, sb.toString());
     }
 
     public static String getIfNotNullByType(Class parameterType, String parameterName) {
         StringBuilder sb = new StringBuilder();
         if (isStringTypes(parameterType)) {
-            sb.append("<if test=\"" + parameterName + " != null and " + parameterName + " != '' \">");
+            sb.append("\n<if test=\"" + parameterName + " != null and " + parameterName + " != '' \">");
         } else {
-            sb.append("<if test=\"" + parameterName + " != null\">");
+            sb.append("\n<if test=\"" + parameterName + " != null\">");
         }
         sb.append("\n");
-        sb.append(" AND ");
         return sb.toString();
     }
 
     public static String getIfPreByValues(Class[] parameterTypes, String parameterNames[], ParameterInfo[] parameterInfos, List<String> values, int i) {
         StringBuilder sb = new StringBuilder();
-        sb.append("<if test=\"");
+        sb.append("\n<if test=\"");
         int k = 0;
         for (String value : values) {
             if (k > 0) {
@@ -848,14 +850,13 @@ public class SqlParseUtils {
         }
         sb.append("\">");
         sb.append("\n");
-        sb.append(" AND ");
         return sb.toString();
     }
 
 
     public static String getIfNullPreByValues(Class[] parameterTypes, String parameterNames[], ParameterInfo[] parameterInfos, List<String> values, int i) {
         StringBuilder sb = new StringBuilder();
-        sb.append("<if test=\"");
+        sb.append("\n<if test=\"");
         int k = 0;
         for (String value : values) {
             if (k > 0) {
@@ -875,7 +876,6 @@ public class SqlParseUtils {
         }
         sb.append("\">");
         sb.append("\n");
-        sb.append(" AND ");
         return sb.toString();
     }
 
@@ -911,7 +911,7 @@ public class SqlParseUtils {
 
     public static String getOrderBySql(Method method, ParameterInfo[] parameterInfos, String[] parameterNames) {
         StringBuilder sql = new StringBuilder();
-        if(isOrderByIdDesc(method)){
+        if (isOrderByIdDesc(method)) {
             return " ORDER BY id DESC ";
         }
         List<OrderByInfo> orderByInfos = getMethodOrderByListByMethod(method);
@@ -1064,16 +1064,19 @@ public class SqlParseUtils {
         } else if ("Plus".equals(annotationName)) {
             parameterInfo.setPlus(true);
             parameterInfo.setColumn(value);
-        } else if ("Subtract".equals(annotationName)) {
-            parameterInfo.setSubtract(true);
+        } else if ("Sub".equals(annotationName)) {
+            parameterInfo.setSub(true);
             parameterInfo.setColumn(value);
-        } else if ("Multiply".equals(annotationName)) {
-            parameterInfo.setMultiply(true);
+        } else if ("Mul".equals(annotationName)) {
+            parameterInfo.setMul(true);
             parameterInfo.setColumn(value);
-        } else if ("Divide".equals(annotationName)) {
-            parameterInfo.setDivide(true);
+        } else if ("Div".equals(annotationName)) {
+            parameterInfo.setDiv(true);
             parameterInfo.setColumn(value);
-        }else if ("OrderByIdDesc".equals(annotationName)){
+        } else if ("Alias".equals(annotationName)) {
+            parameterInfo.setAlias(true);
+            parameterInfo.setColumn(value);
+        } else if ("OrderByIdDesc".equals(annotationName)) {
             parameterInfo.setOrderByIdDesc(true);
         } else if ("IF".equals(annotationName)) {
             parameterInfo.setIF(true);
@@ -1081,9 +1084,9 @@ public class SqlParseUtils {
             if (list == null) {
                 list = new ArrayList<>();
             }
-            if(obj !=null){
-                if(obj instanceof String[]){
-                    for(String s : (String[])obj){
+            if (obj != null) {
+                if (obj instanceof String[]) {
+                    for (String s : (String[]) obj) {
                         list.add(s);
                     }
                 }
@@ -1095,9 +1098,9 @@ public class SqlParseUtils {
             if (list == null) {
                 list = new ArrayList<>();
             }
-            if(obj !=null){
-                if(obj instanceof String[]){
-                    for(String s : (String[])obj){
+            if (obj != null) {
+                if (obj instanceof String[]) {
+                    for (String s : (String[]) obj) {
                         list.add(s);
                     }
                 }
@@ -1142,7 +1145,7 @@ public class SqlParseUtils {
     public static boolean isOrderByIdDesc(Method method) {
         List<OrderByInfo> byList = new ArrayList<>();
         OrderByIdDesc orderBy = method.getAnnotation(OrderByIdDesc.class);
-        if(orderBy !=null){
+        if (orderBy != null) {
             return true;
         }
         return false;
@@ -1198,6 +1201,24 @@ public class SqlParseUtils {
         }
         return null;
     }
+
+
+    public static <T> T getAnnotationFieldValueByFieldName(Annotation annotation, String fieldName) {
+        try {
+            Method method = annotation.getClass().getMethod(fieldName);
+            if (method != null) {
+                T paramName = (T) method.invoke(annotation);
+                return paramName;
+            }
+        } catch (NoSuchMethodException e) {
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 
 
     public static <T> T getAnnotationValueByTypeName(Class type, String name) {

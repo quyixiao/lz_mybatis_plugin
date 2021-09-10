@@ -75,7 +75,7 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
     //【注意】千万不能这样写，这样写的话，是删除所有的数据
     void deleteBatch();
 
-    List<TestUser> selectByUserNameMobile1(String username, String mobile);
+    List<TestUser> selectByUserNameMobile1(String username,@IF String mobile);
 
     void testBatchUpdate(@Param("sql") String sql);
 
@@ -85,8 +85,15 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
     @OrderByIdDesc
     List<TestUser> selectActGoldCoinByActAccountTypeStatusList(Long actAccountId,@IF Integer type,List<Integer> status);
 
-    int updateUserAmount(@Subtract int amount, Long id);
+    int updateUserAmount(@Sub int amount, Long id);
 
-    void updateCurRedPrtInvalidRedPrtById(@Subtract BigDecimal curRedPrt, @Plus BigDecimal invalidRedPrt, Long id);
+    void updateCurRedPrtInvalidRedPrtById(@Sub BigDecimal curRedPrt, @Plus BigDecimal invalidRedPrt, Long id);
+
+
+
+
+
+    List<TestUser> selectCompanyVisibleByCompanyId(Long companyId);
+
 
 }

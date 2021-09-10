@@ -50,11 +50,11 @@ public class ParameterInfo {
 
     private boolean isNotNull;
 
-    private boolean isDivide;
+    private boolean isDiv;
 
-    private boolean isSubtract;
+    private boolean isSub;
 
-    private boolean isMultiply;
+    private boolean isMul;
 
     private boolean isPlus;
 
@@ -66,43 +66,156 @@ public class ParameterInfo {
 
     private boolean isDateFormat;
     private String dateFormatParam;
-
     private boolean isBy;
     private String byParam;
-
     private boolean isPageSize;
     private boolean isCurrPage;
-
     private String pageSize;
-
     private String currPage;
-
     private boolean isOrderBy;
     private String[] bys;
+    private boolean isAlias;
+    private boolean isAvg;
+    private boolean isFrom;
+    private boolean isGroupBy;
+    private boolean Having;
+    private boolean isLeftJoinOn;
+    private boolean isMapping;
+    private boolean isMax;
+    private boolean isMin;
+    private boolean isWhere;
+
+    private Class clazz;
+    private String as;
+    private String on;
 
 
-    public boolean isDivide() {
-        return isDivide;
+    public String getAs() {
+        return as;
     }
 
-    public void setDivide(boolean divide) {
-        isDivide = divide;
+    public void setAs(String as) {
+        this.as = as;
     }
 
-    public boolean isSubtract() {
-        return isSubtract;
+    public String getOn() {
+        return on;
     }
 
-    public void setSubtract(boolean subtract) {
-        isSubtract = subtract;
+    public void setOn(String on) {
+        this.on = on;
     }
 
-    public boolean isMultiply() {
-        return isMultiply;
+    public Class getClazz() {
+        return clazz;
     }
 
-    public void setMultiply(boolean multiply) {
-        isMultiply = multiply;
+    public void setClazz(Class clazz) {
+        this.clazz = clazz;
+    }
+
+    public boolean isAlias() {
+        return isAlias;
+    }
+
+    public void setAlias(boolean alias) {
+        isAlias = alias;
+    }
+
+    public boolean isAvg() {
+        return isAvg;
+    }
+
+    public void setAvg(boolean avg) {
+        isAvg = avg;
+    }
+
+    public boolean isFrom() {
+        return isFrom;
+    }
+
+    public void setFrom(boolean from) {
+        isFrom = from;
+    }
+
+    public boolean isGroupBy() {
+        return isGroupBy;
+    }
+
+    public void setGroupBy(boolean groupBy) {
+        isGroupBy = groupBy;
+    }
+
+    public boolean isHaving() {
+        return Having;
+    }
+
+    public void setHaving(boolean having) {
+        Having = having;
+    }
+
+    public boolean isLeftJoinOn() {
+        return isLeftJoinOn;
+    }
+
+    public void setLeftJoinOn(boolean leftJoinOn) {
+        isLeftJoinOn = leftJoinOn;
+    }
+
+    public boolean isMapping() {
+        return isMapping;
+    }
+
+    public void setMapping(boolean mapping) {
+        isMapping = mapping;
+    }
+
+    public boolean isMax() {
+        return isMax;
+    }
+
+    public void setMax(boolean max) {
+        isMax = max;
+    }
+
+    public boolean isMin() {
+        return isMin;
+    }
+
+    public void setMin(boolean min) {
+        isMin = min;
+    }
+
+    public boolean isWhere() {
+        return isWhere;
+    }
+
+    public void setWhere(boolean where) {
+        isWhere = where;
+    }
+
+    public boolean isDiv() {
+        return isDiv;
+    }
+
+    public void setDiv(boolean div) {
+        isDiv = div;
+    }
+
+    public boolean isSub() {
+        return isSub;
+    }
+
+    public void setSub(boolean sub) {
+        isSub = sub;
+    }
+
+    public boolean isMul() {
+        return isMul;
+    }
+
+    public void setMul(boolean mul) {
+        isMul = mul;
     }
 
     public boolean isPlus() {
