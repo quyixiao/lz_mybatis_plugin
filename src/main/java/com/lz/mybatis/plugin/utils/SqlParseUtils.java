@@ -701,6 +701,8 @@ public class SqlParseUtils {
             condition.append(getEQNEGTLTGELE(parameterInfos, parameterTypes, column, conditionName, " >= ", i));
         } else if (parameterInfos[i].isLe()) {
             condition.append(getEQNEGTLTGELE(parameterInfos, parameterTypes, column, conditionName, " <![CDATA[ <= ]]> ", i));
+        } else if (parameterInfos[i].isEq()) {
+            condition.append(getEQNEGTLTGELE(parameterInfos, parameterTypes, column, conditionName, " <![CDATA[ = ]]> ", i));
         } else if (parameterInfos[i].isIn()) {
             String inParam = parameterInfos[i].getColumn();
             if (StringUtils.isEmpty(inParam)) {
