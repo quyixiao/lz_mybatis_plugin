@@ -64,6 +64,7 @@ com/lz/mybatis/plugin/annotations/Plus.class
 com/lz/mybatis/plugin/utils/t/Tuple11.class
 com/lz/mybatis/plugin/config/CustomerJdbc3KeyGenerator.class
 com/lz/mybatis/plugin/utils/t/Tuple2.class
+com/lz/mybatis/plugin/annotations/Exclude.class
 com/lz/mybatis/plugin/annotations/GT.class
 com/lz/mybatis/plugin/annotations/Order.class
 com/lz/mybatis/plugin/utils/t/PluginTuple.class

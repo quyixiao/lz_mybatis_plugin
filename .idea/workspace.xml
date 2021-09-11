@@ -2,12 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7c2740fd-230c-4d18-9ef1-6bfcb278a445" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/Exclude.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/Column.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/Column.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/entity/ParameterInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/entity/ParameterInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/utils/SqlParseUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/utils/SqlParseUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Column.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Column.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/entity/ParameterInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/entity/ParameterInfo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/SqlParseUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/SqlParseUtils.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/lz_mybatis_plugin-7.0-SNAPSHOT-sources.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/lz_mybatis_plugin-7.0-SNAPSHOT-sources.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/lz_mybatis_plugin-7.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/lz_mybatis_plugin-7.0-SNAPSHOT.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.test.test.Test1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.test.test.Test1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.test.test.Test1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.test.test.Test1.txt" afterDir="false" />
     </list>
@@ -304,7 +310,7 @@
       <workItem from="1631281895799" duration="2958000" />
       <workItem from="1631322911165" duration="15768000" />
       <workItem from="1631339553716" duration="586000" />
-      <workItem from="1631340906626" duration="546000" />
+      <workItem from="1631340906626" duration="2703000" />
     </task>
     <servers />
   </component>
@@ -326,12 +332,13 @@
       <screen x="42" y="0" width="1398" height="900" />
     </state>
     <state x="454" y="260" key="#com.intellij.fileTypes.FileTypeChooser/42.0.1398.900/-1080.-1954.1080.1920/0.-1080.1920.1080@42.0.1398.900" timestamp="1626426654706" />
-    <state x="1004" y="0" key="#com.intellij.ide.util.MemberChooser" timestamp="1631336518944">
+    <state x="46" y="0" key="#com.intellij.ide.util.MemberChooser" timestamp="1631341908899">
       <screen x="46" y="0" width="1394" height="900" />
     </state>
     <state x="773" y="0" key="#com.intellij.ide.util.MemberChooser/42.0.1398.900/-1080.-1920.1080.1920@42.0.1398.900" timestamp="1631283851558" />
     <state x="773" y="0" key="#com.intellij.ide.util.MemberChooser/43.0.1397.900/-1080.-1920.1080.1920@43.0.1397.900" timestamp="1631282695828" />
     <state x="773" y="0" key="#com.intellij.ide.util.MemberChooser/43.0.1397.900/-1080.-1954.1080.1920/0.-1080.1920.1080@0.-1080.1920.1080" timestamp="1625559922734" />
+    <state x="46" y="0" key="#com.intellij.ide.util.MemberChooser/46.0.1394.900/-1080.-1954.1080.1920/0.-1080.1920.1080@-1080.-1954.1080.1920" timestamp="1631341908899" />
     <state x="1004" y="0" key="#com.intellij.ide.util.MemberChooser/46.0.1394.900/-1080.-1954.1080.1920/0.-1080.1920.1080@0.-1080.1920.1080" timestamp="1631336518944" />
     <state x="777" y="0" key="#com.intellij.ide.util.MemberChooser/51.0.1389.900@51.0.1389.900" timestamp="1625586970345" />
     <state x="533" y="0" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1625557892592">

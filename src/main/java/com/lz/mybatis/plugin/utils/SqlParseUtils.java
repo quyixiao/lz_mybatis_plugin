@@ -655,6 +655,9 @@ public class SqlParseUtils {
         if ("Page".equals(simpleName) || "IPage".equals(simpleName)) {
             return "";
         }
+        if(parameterInfos[i].isExclude()){
+            return "";
+        }
         StringBuilder condition = new StringBuilder();
         Tuple2<Boolean, String> ifResult = getIfOrIfNullPre(conditionNamePre,parameterTypes, parameterInfos, parameterNames, i);
         if (ifResult.getFirst()) {
@@ -694,15 +697,13 @@ public class SqlParseUtils {
         } else if (parameterInfos[i].isNe()) {
             condition.append(getEQNEGTLTGELE(parameterInfos, parameterTypes, column, conditionName, "!=", i));
         } else if (parameterInfos[i].isGt()) {
-            condition.append(getEQNEGTLTGELE(parameterInfos, parameterTypes, column, conditionName, " > ", i));
+            condition.append(getEQNEGTLTGELE(parameterInfos, parameterTypes, column, conditionName, " <![CDATA[ > ]]>", i));
         } else if (parameterInfos[i].isLt()) {
             condition.append(getEQNEGTLTGELE(parameterInfos, parameterTypes, column, conditionName, " <![CDATA[ < ]]> ", i));
         } else if (parameterInfos[i].isGe()) {
-            condition.append(getEQNEGTLTGELE(parameterInfos, parameterTypes, column, conditionName, " >= ", i));
+            condition.append(getEQNEGTLTGELE(parameterInfos, parameterTypes, column, conditionName, " <![CDATA[ >=]]>", i));
         } else if (parameterInfos[i].isLe()) {
             condition.append(getEQNEGTLTGELE(parameterInfos, parameterTypes, column, conditionName, " <![CDATA[ <= ]]> ", i));
-        } else if (parameterInfos[i].isEq()) {
-            condition.append(getEQNEGTLTGELE(parameterInfos, parameterTypes, column, conditionName, " <![CDATA[ = ]]> ", i));
         } else if (parameterInfos[i].isIn()) {
             String inParam = parameterInfos[i].getColumn();
             if (StringUtils.isEmpty(inParam)) {
@@ -766,8 +767,7 @@ public class SqlParseUtils {
                 break;
             }
         }
-        sql.append(parameterInfos[i].isOr() ? " OR " : " AND ");
-        sql.append(" (  <trim  prefixOverrides=\"AND|OR\"> ");
+
         Class[] childParameterTypes = new Class[fields.length];
         ParameterInfo childParameterInfos[] = new ParameterInfo[fields.length];
         String[] childParameterNames = new String[fields.length];
@@ -787,7 +787,6 @@ public class SqlParseUtils {
         for (int k = 0; k < fields.length; k++) {
             sql.append(" ").append(getCondition(sql, "", getConditionName(parameterInfos[i], parameterNames[i]) + ".", childParameterTypes, childParameterInfos, childParameterNames, k));
         }
-        sql.append(" </trim> ) ");
         return sql.toString();
     }
 
@@ -810,7 +809,7 @@ public class SqlParseUtils {
     public static String getEQNEGTLTGELE(ParameterInfo[] parameterInfos, Class[] parameterTypes, String column, String conditionName, String flag, int i) {
         StringBuilder condition = new StringBuilder();
         String columnName = ifNullGetDefault(parameterInfos[i].getColumn(), column);
-        if (isDateTypes(parameterTypes[i])) {
+        if (isDateTypes(parameterTypes[i]) || parameterInfos[i].isDateFormat() ) {
             condition.append(" DATE_FORMAT(" + columnName + ", '" + ifNullGetDefault(parameterInfos[i].getDateFormatParam(), "%Y-%m-%d %H:%i:%S") + "')  " + flag +
                     "  DATE_FORMAT(#{" + conditionName + "}, '" + ifNullGetDefault(parameterInfos[i].getDateFormatParam(), "%Y-%m-%d %H:%i:%S") + "')");
         } else {
@@ -1239,7 +1238,9 @@ public class SqlParseUtils {
             parameterInfo.setAlias(true);
             parameterInfo.setAliasValue(value);
         } else if ("OrderByIdDesc".equals(annotationName)) {
-            parameterInfo.setOrderByIdDesc(true);
+            parameterInfo.setOrderByIdDesc(true);      }
+        else if ("Exclude".equals(annotationName)) {
+            parameterInfo.setExclude(true);
         } else if ("IF".equals(annotationName)) {
             parameterInfo.setIF(true);
             List<String> list = parameterInfo.getIfParams();

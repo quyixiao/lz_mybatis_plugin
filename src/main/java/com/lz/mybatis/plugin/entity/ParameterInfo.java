@@ -85,7 +85,15 @@ public class ParameterInfo {
     private boolean isMin;
     private boolean isWhere;
     private String aliasValue;
+    private boolean isExclude;
 
+    public boolean isExclude() {
+        return isExclude;
+    }
+
+    public void setExclude(boolean exclude) {
+        isExclude = exclude;
+    }
 
     public String getAliasValue() {
         return aliasValue;
