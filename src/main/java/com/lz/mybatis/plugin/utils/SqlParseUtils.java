@@ -764,9 +764,8 @@ public class SqlParseUtils {
                 break;
             }
         }
-
         sql.append(parameterInfos[i].isOr() ? " OR " : " AND ");
-        sql.append(" ( ");
+        sql.append(" (  <trim  prefixOverrides=\"AND|OR\"> ");
         Class[] childParameterTypes = new Class[fields.length];
         ParameterInfo childParameterInfos[] = new ParameterInfo[fields.length];
         String[] childParameterNames = new String[fields.length];
@@ -784,9 +783,9 @@ public class SqlParseUtils {
             childParameterNames[f] = fields[f].getName();
         }
         for (int k = 0; k < fields.length; k++) {
-            sql.append(" ").append(getCondition(sql, "", getConditionName(parameterInfos[i], parameterNames[i]) + ".", childParameterTypes, childParameterInfos, childParameterNames, k));
+            sql.append(" ").append(getCondition(sql, "", "", childParameterTypes, childParameterInfos, childParameterNames, k));
         }
-        sql.append(" ) ");
+        sql.append(" </trim> ) ");
         return sql.toString();
     }
 

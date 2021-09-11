@@ -7,3 +7,4 @@ com/test/test/TestAccountMapper.class
 Test.class
 com/test/test/MyBaseMapper.class
 com/test/test/TestUser.class
+com/test/test/MyUserPhone.class
