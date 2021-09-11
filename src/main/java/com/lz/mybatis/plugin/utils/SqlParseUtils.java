@@ -655,7 +655,6 @@ public class SqlParseUtils {
         if ("Page".equals(simpleName) || "IPage".equals(simpleName)) {
             return "";
         }
-
         StringBuilder condition = new StringBuilder();
         Tuple2<Boolean, String> ifResult = getIfOrIfNullPre(parameterTypes, parameterInfos, parameterNames, i);
         if (ifResult.getFirst()) {
@@ -665,8 +664,8 @@ public class SqlParseUtils {
                 || parameterInfos[i].isOrderBy()) { //如果是 pageSize 或 currPage, orderBy  注解修饰的变量，不做处理
             return "";
         }
-        String preSql = sb.toString().trim();
-        if (!preSql.endsWith("WHERE") && !preSql.endsWith("where")) {
+        String preSql = sb.toString().trim().toLowerCase();
+        if (!preSql.endsWith("where") && !preSql.endsWith("and") &&!preSql.endsWith("or") &&!preSql.endsWith("(")) {
             if (parameterInfos[i].isOr()) {
                 condition.append(" OR ");
             } else {
@@ -674,7 +673,7 @@ public class SqlParseUtils {
             }
         }
         if (!isBasicDataTypes(parameterTypes[i]) && !Collection.class.isAssignableFrom(parameterTypes[i])) {//如果参数不是基本数据类型
-            return notBasicDataTypeHandler(parameterTypes, parameterInfos, parameterNames, i);
+            return notBasicDataTypeHandler(condition,parameterTypes, parameterInfos, parameterNames, i);
         }
         String column = getColumName(parameterInfos[i], parameterNames[i]);
         //如果字段有别名
@@ -683,7 +682,6 @@ public class SqlParseUtils {
         } else {
             column = columPre + column;
         }
-
         String conditionName = conditionNamePre + getConditionName(parameterInfos[i], parameterNames[i]);           //设置变量前缀
         if (parameterInfos[i].isEmpty()) {
             condition.append("(").append(column).append(" IS NULL OR ").append(column).append(" = '' ").append(")");
@@ -753,9 +751,8 @@ public class SqlParseUtils {
         return condition.toString().trim();
     }
 
-    private static String notBasicDataTypeHandler(Class[] parameterTypes, ParameterInfo parameterInfos[], String[] parameterNames, int i) {// 如果是不个对象，获取对象的所对应的sql
+    private static String notBasicDataTypeHandler(StringBuilder oldSql , Class[] parameterTypes, ParameterInfo parameterInfos[], String[] parameterNames, int i) {// 如果是不个对象，获取对象的所对应的sql
         StringBuilder sql = new StringBuilder();
-
         Field fields[] = parameterTypes[i].getDeclaredFields();
         fields = sortFields(fields);
         Annotation annotations[] = parameterTypes[i].getAnnotations();
@@ -767,6 +764,7 @@ public class SqlParseUtils {
                 break;
             }
         }
+
         sql.append(parameterInfos[i].isOr() ? " OR " : " AND ");
         sql.append(" ( ");
         Class[] childParameterTypes = new Class[fields.length];

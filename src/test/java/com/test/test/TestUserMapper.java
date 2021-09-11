@@ -127,4 +127,7 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
             @Item(value = TestAccount.class, as = "t1", on = "t.account_id = t1.id"),
             @Item(value = TestBorrow.class, as = "t2", on = "t.borrow_id = t2.id")})
     List<TestUser> selectPageInfo(Page page,@AS("t2") String userName);
+
+
+    List<MyUserPhone> selectPageInfoXXX(Page page, MyUserPhone userPhone);
 }
