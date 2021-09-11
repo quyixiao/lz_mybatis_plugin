@@ -656,7 +656,7 @@ public class SqlParseUtils {
             return "";
         }
         StringBuilder condition = new StringBuilder();
-        Tuple2<Boolean, String> ifResult = getIfOrIfNullPre(parameterTypes, parameterInfos, parameterNames, i);
+        Tuple2<Boolean, String> ifResult = getIfOrIfNullPre(conditionNamePre,parameterTypes, parameterInfos, parameterNames, i);
         if (ifResult.getFirst()) {
             condition.append(" \n ").append(ifResult.getSecond());
         }
@@ -783,7 +783,7 @@ public class SqlParseUtils {
             childParameterNames[f] = fields[f].getName();
         }
         for (int k = 0; k < fields.length; k++) {
-            sql.append(" ").append(getCondition(sql, "", "", childParameterTypes, childParameterInfos, childParameterNames, k));
+            sql.append(" ").append(getCondition(sql, "", getConditionName(parameterInfos[i], parameterNames[i]) + ".", childParameterTypes, childParameterInfos, childParameterNames, k));
         }
         sql.append(" </trim> ) ");
         return sql.toString();
@@ -817,9 +817,13 @@ public class SqlParseUtils {
         return condition.toString();
     }
 
-    public static Tuple2<Boolean, String> getIfOrIfNullPre(Class[] parameterTypes, ParameterInfo[] parameterInfos, String parameterNames[], int i) {
+
+    public static Tuple2<Boolean, String> getIfOrIfNullPre(String conditionNamePre,Class[] parameterTypes, ParameterInfo[] parameterInfos, String parameterNames[], int i) {
         Class parameterType = parameterTypes[i];
         String parameterName = parameterNames[i];
+        if(StringUtils.isNotEmpty(conditionNamePre)){
+            parameterName = conditionNamePre + parameterName;
+        }
         StringBuilder sb = new StringBuilder();
         boolean flag = false;
         if (parameterInfos[i].isIF()) {
