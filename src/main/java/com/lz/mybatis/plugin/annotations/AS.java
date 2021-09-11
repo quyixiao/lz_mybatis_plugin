@@ -1,15 +1,11 @@
 package com.lz.mybatis.plugin.annotations;
 
-
 import java.lang.annotation.*;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD})
-public @interface From {
+@Target({ElementType.METHOD, ElementType.FIELD,ElementType.PARAMETER})
+public @interface AS {
 
-    Class<?>[] value() default {};
-
-    String as() default "";
-
+    String value() default "";
 }

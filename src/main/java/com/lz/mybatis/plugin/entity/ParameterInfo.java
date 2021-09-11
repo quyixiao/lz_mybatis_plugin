@@ -84,35 +84,18 @@ public class ParameterInfo {
     private boolean isMax;
     private boolean isMin;
     private boolean isWhere;
-
-    private Class clazz;
-    private String as;
-    private String on;
+    private String aliasValue;
 
 
-    public String getAs() {
-        return as;
+    public String getAliasValue() {
+        return aliasValue;
     }
 
-    public void setAs(String as) {
-        this.as = as;
+    public void setAliasValue(String aliasValue) {
+        this.aliasValue = aliasValue;
     }
 
-    public String getOn() {
-        return on;
-    }
 
-    public void setOn(String on) {
-        this.on = on;
-    }
-
-    public Class getClazz() {
-        return clazz;
-    }
-
-    public void setClazz(Class clazz) {
-        this.clazz = clazz;
-    }
 
     public boolean isAlias() {
         return isAlias;

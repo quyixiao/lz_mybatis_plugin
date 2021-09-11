@@ -24,7 +24,6 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
     List<TestUser> selectAll();
 
 
-
     List<TestUser> selectByIF(@IFNull Long companyId);
 
 
@@ -33,7 +32,7 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
     List<TestUser> selectByTaskRealNameMobile(@IsNotEmpty String mobile, @IsEmpty String realName);
 
     @Order({
-            @By(value = {"id","mobile"}, type = OrderType.DESC),
+            @By(value = {"id", "mobile"}, type = OrderType.DESC),
             @By(value = {"username"}, type = OrderType.ASC),
     })
     List<TestUser> selectUserBy(String username, @LIKE String mobile, @OrderBy("id") String asc);
@@ -41,6 +40,7 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
     int countUser(@LIKE String realName);
 
     Long insertTestUser(TestUser testUser);
+
     //如果id存在则更新，如果不存在，则插入
     Long insertOrUpdateTestUser(TestUser testUser);
 
@@ -75,7 +75,7 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
     //【注意】千万不能这样写，这样写的话，是删除所有的数据
     void deleteBatch();
 
-    List<TestUser> selectByUserNameMobile1(String username,@IF String mobile);
+    List<TestUser> selectByUserNameMobile1(String username, @IF String mobile);
 
     void testBatchUpdate(@Param("sql") String sql);
 
@@ -83,17 +83,48 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
 
     // @Order({@By(value = "id" ,type = OrderType.DESC)})
     @OrderByIdDesc
-    List<TestUser> selectActGoldCoinByActAccountTypeStatusList(Long actAccountId,@IF Integer type,List<Integer> status);
+    List<TestUser> selectActGoldCoinByActAccountTypeStatusList(Long actAccountId, @IF Integer type, List<Integer> status);
 
     int updateUserAmount(@Sub int amount, Long id);
 
     void updateCurRedPrtInvalidRedPrtById(@Sub BigDecimal curRedPrt, @Plus BigDecimal invalidRedPrt, Long id);
 
 
-
-
-
     List<TestUser> selectCompanyVisibleByCompanyId(Long companyId);
 
 
+    @Mapping("t.*,t1.account_id,t2.borrow_id")
+    @LeftJoinOns({
+            @Item(value = TestAccount.class, as = "t1", on = "t.account_id = t1.id"),
+            @Item(value = TestBorrow.class, as = "t2", on = "t.borrow_id = t2.id")})
+    @AS("user")
+    List<TestUser> selectUserAccountBorrowByLeftJoinOns(@AS("t2") Long companyId);
+
+
+    @Mapping(" t.* ,t1.name as accountName ,t2.borrow_no as brrowNo")
+    @Froms({
+            @Item(value = TestAccount.class, as = "t1"),
+            @Item(value = TestBorrow.class, as = "t2")})
+    @Where("t.account_id = t1.id and t.borrow_id=t2.id")
+    @AS("user")
+    List<TestUser> selectUserAccountBorrowByFrom(@Column("t1.companyxx") @IF Long companyId, @IF Long brrowId, @IF @IsNotNull String userName);
+
+
+    @Max("id")
+    BigDecimal selectUserAccountBorrowByMax(@Column("t1.companyxx") @IF Long companyId, @IF Long brrowId, @IF @IsNotNull String userName);
+
+
+    @Max("t.id")
+    @LeftJoinOns({
+            @Item(value = TestAccount.class, as = "t1", on = "t.account_id = t1.id"),
+            @Item(value = TestBorrow.class, as = "t2", on = "t.borrow_id = t2.id")})
+    BigDecimal selectUserAccountBorrowByMax1(@Column("t1.companyxx") @IF Long companyId, @IF Long brrowId, @IF @IsNotNull String userName);
+
+    @Count
+    Long selectUserAccountByCount(@Column("t1.companyxx") @IF Long companyId, @IF Long brrowId, @IF @IsNotNull String userName);
+
+    @LeftJoinOns({
+            @Item(value = TestAccount.class, as = "t1", on = "t.account_id = t1.id"),
+            @Item(value = TestBorrow.class, as = "t2", on = "t.borrow_id = t2.id")})
+    List<TestUser> selectPageInfo(Page page,@AS("t2") String userName);
 }

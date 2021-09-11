@@ -5,12 +5,7 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.FIELD})
-public @interface LeftJoinOn {
+public @interface Count {
 
-    Class<?>[] value() default {};
-
-    String as() default "";
-
-    String on() default "";
-
+    String value() default "*";
 }
