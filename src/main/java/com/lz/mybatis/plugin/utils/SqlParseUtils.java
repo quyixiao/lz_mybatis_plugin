@@ -1080,7 +1080,7 @@ public class SqlParseUtils {
     public static String getGroupBy(Method method) {
         GroupBy avg = method.getAnnotation(GroupBy.class);
         if (avg != null) {
-            return " " + avg.value() + " ";
+            return " GROUP BY " + avg.value() + " ";
         }
         return "";
     }
@@ -1089,7 +1089,7 @@ public class SqlParseUtils {
     public static String getHaving(Method method) {
         Having avg = method.getAnnotation(Having.class);
         if (avg != null) {
-            return " " + avg.value() + " ";
+            return " HAVING " + avg.value() + " ";
         }
         return "";
     }
