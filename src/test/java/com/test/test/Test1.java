@@ -63,4 +63,12 @@ public class Test1 {
         Tuple2<Boolean,String> a = SqlParseUtils.testSelect(TestUserMapper.class,"selectPageInfoXXX").getData();
         System.out.println(a.getSecond());
     }
+
+
+
+    @Test
+    public void test10(){
+        Tuple2<Boolean,String> a = SqlParseUtils.testUpdate(TestUserMapper.class,"updateCoverTestUserById").getData();
+        System.out.println(a.getSecond());
+    }
 }

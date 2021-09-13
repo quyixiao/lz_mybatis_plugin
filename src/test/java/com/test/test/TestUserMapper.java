@@ -51,6 +51,11 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
     Long insertTestUserBatch(TestUser[] testUsers);
 
     //目前不支持批量更新
+    int updateCoverTestUserById(TestUser testUser);
+
+
+
+    //目前不支持批量更新
     int updateTestUserById(TestUser testUser);
 
     //默认使用最后一个作为更新条件

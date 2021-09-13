@@ -496,6 +496,10 @@ public class SqlParseUtils {
             bf.append("</script>");
             return new PluginTuple(false, bf.toString());
         } else if (!isBasicDataTypes(paramterType)) { //如果不是基本数据类型,且对于只有一个对象的时候
+
+
+
+
             String pre = "";
             bf.append(TAB).append(TAB).append("update").append("\n");
             bf.append(TAB).append(TAB).append(TAB).append(tableName).append("\n");
@@ -521,9 +525,14 @@ public class SqlParseUtils {
                     continue;
                 }
                 bf.append(TAB).append(TAB).append(TAB);
-                bf.append(getIfNotNullByType(field.getType(), pre + realFieldName));
-                bf.append(StringUtils.getDataBaseColumn(realFieldName)).append(" = ");
-                bf.append("#{").append(realFieldName).append("}, </if>").append("\n");
+                //updateCoverXXX方法处理
+                if(method.getName().startsWith("updateCover")){
+                    bf.append(StringUtils.getDataBaseColumn(realFieldName)).append(" = ").append("#{").append(realFieldName).append("}, ").append("\n");;
+                }else{
+                    bf.append(getIfNotNullByType(field.getType(), pre + realFieldName));
+                    bf.append(StringUtils.getDataBaseColumn(realFieldName)).append(" = ");
+                    bf.append("#{").append(realFieldName).append("}, </if>").append("\n");
+                }
             }
             bf.append(TAB).append(TAB).append("</trim>").append("\n");
             if (flag) {
