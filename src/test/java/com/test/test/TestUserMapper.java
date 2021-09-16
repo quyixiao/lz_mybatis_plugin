@@ -5,6 +5,7 @@ import com.lz.mybatis.plugin.entity.Page;
 import org.apache.ibatis.annotations.Param;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 public interface TestUserMapper extends MyBaseMapper<TestUser> {
@@ -134,5 +135,15 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
     List<TestUser> selectPageInfo(Page page,@AS("t2") String userName);
 
 
-    List<MyUserPhone> selectPageInfoXXX(Page page, MyUserPhone userPhone);
+    @OrderByIdDesc
+    @OrderBy({" a.id desc ","b.id asc "})
+    @Order({
+            @By(value = {"id", "mobile"}, type = OrderType.DESC),
+            @By(value = {"username"}, type = OrderType.ASC),
+    })
+    List<MyUserPhone> selectPageInfoXXX(Page page, MyUserPhone userPhone,  @OrderBy("xx") String sort);
+
+
+    @GroupBy("user_id")
+    int countByProductIdGroupByUserId(@DateFormat("%Y-%m-%d") Date gmtCreate, Long productId, @IsNotEmpty String userId);
 }

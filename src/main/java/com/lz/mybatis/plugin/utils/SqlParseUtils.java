@@ -498,8 +498,6 @@ public class SqlParseUtils {
         } else if (!isBasicDataTypes(paramterType)) { //如果不是基本数据类型,且对于只有一个对象的时候
 
 
-
-
             String pre = "";
             bf.append(TAB).append(TAB).append("update").append("\n");
             bf.append(TAB).append(TAB).append(TAB).append(tableName).append("\n");
@@ -526,9 +524,10 @@ public class SqlParseUtils {
                 }
                 bf.append(TAB).append(TAB).append(TAB);
                 //updateCoverXXX方法处理
-                if(method.getName().startsWith("updateCover")){
-                    bf.append(StringUtils.getDataBaseColumn(realFieldName)).append(" = ").append("#{").append(realFieldName).append("}, ").append("\n");;
-                }else{
+                if (method.getName().startsWith("updateCover")) {
+                    bf.append(StringUtils.getDataBaseColumn(realFieldName)).append(" = ").append("#{").append(realFieldName).append("}, ").append("\n");
+                    ;
+                } else {
                     bf.append(getIfNotNullByType(field.getType(), pre + realFieldName));
                     bf.append(StringUtils.getDataBaseColumn(realFieldName)).append(" = ");
                     bf.append("#{").append(realFieldName).append("}, </if>").append("\n");
@@ -664,11 +663,11 @@ public class SqlParseUtils {
         if ("Page".equals(simpleName) || "IPage".equals(simpleName)) {
             return "";
         }
-        if(parameterInfos[i].isExclude()){
+        if (parameterInfos[i].isExclude()) {
             return "";
         }
         StringBuilder condition = new StringBuilder();
-        Tuple2<Boolean, String> ifResult = getIfOrIfNullPre(conditionNamePre,parameterTypes, parameterInfos, parameterNames, i);
+        Tuple2<Boolean, String> ifResult = getIfOrIfNullPre(conditionNamePre, parameterTypes, parameterInfos, parameterNames, i);
         if (ifResult.getFirst()) {
             condition.append(" \n ").append(ifResult.getSecond());
         }
@@ -677,7 +676,7 @@ public class SqlParseUtils {
             return "";
         }
         String preSql = sb.toString().trim().toLowerCase();
-        if (!preSql.endsWith("where") && !preSql.endsWith("and") &&!preSql.endsWith("or") &&!preSql.endsWith("(")) {
+        if (!preSql.endsWith("where") && !preSql.endsWith("and") && !preSql.endsWith("or") && !preSql.endsWith("(")) {
             if (parameterInfos[i].isOr()) {
                 condition.append(" OR ");
             } else {
@@ -685,7 +684,7 @@ public class SqlParseUtils {
             }
         }
         if (!isBasicDataTypes(parameterTypes[i]) && !Collection.class.isAssignableFrom(parameterTypes[i])) {//如果参数不是基本数据类型
-            return notBasicDataTypeHandler(condition,parameterTypes, parameterInfos, parameterNames, i);
+            return notBasicDataTypeHandler(condition, parameterTypes, parameterInfos, parameterNames, i);
         }
         String column = getColumName(parameterInfos[i], parameterNames[i]);
         //如果字段有别名
@@ -763,7 +762,7 @@ public class SqlParseUtils {
         return condition.toString().trim();
     }
 
-    private static String notBasicDataTypeHandler(StringBuilder oldSql , Class[] parameterTypes, ParameterInfo parameterInfos[], String[] parameterNames, int i) {// 如果是不个对象，获取对象的所对应的sql
+    private static String notBasicDataTypeHandler(StringBuilder oldSql, Class[] parameterTypes, ParameterInfo parameterInfos[], String[] parameterNames, int i) {// 如果是不个对象，获取对象的所对应的sql
         StringBuilder sql = new StringBuilder();
         Field fields[] = parameterTypes[i].getDeclaredFields();
         fields = sortFields(fields);
@@ -818,7 +817,7 @@ public class SqlParseUtils {
     public static String getEQNEGTLTGELE(ParameterInfo[] parameterInfos, Class[] parameterTypes, String column, String conditionName, String flag, int i) {
         StringBuilder condition = new StringBuilder();
         String columnName = ifNullGetDefault(parameterInfos[i].getColumn(), column);
-        if (isDateTypes(parameterTypes[i]) || parameterInfos[i].isDateFormat() ) {
+        if (isDateTypes(parameterTypes[i]) || parameterInfos[i].isDateFormat()) {
             condition.append(" DATE_FORMAT(" + columnName + ", '" + ifNullGetDefault(parameterInfos[i].getDateFormatParam(), "%Y-%m-%d %H:%i:%S") + "')  " + flag +
                     "  DATE_FORMAT(#{" + conditionName + "}, '" + ifNullGetDefault(parameterInfos[i].getDateFormatParam(), "%Y-%m-%d %H:%i:%S") + "')");
         } else {
@@ -828,10 +827,10 @@ public class SqlParseUtils {
     }
 
 
-    public static Tuple2<Boolean, String> getIfOrIfNullPre(String conditionNamePre,Class[] parameterTypes, ParameterInfo[] parameterInfos, String parameterNames[], int i) {
+    public static Tuple2<Boolean, String> getIfOrIfNullPre(String conditionNamePre, Class[] parameterTypes, ParameterInfo[] parameterInfos, String parameterNames[], int i) {
         Class parameterType = parameterTypes[i];
         String parameterName = parameterNames[i];
-        if(StringUtils.isNotEmpty(conditionNamePre)){
+        if (StringUtils.isNotEmpty(conditionNamePre)) {
             parameterName = conditionNamePre + parameterName;
         }
         StringBuilder sb = new StringBuilder();
@@ -994,10 +993,6 @@ public class SqlParseUtils {
 
     public static String getOrderBySql(Method method, ParameterInfo[] parameterInfos, String[] parameterNames) {
         StringBuilder sql = new StringBuilder();
-        if (isOrderByIdDesc(method)) {
-            return " ORDER BY id DESC ";
-        }
-        List<OrderByInfo> orderByInfos = getMethodOrderByListByMethod(method);
         boolean flag = true;
         if (parameterInfos != null && parameterInfos.length > 0) {
             for (int i = 0; i < parameterInfos.length; i++) {
@@ -1008,42 +1003,63 @@ public class SqlParseUtils {
                         sql.append(" ORDER BY ");
                     }
                     String[] bys = parameterInfo.getBys();
-                    StringBuilder sb = new StringBuilder();
                     for (int j = 0; j < bys.length; j++) {
-                        if (j > 0) {
-                            sb.append(",");
+                        if(isNotEndOrderBy(sql)){
+                            sql.append(",");
                         }
-                        sb.append(bys[j]);
+                        sql.append(bys[j]).append(" ").append("${").append(parameterNames[i]).append("}");
                     }
-                    sql.append(sb.toString()).append(" ").append("${").append(parameterNames[i]).append("}").append(",");
+
                 }
             }
         }
+
+        if (isOrderBy(method)) {
+            String[] bys = getMethodOrderArrayByMethod(method);
+            if (bys != null && bys.length > 0) {
+                if (flag) {
+                    flag = false;
+                    sql.append(" ORDER BY ");
+                }
+                for (String b : bys) {
+                    if(isNotEndOrderBy(sql)){
+                        sql.append(",");
+                    }
+                    sql.append(b);
+                }
+            }
+        }
+        List<OrderByInfo> orderByInfos = getMethodOrderByListByMethod(method);
         if (orderByInfos != null && orderByInfos.size() > 0) {
+            if (flag) {
+                flag = false;
+                sql.append(" ORDER BY ");
+            }
+            for (OrderByInfo orderByInfo : orderByInfos) {
+                for (String by : orderByInfo.getBy()) {
+                    if(isNotEndOrderBy(sql)){
+                        sql.append(",");
+                    }
+                    sql.append(by);
+                    if (OrderType.DESC.equals(orderByInfo.getOrderType())) {
+                        sql.append(" DESC ");
+                    } else {
+                        sql.append(" ASC ");
+                    }
+                }
+            }
+        }
+        if (isOrderByIdDesc(method)) {
             if (flag) {
                 sql.append(" ORDER BY ");
             }
-            int k = 0;
-            for (OrderByInfo orderByInfo : orderByInfos) {
-                int j = 0;
-                if (k > 0) {
-                    sql.append(",");
-                }
-                for (String by : orderByInfo.getBy()) {
-                    if (j > 0) {
-                        sql.append(" , ");
-                    }
-                    sql.append(by);
-                    j++;
-                }
-                if (OrderType.DESC.equals(orderByInfo.getOrderType())) {
-                    sql.append(" DESC ");
-                } else {
-                    sql.append(" ASC ");
-                }
-                k++;
+            if(isNotEndOrderBy(sql)){
+                sql.append(",");
             }
+            sql.append(" id DESC ");
         }
+
+
         String temp = sql.toString();
         if (temp.endsWith(",")) {
             temp = temp.substring(0, temp.length() - 1);
@@ -1051,6 +1067,9 @@ public class SqlParseUtils {
         return temp;
     }
 
+    public static boolean isNotEndOrderBy(StringBuilder sql ){
+        return !sql.toString().trim().endsWith("ORDER BY");
+    }
 
     public static String getAvg(Method method) {
         Avg avg = method.getAnnotation(Avg.class);
@@ -1080,7 +1099,16 @@ public class SqlParseUtils {
     public static String getGroupBy(Method method) {
         GroupBy avg = method.getAnnotation(GroupBy.class);
         if (avg != null) {
-            return " GROUP BY " + avg.value() + " ";
+            String a = " GROUP BY ";
+            String[] xx = avg.value();
+            for (int i = 0; i < xx.length; i++) {
+                if (i == 0) {
+                    a += xx[i];
+                } else {
+                    a += "," + xx[i];
+                }
+            }
+            return a ;
         }
         return "";
     }
@@ -1247,8 +1275,8 @@ public class SqlParseUtils {
             parameterInfo.setAlias(true);
             parameterInfo.setAliasValue(value);
         } else if ("OrderByIdDesc".equals(annotationName)) {
-            parameterInfo.setOrderByIdDesc(true);      }
-        else if ("Exclude".equals(annotationName)) {
+            parameterInfo.setOrderByIdDesc(true);
+        } else if ("Exclude".equals(annotationName)) {
             parameterInfo.setExclude(true);
         } else if ("IF".equals(annotationName)) {
             parameterInfo.setIF(true);
@@ -1321,6 +1349,24 @@ public class SqlParseUtils {
             return true;
         }
         return false;
+    }
+
+    public static boolean isOrderBy(Method method) {
+        OrderBy orderBy = method.getAnnotation(OrderBy.class);
+        if (orderBy != null) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public static String[] getMethodOrderArrayByMethod(Method method) {
+        OrderBy orderBy = method.getAnnotation(OrderBy.class);
+        if (orderBy != null) {
+            String[] bys = getAnnotationValue(orderBy);
+            return bys;
+        }
+        return null;
     }
 
     public static List<OrderByInfo> getMethodOrderByListByMethod(Method method) {

@@ -8,6 +8,6 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD})
 public @interface GroupBy {
 
-    String value() default "";
+    String [] value() default {};
 
 }
