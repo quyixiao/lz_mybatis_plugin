@@ -697,7 +697,7 @@ public class SqlParseUtils {
         if (parameterInfos[i].isEmpty()) {
             condition.append("(").append(column).append(" IS NULL OR ").append(column).append(" = '' ").append(")");
         } else if (parameterInfos[i].isNotEmpty()) {
-            condition.append("(").append(column).append(" IS NOT NULL OR ").append(column).append(" != '' ").append(")");
+            condition.append("(").append(column).append(" IS NOT NULL AND ").append(column).append(" != '' ").append(")");
         } else if (parameterInfos[i].isNull()) {
             condition.append(column).append(" IS NULL ");
         } else if (parameterInfos[i].isNotNull()) {

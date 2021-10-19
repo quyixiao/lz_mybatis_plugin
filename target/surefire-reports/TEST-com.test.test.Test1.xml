@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="11" failures="0" name="com.test.test.Test1" time="0.66" errors="0" skipped="0">
+<testsuite tests="11" failures="0" name="com.test.test.Test1" time="0.721" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home/jre/lib"/>
@@ -61,15 +61,15 @@
     <property name="ftp.nonProxyHosts" value="127.0.0.1|192.168.0.0/16|*.192.168.0.0/16|10.0.0.0/8|*.10.0.0.0/8|172.16.0.0/12|*.172.16.0.0/12|100.64.0.0/10|*.100.64.0.0/10|17.0.0.0/8|*.17.0.0.0/8|localhost|*.localhost|local|*.local|crashlytics.com|*.crashlytics.com"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="com.test.test.Test1" name="test10" time="0.15"/>
-  <testcase classname="com.test.test.Test1" name="test11" time="0.08"/>
-  <testcase classname="com.test.test.Test1" name="test1" time="0.005"/>
-  <testcase classname="com.test.test.Test1" name="test2" time="0.035"/>
-  <testcase classname="com.test.test.Test1" name="test3" time="0.041"/>
-  <testcase classname="com.test.test.Test1" name="test4" time="0.019"/>
-  <testcase classname="com.test.test.Test1" name="test5" time="0.005"/>
-  <testcase classname="com.test.test.Test1" name="test6" time="0.061"/>
-  <testcase classname="com.test.test.Test1" name="test7" time="0"/>
-  <testcase classname="com.test.test.Test1" name="test8" time="0"/>
-  <testcase classname="com.test.test.Test1" name="test9" time="0.093"/>
+  <testcase classname="com.test.test.Test1" name="test10" time="0.213"/>
+  <testcase classname="com.test.test.Test1" name="test11" time="0.024"/>
+  <testcase classname="com.test.test.Test1" name="test1" time="0.006"/>
+  <testcase classname="com.test.test.Test1" name="test2" time="0.011"/>
+  <testcase classname="com.test.test.Test1" name="test3" time="0.017"/>
+  <testcase classname="com.test.test.Test1" name="test4" time="0.042"/>
+  <testcase classname="com.test.test.Test1" name="test5" time="0.038"/>
+  <testcase classname="com.test.test.Test1" name="test6" time="0.007"/>
+  <testcase classname="com.test.test.Test1" name="test7" time="0.006"/>
+  <testcase classname="com.test.test.Test1" name="test8" time="0.146"/>
+  <testcase classname="com.test.test.Test1" name="test9" time="0.008"/>
 </testsuite>
