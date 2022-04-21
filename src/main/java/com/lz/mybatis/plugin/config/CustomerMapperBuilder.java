@@ -1,6 +1,8 @@
 package com.lz.mybatis.plugin.config;
 
 
+import com.lz.mybatis.plugin.entity.ParameterInfo;
+import com.lz.mybatis.plugin.entity.TableBaseInfo;
 import com.lz.mybatis.plugin.entity.TableInfo;
 import com.lz.mybatis.plugin.mapper.TableRowMapper;
 import com.lz.mybatis.plugin.service.MyBatisBaomidouService;
@@ -57,10 +59,11 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
     private Configuration configuration = null;
     private MapperBuilderAssistant assistant = null;
     private Class<?> type = null;
-    private static JdbcTemplate jdbcTemplate = null;
     private String tableName;
-    private List<String> tableColumns;
+
+    private TableBaseInfo tableColumns;
     private List<String> primaryColumns;
+
     public final static String TABLENAME = "TableName";
     public MyBatisBaomidouService myBatisBaomidouService;
     protected final TypeAliasRegistry typeAliasRegistry;
@@ -86,25 +89,31 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
             e.printStackTrace();
         }
         // 获取 Datasource 构建jdbcTemplate ，主要用途是用来在项目启动时获取数据库表中的所有字段
-        if (jdbcTemplate == null) {
+/*        if (jdbcTemplate == null) {
             final Environment environment = configuration.getEnvironment();
             DataSource dataSource = environment.getDataSource();
             jdbcTemplate = new JdbcTemplate(dataSource);
-        }
+        }*/
 
         // 获取表名,看Mapper的继承类中有没有配置泛型，如果配置泛型，看泛型对象是否有@TableName注解，如果有@TableName注解
         // 获取@TableName注解的 value 作为表名称
         tableName = SqlParseUtils.findTableName(type);
+
+
         entityType = SqlParseUtils.findEntityType(type);    //找到实体名称
+
         if (StringUtils.isEmpty(tableName)) { //
             tableName = SqlParseUtils.getAnnotationValueByTypeName(type, TABLENAME);
         }
         //如果表名为空，则直接退出
         if (StringUtils.isEmpty(tableName)) {
+
             return;
         }
         //通过 jdbc 获取表信息，主要是表的主键列 和 表的所有列
-        Tuple2<List<String>, List<String>> tableInfos = getTableInfo(jdbcTemplate, tableName).getData();
+        Tuple2<List<String>,TableBaseInfo> tableInfos = SqlParseUtils.getTableInfo(entityType).getData();
+
+
         primaryColumns = tableInfos.getFirst();
         tableColumns = tableInfos.getSecond();
         // 初始化 Select ,Insert ,Update,Delete 注解，如：
@@ -125,7 +134,8 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
 
     public void parse() {
         // 获取 *Mapper.java 中的所有方法
-        Method[] methods = type.getMethods();
+        //Method[] methods = type.getMethods();
+        Method[] methods = type.getDeclaredMethods();
         // 设置名称空间
         assistant.setCurrentNamespace(type.getName());
         // PluginTuple 是一个java元组，类似于 python 中的元组
@@ -256,28 +266,6 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
             myBatisBaomidouService.info( type.getSimpleName() + "." + method.getName()  +"\t" +  data.getSecond());
         }
         return new PluginTuple(data.getFirst(), sqlSource, data.getThird(), data.getFourth(), data.getFifth());
-    }
-
-    public PluginTuple getTableInfo(JdbcTemplate jdbcTemplate, String tableName) {
-        String sql = "SELECT COLUMN_NAME columnName, DATA_TYPE dataType, COLUMN_COMMENT" +
-                "  columnComment,COLUMN_KEY columnKey FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '" + tableName + "'";
-
-        List<TableInfo> tableInfos = jdbcTemplate.query(sql, new TableRowMapper());
-        List<String> tableColumns = new ArrayList<>();
-        List<String> primaryColumns = new ArrayList<>();
-        if (tableInfos != null && tableInfos.size() > 0) {
-            for (TableInfo tableInfo : tableInfos) {
-                if(!tableColumns.contains(tableInfo.getColumnName())){
-                    tableColumns.add(tableInfo.getColumnName());
-                }
-                if ("PRI".equals(tableInfo.getColumnKey())) {           // 获取主键
-                    if(!primaryColumns.contains(tableInfo.getColumnName())){
-                        primaryColumns.add(tableInfo.getColumnName());
-                    }
-                }
-            }
-        }
-        return new PluginTuple(primaryColumns, tableColumns);
     }
 
 

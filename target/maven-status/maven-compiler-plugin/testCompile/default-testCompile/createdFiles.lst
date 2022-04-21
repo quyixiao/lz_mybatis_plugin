@@ -1,8 +1,10 @@
 com/test/test/TestBorrowMapper.class
+com/test/test/AATest.class
 com/test/test/Test1.class
 com/test/test/TestUserMapper.class
 com/test/test/TestBorrow.class
 com/test/test/TestAccount.class
+com/test/test/BBTest.class
 com/test/test/TestAccountMapper.class
 Test.class
 com/test/test/MyBaseMapper.class

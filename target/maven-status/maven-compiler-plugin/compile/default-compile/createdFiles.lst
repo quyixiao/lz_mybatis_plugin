@@ -5,6 +5,7 @@ com/lz/mybatis/plugin/utils/t/Tuple6.class
 com/lz/mybatis/plugin/utils/SqlParseUtils.class
 com/lz/mybatis/plugin/annotations/IFNull.class
 com/lz/mybatis/plugin/utils/t/ISuperTuple.class
+com/lz/mybatis/plugin/annotations/OrderByIdDescLimit_1.class
 com/lz/mybatis/plugin/annotations/LIMIT.class
 com/lz/mybatis/plugin/annotations/LE.class
 com/lz/mybatis/plugin/config/CustomerMapperBuilder.class
@@ -41,6 +42,7 @@ com/lz/mybatis/plugin/annotations/LLIKE.class
 com/lz/mybatis/plugin/annotations/Mul.class
 com/lz/mybatis/plugin/utils/t/Tuple1.class
 com/lz/mybatis/plugin/annotations/OrderBy.class
+com/lz/mybatis/plugin/annotations/IsDelete.class
 com/lz/mybatis/plugin/utils/t/Tuple10.class
 com/lz/mybatis/plugin/annotations/DateFormat.class
 com/lz/mybatis/plugin/annotations/IsNull.class
@@ -49,6 +51,7 @@ com/lz/mybatis/plugin/annotations/LIKE.class
 com/lz/mybatis/plugin/annotations/OrderType.class
 com/lz/mybatis/plugin/utils/POrderUtil.class
 com/lz/mybatis/plugin/annotations/Index.class
+com/lz/mybatis/plugin/annotations/GmtModified.class
 com/lz/mybatis/plugin/utils/t/Tuple4.class
 com/lz/mybatis/plugin/annotations/OrderByIdDesc.class
 com/lz/mybatis/plugin/annotations/Avg.class
@@ -60,6 +63,7 @@ com/lz/mybatis/plugin/annotations/Where.class
 com/lz/mybatis/plugin/annotations/EQ.class
 com/lz/mybatis/plugin/utils/t/SuperTuple.class
 com/lz/mybatis/plugin/config/ResolverBeanPostProcessor.class
+com/lz/mybatis/plugin/entity/TableBaseInfo.class
 com/lz/mybatis/plugin/annotations/Plus.class
 com/lz/mybatis/plugin/utils/t/Tuple11.class
 com/lz/mybatis/plugin/config/CustomerJdbc3KeyGenerator.class
@@ -69,6 +73,7 @@ com/lz/mybatis/plugin/annotations/GT.class
 com/lz/mybatis/plugin/annotations/Order.class
 com/lz/mybatis/plugin/utils/t/PluginTuple.class
 com/lz/mybatis/plugin/annotations/Column.class
+com/lz/mybatis/plugin/annotations/GmtCreate.class
 com/lz/mybatis/plugin/annotations/Max.class
 com/lz/mybatis/plugin/annotations/Min.class
 com/lz/mybatis/plugin/annotations/Item.class

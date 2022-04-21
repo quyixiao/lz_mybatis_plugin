@@ -48,6 +48,8 @@ public class ParameterInfo {
 
     private boolean isOrderByIdDesc;
 
+    private boolean isOrderByIdDescLimit_1;
+
     private boolean isNotNull;
 
     private boolean isDiv;
@@ -86,6 +88,14 @@ public class ParameterInfo {
     private boolean isWhere;
     private String aliasValue;
     private boolean isExclude;
+
+    public boolean isOrderByIdDescLimit_1() {
+        return isOrderByIdDescLimit_1;
+    }
+
+    public void setOrderByIdDescLimit_1(boolean orderByIdDescLimit_1) {
+        isOrderByIdDescLimit_1 = orderByIdDescLimit_1;
+    }
 
     public boolean isExclude() {
         return isExclude;
