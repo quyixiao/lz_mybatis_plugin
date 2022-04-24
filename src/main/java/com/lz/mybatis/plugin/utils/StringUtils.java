@@ -17,8 +17,14 @@ public class StringUtils {
         return false;
     }
 
+
+
     public static String getDataBaseColumn(String javaName) {
         StringBuilder sb = new StringBuilder();
+        if(javaName.indexOf(".") > 0 ){
+            sb = new StringBuilder(javaName.substring(0,javaName.lastIndexOf(".") + 1 )  );
+            javaName = javaName.substring(javaName.lastIndexOf(".") + 1 );
+        }
         char[] javaNames = javaName.toCharArray();
         int i = 0;
         for (char c : javaNames) {
@@ -58,7 +64,7 @@ public class StringUtils {
 
 
     public static void main(String[] args) {
-        String a = "AbcA";
+        String a = "bbcAa";
         System.out.println(getDataBaseColumn(a));
     }
 }

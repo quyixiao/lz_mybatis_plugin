@@ -754,7 +754,7 @@ public class SqlParseUtils {
             if (StringUtils.isEmpty(inParam)) {
                 inParam = column;
             }
-            condition.append(inParam).append(" IN ");
+            condition.append(StringUtils.getDataBaseColumn(inParam)).append(" IN ");
             if (isStringTypes(parameterTypes[i])) {
                 condition.append("(${").append(conditionName).append("})");
             } else if (isAssignableFromCollection(parameterTypes[i]) && !isBasicDataTypes(getActualType(method, i))) {
@@ -771,7 +771,7 @@ public class SqlParseUtils {
             if (StringUtils.isEmpty(notInParam)) {
                 notInParam = column;
             }
-            condition.append(notInParam).append(" NOT IN ");
+            condition.append(StringUtils.getDataBaseColumn(notInParam)).append(" NOT IN ");
             if (isStringTypes(parameterTypes[i])) {
                 condition.append("(${").append(conditionName).append("})");
             } else {
