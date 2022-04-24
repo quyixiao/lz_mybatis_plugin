@@ -26,6 +26,7 @@ com/lz/mybatis/plugin/entity/ByInfo.class
 com/lz/mybatis/plugin/annotations/LeftJoinOns.class
 com/lz/mybatis/plugin/utils/t/Tuple7.class
 com/lz/mybatis/plugin/annotations/Mapping.class
+com/lz/mybatis/plugin/annotations/Row.class
 com/lz/mybatis/plugin/annotations/LT.class
 com/lz/mybatis/plugin/annotations/NotIn.class
 com/lz/mybatis/plugin/annotations/IF.class
@@ -45,6 +46,7 @@ com/lz/mybatis/plugin/annotations/OrderBy.class
 com/lz/mybatis/plugin/annotations/IsDelete.class
 com/lz/mybatis/plugin/utils/t/Tuple10.class
 com/lz/mybatis/plugin/annotations/DateFormat.class
+com/lz/mybatis/plugin/annotations/MapF2F.class
 com/lz/mybatis/plugin/annotations/IsNull.class
 com/lz/mybatis/plugin/annotations/Insert.class
 com/lz/mybatis/plugin/annotations/LIKE.class

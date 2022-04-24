@@ -88,6 +88,16 @@ public class ParameterInfo {
     private boolean isWhere;
     private String aliasValue;
     private boolean isExclude;
+    private String rowValue;
+
+
+    public String getRowValue() {
+        return rowValue;
+    }
+
+    public void setRowValue(String rowValue) {
+        this.rowValue = rowValue;
+    }
 
     public boolean isOrderByIdDescLimit_1() {
         return isOrderByIdDescLimit_1;

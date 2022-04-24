@@ -253,7 +253,7 @@ public class SqlParseUtils {
                 "        from \n" +
                 "        (select count(*) as totalCount from ");
         sql.append(" ").append(tableName).append(" ");
-        String sqlCondition = doGetSqlCondition("", "", parameterTypes, parameterInfos, parameterNames,tableInfo);
+        String sqlCondition = doGetSqlCondition("", "", parameterTypes, parameterInfos, parameterNames,tableInfo,method);
         sql.append(sqlCondition);
         sql.append(") a) as t1  left join \n" +
                 "        (");
@@ -309,7 +309,7 @@ public class SqlParseUtils {
             sql.append(" FROM ").append(tableName).append(alias);
         }
 
-        sql.append(doGetSqlCondition(wheir, alias, parameterTypes, parameterInfos, parameterNames,tableInfo));
+        sql.append(doGetSqlCondition(wheir, alias, parameterTypes, parameterInfos, parameterNames,tableInfo,method));
 
 
         sql.append(getGroupBy(method));
@@ -321,7 +321,7 @@ public class SqlParseUtils {
     }
 
 
-    public static String doGetSqlCondition(String wheir, String alias, Class parameterTypes[], ParameterInfo[] parameterInfos, String[] parameterNames,TableBaseInfo tableInfo) {
+    public static String doGetSqlCondition(String wheir, String alias, Class parameterTypes[], ParameterInfo[] parameterInfos, String[] parameterNames,TableBaseInfo tableInfo,Method method) {
         StringBuilder sql = new StringBuilder();
         if (StringUtils.isNotEmpty(alias)) {
             alias = alias + ".";
@@ -333,7 +333,7 @@ public class SqlParseUtils {
                 appendWhere(wheir, sql);
             }
             for (int i = 0; i < parameterTypes.length; i++) {//遍历所有的参数
-                sql.append(" ").append(getCondition(sql, alias, "", parameterTypes, parameterInfos, parameterNames, i));
+                sql.append(" ").append(getCondition(sql, alias, "", parameterTypes, parameterInfos, parameterNames, i,method));
             }
         } else {
             if (StringUtils.isNotEmpty(tableInfo.getIsDelete())) {
@@ -648,7 +648,7 @@ public class SqlParseUtils {
                     childParameterTypes[y] = parameterTypes[parameterInfos.length - 1];
                 }
                 for (int x = 0; x < parameterInfos.length - flag; x++) {
-                    bf.append(" ").append(getCondition(bf, "", "", childParameterTypes, childParameterInfos, childParameterNames, x));
+                    bf.append(" ").append(getCondition(bf, "", "", childParameterTypes, childParameterInfos, childParameterNames, x,method));
                 }
             }
             bf.append("\n");
@@ -681,7 +681,7 @@ public class SqlParseUtils {
             Class parameterTypes[] = method.getParameterTypes();
             ParameterInfo[] parameterInfos = getMethodParameterInfoByAnnotation(method);
             for (int i = 0; i < parameterTypes.length; i++) {//遍历所有的参数
-                bf.append(" ").append(getCondition(bf, "", "", parameterTypes, parameterInfos, parameterNames, i));
+                bf.append(" ").append(getCondition(bf, "", "", parameterTypes, parameterInfos, parameterNames, i,method));
             }
         }
         bf.append("\n");
@@ -694,7 +694,8 @@ public class SqlParseUtils {
         return parseSelect(true, tableName, tableInfo, parameterNames, method);
     }
 
-    public static String getCondition(StringBuilder sb, String columPre, String conditionNamePre, Class[] parameterTypes, ParameterInfo parameterInfos[], String[] parameterNames, int i) {
+    public static String getCondition(StringBuilder sb, String columPre, String conditionNamePre,
+                                      Class[] parameterTypes, ParameterInfo parameterInfos[], String[] parameterNames, int i,Method method) {
         String simpleName = parameterTypes[i].getSimpleName(); //如果是分页对象，不当作条件
         if ("Page".equals(simpleName) || "IPage".equals(simpleName)) {
             return "";
@@ -720,7 +721,7 @@ public class SqlParseUtils {
             }
         }
         if (!isBasicDataTypes(parameterTypes[i]) && !Collection.class.isAssignableFrom(parameterTypes[i])) {//如果参数不是基本数据类型
-            return notBasicDataTypeHandler(condition, parameterTypes, parameterInfos, parameterNames, i);
+            return notBasicDataTypeHandler(condition, parameterTypes, parameterInfos, parameterNames, i,method);
         }
         String column = getColumName(parameterInfos[i], parameterNames[i]);
         //如果字段有别名
@@ -749,13 +750,17 @@ public class SqlParseUtils {
         } else if (parameterInfos[i].isLe()) {
             condition.append(getEQNEGTLTGELE(parameterInfos, parameterTypes, column, conditionName, " <![CDATA[ <= ]]> ", i));
         } else if (parameterInfos[i].isIn()) {
-            String inParam = parameterInfos[i].getColumn();
+            String inParam = parameterInfos[i].getParam();
             if (StringUtils.isEmpty(inParam)) {
                 inParam = column;
             }
             condition.append(inParam).append(" IN ");
             if (isStringTypes(parameterTypes[i])) {
                 condition.append("(${").append(conditionName).append("})");
+            } else if (isAssignableFromCollection(parameterTypes[i]) && !isBasicDataTypes(getActualType(method, i))) {
+                condition.append("\n").append("<foreach collection=\"" + conditionName + "\" item=\"item\" index=\"index\" separator=\",\" open=\"(\" close=\")\">").append("\n");
+                condition.append("  #{item." + parameterInfos[i].getRowValue() + "}").append("\n");
+                condition.append("</foreach>").append("\n");
             } else {
                 condition.append("\n").append("<foreach collection=\"" + conditionName + "\" item=\"item\" index=\"index\" separator=\",\" open=\"(\" close=\")\">").append("\n");
                 condition.append("  #{item}").append("\n");
@@ -798,7 +803,10 @@ public class SqlParseUtils {
         return condition.toString().trim();
     }
 
-    private static String notBasicDataTypeHandler(StringBuilder oldSql, Class[] parameterTypes, ParameterInfo parameterInfos[], String[] parameterNames, int i) {// 如果是不个对象，获取对象的所对应的sql
+
+
+
+    private static String notBasicDataTypeHandler(StringBuilder oldSql, Class[] parameterTypes, ParameterInfo parameterInfos[], String[] parameterNames, int i,Method method) {// 如果是不个对象，获取对象的所对应的sql
         StringBuilder sql = new StringBuilder();
         Field fields[] = parameterTypes[i].getDeclaredFields();
         fields = sortFields(fields);
@@ -829,7 +837,7 @@ public class SqlParseUtils {
             childParameterNames[f] = fields[f].getName();
         }
         for (int k = 0; k < fields.length; k++) {
-            sql.append(" ").append(getCondition(sql, "", getConditionName(parameterInfos[i], parameterNames[i]) + ".", childParameterTypes, childParameterInfos, childParameterNames, k));
+            sql.append(" ").append(getCondition(sql, "", getConditionName(parameterInfos[i], parameterNames[i]) + ".", childParameterTypes, childParameterInfos, childParameterNames, k,method));
         }
         return sql.toString();
     }
@@ -970,6 +978,7 @@ public class SqlParseUtils {
         }
         return condition.toString();
     }
+
 
 
     public static String ifNullGetDefault(String priority, String defaultValue) {
@@ -1296,6 +1305,8 @@ public class SqlParseUtils {
         } else if ("IN".equals(annotationName)) {
             parameterInfo.setIn(true);
             parameterInfo.setColumn(value);
+        } else if ("Row".equals(annotationName)) {
+            parameterInfo.setRowValue(value);
         } else if ("notIn".equals(annotationName)) {
             parameterInfo.setNotIn(true);
             parameterInfo.setColumn(value);
@@ -1709,6 +1720,24 @@ public class SqlParseUtils {
         }
         return null;
     }
+
+    public static Class getActualType(Method method ,int index) {
+        Type[] types =method.getGenericParameterTypes();
+
+        ParameterizedType pType = (ParameterizedType)types[index];
+
+        //获取方法参数泛型类型，那么就为Date
+
+        Type type = pType.getActualTypeArguments()[0];
+        try {
+            return  Class.forName(type.getTypeName());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 
     public static String findTableName(Class<?> type) {
         String tableName = null;

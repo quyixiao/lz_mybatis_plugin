@@ -75,6 +75,11 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
     @Realy
     int deleteTestUserById(Long id);
 
+
+
+    // @In注解中的值，对应数据库列字段
+    List<String> selectTestUserByIds(String userName ,@IN @Row("id") List<TestUser>  id);
+
     // @In注解中的值，对应数据库列字段
     int deleteTestUserByIds(@IN("id") List<Long> ids);
 
