@@ -64,7 +64,7 @@ public class StringUtils {
 
 
     public static void main(String[] args) {
-        String a = "bbcAa";
+        String a = "user_name_en";
         System.out.println(getDataBaseColumn(a));
     }
 }
