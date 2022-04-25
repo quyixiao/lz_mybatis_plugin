@@ -754,14 +754,24 @@ public class SqlParseUtils {
             if (StringUtils.isEmpty(inParam)) {
                 inParam = column;
             }
-            condition.append(StringUtils.getDataBaseColumn(inParam)).append(" IN ");
+
             if (isStringTypes(parameterTypes[i])) {
+                condition.append(StringUtils.getDataBaseColumn(inParam)).append(" IN ");
                 condition.append("(${").append(conditionName).append("})");
             } else if (isAssignableFromCollection(parameterTypes[i]) && !isBasicDataTypes(getActualType(method, i))) {
+                condition.append("<choose>\n" +
+                        "            <when test=\""+conditionName+"!=null and "+conditionName+".size()> 0\">\n" );
+                condition.append(StringUtils.getDataBaseColumn(inParam)).append(" IN ");
                 condition.append("\n").append("<foreach collection=\"" + conditionName + "\" item=\"item\" index=\"index\" separator=\",\" open=\"(\" close=\")\">").append("\n");
                 condition.append("  #{item." + parameterInfos[i].getRowValue() + "}").append("\n");
                 condition.append("</foreach>").append("\n");
+                condition.append("            </when>\n" +
+                        "            <otherwise>\n" );
+                condition.append(" 1 = 0 \n ");
+                condition.append(   "            </otherwise>\n" +
+                        "        </choose>\n");
             } else {
+                condition.append(StringUtils.getDataBaseColumn(inParam)).append(" IN ");
                 condition.append("\n").append("<foreach collection=\"" + conditionName + "\" item=\"item\" index=\"index\" separator=\",\" open=\"(\" close=\")\">").append("\n");
                 condition.append("  #{item}").append("\n");
                 condition.append("</foreach>").append("\n");
