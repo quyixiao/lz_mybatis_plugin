@@ -8,6 +8,7 @@ com/lz/mybatis/plugin/utils/t/ISuperTuple.class
 com/lz/mybatis/plugin/annotations/OrderByIdDescLimit_1.class
 com/lz/mybatis/plugin/annotations/LIMIT.class
 com/lz/mybatis/plugin/annotations/LE.class
+com/lz/mybatis/plugin/utils/DF_Const.class
 com/lz/mybatis/plugin/config/CustomerMapperBuilder.class
 com/lz/mybatis/plugin/annotations/NE.class
 com/lz/mybatis/plugin/mapper/TableRowMapper.class
@@ -46,7 +47,6 @@ com/lz/mybatis/plugin/annotations/OrderBy.class
 com/lz/mybatis/plugin/annotations/IsDelete.class
 com/lz/mybatis/plugin/utils/t/Tuple10.class
 com/lz/mybatis/plugin/annotations/DateFormat.class
-com/lz/mybatis/plugin/annotations/MapF2F.class
 com/lz/mybatis/plugin/annotations/IsNull.class
 com/lz/mybatis/plugin/annotations/Insert.class
 com/lz/mybatis/plugin/annotations/LIKE.class
