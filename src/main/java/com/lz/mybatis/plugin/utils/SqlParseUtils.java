@@ -390,6 +390,9 @@ public class SqlParseUtils {
             bf.append(TAB).append(TAB).append(TAB).append("<trim suffixOverrides=\",\">").append("\n");
             for (Field field : fields) {
                 String realFieldName = getRealFieldName(field);
+                if("serialVersionUID".equals(realFieldName)){
+                    continue;
+                }
                 String column = StringUtils.getDataBaseColumn(realFieldName);
                 if (column.equals(tableInfo.getId()) ||column.equals(tableInfo.getIsDelete())
                         || column.equals(tableInfo.getGmtCreate()) ||column.equals(tableInfo.getGmtModified())) {
@@ -447,8 +450,12 @@ public class SqlParseUtils {
             bf.append(TAB).append(TAB).append("insert into ").append(tableName).append("(").append("\n");
             bf.append(TAB).append(TAB).append("<trim suffixOverrides=\",\">").append("\n");
             for (Field field : fields) {
+
                 bf.append(TAB).append(TAB).append(TAB);
                 String realFieldName = getRealFieldName(field);
+                if("serialVersionUID".equals(realFieldName)){
+                    continue;
+                }
                 bf.append(getIfNotNullByType(field.getType(), paramPre + realFieldName));
                 bf.append(StringUtils.getDataBaseColumn(realFieldName)).append(", </if>").append("\n");
             }
@@ -458,6 +465,9 @@ public class SqlParseUtils {
             for (Field field : fields) {
                 String realFieldName = getRealFieldName(field);
                 bf.append(TAB).append(TAB).append(TAB);
+                if("serialVersionUID".equals(realFieldName)){
+                    continue;
+                }
                 bf.append(getIfNotNullByType(field.getType(), paramPre + realFieldName));
                 bf.append("#{").append(paramPre + realFieldName).append("}, </if>").append("\n");
             }
@@ -506,6 +516,9 @@ public class SqlParseUtils {
             bf.append(TAB).append(TAB).append("<trim prefix=\"set\" suffixOverrides=\",\">").append("\n");
             for (Field field : fields) {
                 String realFieldName = getRealFieldName(field);
+                if("serialVersionUID".equals(realFieldName)){
+                    continue;
+                }
                 String column = StringUtils.getDataBaseColumn(realFieldName);
                 if (tableInfo.getId().equals(column)) {
                     continue;
@@ -538,6 +551,9 @@ public class SqlParseUtils {
             Map<String, String> map = new LinkedHashMap<>();
             for (Field field : fields) {
                 String realFieldName = getRealFieldName(field);
+                if("serialVersionUID".equals(realFieldName)){
+                    continue;
+                }
                 if (tableInfo.getJavaCodeGmtModified().equals(realFieldName)) {
                     flag = true;
                     continue;
@@ -558,7 +574,6 @@ public class SqlParseUtils {
                 //updateCoverXXX方法处理
                 if (method.getName().startsWith("updateCover")) {
                     bf.append(StringUtils.getDataBaseColumn(realFieldName)).append(" = ").append("#{").append(realFieldName).append("}, ").append("\n");
-                    ;
                 } else {
                     bf.append(getIfNotNullByType(field.getType(), pre + realFieldName));
                     bf.append(StringUtils.getDataBaseColumn(realFieldName)).append(" = ");
