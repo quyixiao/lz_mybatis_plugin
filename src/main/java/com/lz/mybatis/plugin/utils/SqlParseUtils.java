@@ -275,6 +275,7 @@ public class SqlParseUtils {
         String avg = getAvg(method);
         String max = getMax(method);
         String min = getMin(method);
+        String sum = getSum(method);
         String mapping = getMapping(method);
         if (isCount) {
             sql.append(" IFNULL(COUNT(*),0) ");
@@ -286,6 +287,8 @@ public class SqlParseUtils {
             sql.append(" IFNULL(MAX").append("(").append(max).append("),0) ");
         } else if (StringUtils.isNotEmpty(min)) {
             sql.append(" IFNULL(MIN").append("(").append(min).append("),0) ");
+        } else if (StringUtils.isNotEmpty(sum)) {
+            sql.append(" IFNULL(SUM").append("(").append(sum).append("),0) ");
         } else if (StringUtils.isNotEmpty(mapping)) {
             sql.append(" ").append(mapping).append(" ");
         } else {
@@ -883,12 +886,19 @@ public class SqlParseUtils {
         return parameterInfo;
     }
 
+
     public static String getEQNEGTLTGELE(ParameterInfo[] parameterInfos, Class[] parameterTypes, String column, String conditionName, String flag, int i) {
         StringBuilder condition = new StringBuilder();
         String columnName = ifNullGetDefault(parameterInfos[i].getColumn(), column);
         if (isDateTypes(parameterTypes[i]) || parameterInfos[i].isDateFormat()) {
-            condition.append(" DATE_FORMAT(" + columnName + ", '" + ifNullGetDefault(parameterInfos[i].getDateFormatParam(), "%Y-%m-%d %H:%i:%S") + "')  " + flag +
-                    "  DATE_FORMAT(#{" + conditionName + "}, '" + ifNullGetDefault(parameterInfos[i].getDateFormatParam(), "%Y-%m-%d %H:%i:%S") + "')");
+            if (parameterInfos[i].isDateFormat()) {
+                String dateformate = ifNullGetDefault(parameterInfos[i].getDateFormatParam(), "%Y-%m-%d %H:%i:%S");
+                condition.append(" DATE_FORMAT(" + columnName + ", '" + dateformate + "')  "
+                        + flag +
+                        "  DATE_FORMAT(#{" + conditionName + "}, '" + dateformate + "')");
+            } else {
+                condition.append(" " + columnName + " " + flag + " #{" + conditionName + "} ");
+            }
         } else {
             condition.append(columnName).append(" ").append(flag).append(" #{").append(conditionName).append("}");
         }
@@ -1165,6 +1175,17 @@ public class SqlParseUtils {
         return null;
     }
 
+
+
+    public static String getSum(Method method) {
+        Sum avg = method.getAnnotation(Sum.class);
+        if (avg != null) {
+            return avg.value();
+        }
+        return null;
+    }
+
+
     public static String getMax(Method method) {
         Max avg = method.getAnnotation(Max.class);
         if (avg != null) {
@@ -1332,7 +1353,7 @@ public class SqlParseUtils {
             parameterInfo.setColumn(value);
         } else if ("Row".equals(annotationName)) {
             parameterInfo.setRowValue(value);
-        } else if ("notIn".equals(annotationName)) {
+        } else if ("NotIn".equals(annotationName)) {
             parameterInfo.setNotIn(true);
             parameterInfo.setColumn(value);
         } else if ("IsEmpty".equals(annotationName)) {

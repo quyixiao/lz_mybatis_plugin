@@ -5,8 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7c2740fd-230c-4d18-9ef1-6bfcb278a445" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/Sum.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/utils/DF_Const.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/utils/DF_Const.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/utils/SqlParseUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/utils/SqlParseUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/DF_Const.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/DF_Const.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/SqlParseUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/SqlParseUtils.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/lz_mybatis_plugin-11.0-SNAPSHOT-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/lz_mybatis_plugin-11.0-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.test.test.Test1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.test.test.Test1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.test.test.Test1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.test.test.Test1.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -330,7 +342,20 @@
       <workItem from="1652164718608" duration="250000" />
       <workItem from="1652164975583" duration="63000" />
       <workItem from="1652668649745" duration="1602000" />
-      <workItem from="1652760874156" duration="415000" />
+      <workItem from="1652760874156" duration="593000" />
+      <workItem from="1652945911526" duration="1730000" />
+      <workItem from="1653472476356" duration="2609000" />
+      <workItem from="1654595095440" duration="726000" />
+      <workItem from="1654771356792" duration="780000" />
+      <workItem from="1658909803494" duration="152000" />
+      <workItem from="1659064679266" duration="25000" />
+      <workItem from="1659080767680" duration="384000" />
+      <workItem from="1659086987432" duration="615000" />
+      <workItem from="1659105466460" duration="2741000" />
+      <workItem from="1659957127416" duration="68000" />
+      <workItem from="1666605071722" duration="35000" />
+      <workItem from="1667458260748" duration="1515000" />
+      <workItem from="1667459786944" duration="435000" />
     </task>
     <servers />
   </component>

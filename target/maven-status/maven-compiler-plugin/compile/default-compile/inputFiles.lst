@@ -42,6 +42,7 @@
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/TableId.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/entity/ItemInfo.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/utils/t/Tuple4.java
+/Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/Sum.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/Delete.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/Row.java
 /Users/quyixiao/project/lz_mybatis_plugin/src/main/java/com/lz/mybatis/plugin/annotations/CurrPage.java

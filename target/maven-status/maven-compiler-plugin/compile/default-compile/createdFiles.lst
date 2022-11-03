@@ -3,6 +3,7 @@ com/lz/mybatis/plugin/annotations/Realy.class
 com/lz/mybatis/plugin/utils/t/Tuple3.class
 com/lz/mybatis/plugin/utils/t/Tuple6.class
 com/lz/mybatis/plugin/utils/SqlParseUtils.class
+com/lz/mybatis/plugin/annotations/Sum.class
 com/lz/mybatis/plugin/annotations/IFNull.class
 com/lz/mybatis/plugin/utils/t/ISuperTuple.class
 com/lz/mybatis/plugin/annotations/OrderByIdDescLimit_1.class
