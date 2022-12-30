@@ -88,27 +88,35 @@ public class SqlParseUtils {
 
     public static PluginTuple testSelect(Class clazz, String methodName) {
         SqlCommandType sqlCommandType = SqlCommandType.SELECT;
-        return parse("lz_test_user", primaryC, tableBaseInfo, sqlCommandType, getMethod(clazz, methodName), null);
+
+
+       String  tableName = SqlParseUtils.findTableName(clazz);
+
+        return parse(tableName, primaryC, tableBaseInfo, sqlCommandType, getMethod(clazz, methodName), null);
     }
 
     public static PluginTuple testInsert(Class clazz, String methodName) {
         SqlCommandType sqlCommandType = SqlCommandType.INSERT;
-        return parse("lz_test_user", primaryC, tableBaseInfo, sqlCommandType, getMethod(clazz, methodName), null);
+        String  tableName = SqlParseUtils.findTableName(clazz);
+        return parse(tableName, primaryC, tableBaseInfo, sqlCommandType, getMethod(clazz, methodName), null);
     }
 
     public static PluginTuple testUpdate(Class clazz, String methodName) {
         SqlCommandType sqlCommandType = SqlCommandType.UPDATE;
-        return parse("lz_test_user", primaryC, tableBaseInfo, sqlCommandType, getMethod(clazz, methodName), null);
+        String  tableName = SqlParseUtils.findTableName(clazz);
+        return parse(tableName, primaryC, tableBaseInfo, sqlCommandType, getMethod(clazz, methodName), null);
     }
 
     public static PluginTuple testDelete(Class clazz, String methodName) {
         SqlCommandType sqlCommandType = SqlCommandType.DELETE;
-        return parse("lz_test_user", primaryC, tableBaseInfo, sqlCommandType, getMethod(clazz, methodName), null);
+        String  tableName = SqlParseUtils.findTableName(clazz);
+        return parse(tableName, primaryC, tableBaseInfo, sqlCommandType, getMethod(clazz, methodName), null);
     }
 
     public static PluginTuple testCount(Class clazz, String methodName) {
         SqlCommandType sqlCommandType = SqlCommandType.UNKNOWN;
-        return parse("lz_test_user", primaryC, tableBaseInfo, sqlCommandType, getMethod(clazz, methodName), null);
+        String  tableName = SqlParseUtils.findTableName(clazz);
+        return parse(tableName, primaryC, tableBaseInfo, sqlCommandType, getMethod(clazz, methodName), null);
     }
 
     public static PluginTuple parse(String tableName, List<String> primaryColumns, TableBaseInfo tableInfo,

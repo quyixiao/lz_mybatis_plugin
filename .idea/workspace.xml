@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7c2740fd-230c-4d18-9ef1-6bfcb278a445" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/utils/SqlParseUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/utils/SqlParseUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/config/ResolverBeanPostProcessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/config/ResolverBeanPostProcessor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/SqlParseUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/SqlParseUtils.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -347,7 +343,7 @@
       <workItem from="1667822096755" duration="4000" />
       <workItem from="1667829145357" duration="27000" />
       <workItem from="1667911736884" duration="62000" />
-      <workItem from="1672373306899" duration="184000" />
+      <workItem from="1672373306899" duration="670000" />
     </task>
     <servers />
   </component>
