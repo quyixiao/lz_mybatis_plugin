@@ -746,7 +746,9 @@ public class SqlParseUtils {
         if (parameterInfos[i].isAlias()) {
             column = parameterInfos[i].getAliasValue() + "." + column;
         } else {
-            column = columPre + column;
+            if(column.indexOf(".") == -1 ){
+                column = columPre + column;
+            }
         }
         String conditionName = conditionNamePre + getConditionName(parameterInfos[i], parameterNames[i]);           //设置变量前缀
         if (parameterInfos[i].isEmpty()) {
@@ -1978,7 +1980,6 @@ public class SqlParseUtils {
         }
         return field;
     }
-
 
 
 }

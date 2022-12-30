@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7c2740fd-230c-4d18-9ef1-6bfcb278a445" name="Default Changelist" comment="" />
+    <list default="true" id="7c2740fd-230c-4d18-9ef1-6bfcb278a445" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/utils/SqlParseUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/utils/SqlParseUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/config/ResolverBeanPostProcessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/config/ResolverBeanPostProcessor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/SqlParseUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/SqlParseUtils.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,7 +56,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/test/java/com/test/test" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path" value="/usr/local/bin/node" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
@@ -74,7 +80,7 @@
       <recent name="com.lz.mybatis.plugin.mapper" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.StringUtils">
+  <component name="RunManager" selected="Application.SqlParseUtils">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="WIDTH" value="400" />
       <option name="HEIGHT" value="300" />
@@ -88,6 +94,20 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.test.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SqlParseUtils" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.lz.mybatis.plugin.utils.SqlParseUtils" />
+      <module name="lz_mybatis_plugin" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lz.mybatis.plugin.utils.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -149,23 +169,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Test1.test9" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="lz_mybatis_plugin" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.test.test.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.test.test" />
-      <option name="MAIN_CLASS_NAME" value="com.test.test.Test1" />
-      <option name="METHOD_NAME" value="test9" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
@@ -193,11 +196,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.SqlParseUtils" />
         <item itemvalue="Application.StringUtils" />
         <item itemvalue="JUnit.Test1.test13" />
         <item itemvalue="JUnit.Test1.test12" />
         <item itemvalue="Application.BBTest" />
-        <item itemvalue="JUnit.Test1.test9" />
       </list>
     </recent_temporary>
   </component>
@@ -340,7 +343,11 @@
       <workItem from="1659957127416" duration="68000" />
       <workItem from="1666605071722" duration="35000" />
       <workItem from="1667458260748" duration="1515000" />
-      <workItem from="1667459786944" duration="802000" />
+      <workItem from="1667459786944" duration="975000" />
+      <workItem from="1667822096755" duration="4000" />
+      <workItem from="1667829145357" duration="27000" />
+      <workItem from="1667911736884" duration="62000" />
+      <workItem from="1672373306899" duration="184000" />
     </task>
     <servers />
   </component>
