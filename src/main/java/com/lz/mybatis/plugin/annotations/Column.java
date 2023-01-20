@@ -4,7 +4,10 @@ import java.lang.annotation.*;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.PARAMETER,ElementType.FIELD})
+@Target({ElementType.PARAMETER, ElementType.FIELD})
 public @interface Column {
     String value() default "";
+
+    String lambda () default  "";
+
 }

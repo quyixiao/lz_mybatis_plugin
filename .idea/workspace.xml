@@ -5,7 +5,54 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7c2740fd-230c-4d18-9ef1-6bfcb278a445" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/utils/SqlParseUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/utils/SqlParseUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/entity/SFunctionInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/exception/MybatisPlusException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/Lambda.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/Pambda.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/SFunction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/annotation/KeySequence.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/annotation/TableLogic.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/annotation/Version.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/BiIntFunction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/ColumnCache.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/Constants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/DbType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/FieldFill.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/FieldStrategy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/GlobalConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/IKeyGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/IdType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/LambdaMeta.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/ProxyLambdaMeta.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/ReflectionKit.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/SerializedLambdaMeta.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/SetAccessibleAction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/SqlCondition.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/StringEscape.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/StringPool.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/TableField.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/TableFieldInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/TableInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/TableInfoHelper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/toolkit/ArrayUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/toolkit/Assert.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/toolkit/ClassUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/toolkit/CollectionUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/toolkit/ExceptionUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/toolkit/SqlScriptUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/test/test/LamTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/By.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/By.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/Column.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/Column.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/IN.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/IN.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/utils/StringUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/utils/StringUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/test/AATest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/test/test/AATest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/test/TestUserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/test/test/TestUserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/config/ResolverBeanPostProcessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/config/ResolverBeanPostProcessor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/StringUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/StringUtils.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/test/test/AATest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/test/test/AATest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/test/test/TestUserMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/test/test/TestUserMapper.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,15 +123,15 @@
       <recent name="com.lz.mybatis.plugin.mapper" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.SqlParseUtils">
+  <component name="RunManager" selected="Application.LamTest">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="WIDTH" value="400" />
       <option name="HEIGHT" value="300" />
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <module />
     </configuration>
-    <configuration name="BBTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.test.test.BBTest" />
+    <configuration name="LamTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.test.test.LamTest" />
       <module name="lz_mybatis_plugin" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
@@ -103,7 +150,7 @@
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.lz.mybatis.plugin.utils.*" />
+          <option name="PATTERN" value="com.lz.mybatis.plugin.plugins.toolkit.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -117,7 +164,7 @@
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.lz.mybatis.plugin.utils.*" />
+          <option name="PATTERN" value="com.lz.mybatis.plugin.plugins.toolkit.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -192,11 +239,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.LamTest" />
         <item itemvalue="Application.SqlParseUtils" />
         <item itemvalue="Application.StringUtils" />
         <item itemvalue="JUnit.Test1.test13" />
         <item itemvalue="JUnit.Test1.test12" />
-        <item itemvalue="Application.BBTest" />
       </list>
     </recent_temporary>
   </component>
@@ -343,7 +390,11 @@
       <workItem from="1667822096755" duration="4000" />
       <workItem from="1667829145357" duration="27000" />
       <workItem from="1667911736884" duration="62000" />
-      <workItem from="1672373306899" duration="670000" />
+      <workItem from="1672373306899" duration="1441000" />
+      <workItem from="1672380991068" duration="2272000" />
+      <workItem from="1673495504825" duration="205000" />
+      <workItem from="1674096699215" duration="4443000" />
+      <workItem from="1674132058829" duration="1911000" />
     </task>
     <servers />
   </component>

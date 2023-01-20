@@ -2,6 +2,9 @@ package com.test.test;
 
 import com.lz.mybatis.plugin.annotations.*;
 import com.lz.mybatis.plugin.entity.Page;
+import com.lz.mybatis.plugin.entity.ParameterInfo;
+import com.lz.mybatis.plugin.plugins.Lambda;
+import com.lz.mybatis.plugin.plugins.Pambda;
 import org.apache.ibatis.annotations.Param;
 
 import java.math.BigDecimal;
@@ -27,6 +30,7 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
 
     List<TestUser> selectByIF(@IFNull Long companyId);
 
+    List<TestUser> selectByIN(@IN Long companyId);
 
     Page<TestUser> selectPage(String username, String mobile, @CurrPage int currPage, @PageSize int pageSize);
 
@@ -122,7 +126,7 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
 
 
     @Max("id")
-    BigDecimal selectUserAccountBorrowByMax(@Column("t1.companyxx") @IF Long companyId, @IF Long brrowId, @IF @IsNotNull String userName);
+    BigDecimal selectUserAccountBorrowByMax(@IF Long companyId, @IF Long brrowId, @IF @IsNotNull String userName);
 
 
     @Max("t.id")

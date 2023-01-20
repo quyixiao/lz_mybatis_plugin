@@ -5,6 +5,7 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD,ElementType.PARAMETER,ElementType.FIELD})
+@Repeatable
 public @interface By {
 
     String [] value() default {};
