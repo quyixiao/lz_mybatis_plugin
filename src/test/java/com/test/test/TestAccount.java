@@ -16,8 +16,23 @@ import java.util.Date;
  */
 
 
-@TableName("lz_test_borrow")
+@TableName("lz_test_account")
 public class TestAccount implements java.io.Serializable {
+
+    public static final String id_ = "com.test.test.TestAccount:id";
+    public static final String is_delete = "com.test.test.TestAccount:is_delete";
+    public static final String gmt_create = "com.test.test.TestAccount:gmt_create";
+    public static final String gmt_modified = "com.test.test.TestAccount:gmt_modified";
+    public static final String type_ = "com.test.test.TestAccount:type";
+    public static final String account_id = "com.test.test.TestAccount:account_id";
+    public static final String user_id = "com.test.test.TestAccount:user_id";
+    public static final String real_name = "com.test.test.TestAccount:real_name";
+    public static final String mobile_ = "com.test.test.TestAccount:mobile";
+    public static final String username_ = "com.test.test.TestAccount:username";
+    public static final String task_id = "com.test.test.TestAccount:task_id";
+    public static final String staff_id = "com.test.test.TestAccount:staff_id";
+
+
     //主键id
     @TableId
     @By
@@ -31,7 +46,7 @@ public class TestAccount implements java.io.Serializable {
     //0
     private Integer type;
     //版本号
-    private Long branchId;
+    private Long accountId;
     //真实名称
     private String realName;
     //手机号码
@@ -42,7 +57,24 @@ public class TestAccount implements java.io.Serializable {
     private Long taskId;
     //员工 id
     private Long staffId;
+    private Long userId;
 
+
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public TestAccount() {
     }
@@ -142,23 +174,6 @@ public class TestAccount implements java.io.Serializable {
         this.type = type;
     }
 
-    /**
-     * 版本号
-     *
-     * @return
-     */
-    public Long getBranchId() {
-        return branchId;
-    }
-
-    /**
-     * 版本号
-     *
-     * @param branchId
-     */
-    public void setBranchId(Long branchId) {
-        this.branchId = branchId;
-    }
 
     /**
      * 真实名称
@@ -250,20 +265,4 @@ public class TestAccount implements java.io.Serializable {
         this.staffId = staffId;
     }
 
-    @Override
-    public String toString() {
-        return "TestUser{" +
-                ",id=" + id +
-                ",isDelete=" + isDelete +
-                ",gmtCreate=" + gmtCreate +
-                ",gmtModified=" + gmtModified +
-                ",type=" + type +
-                ",branchId=" + branchId +
-                ",realName=" + realName +
-                ",mobile=" + mobile +
-                ",username=" + username +
-                ",taskId=" + taskId +
-                ",staffId=" + staffId +
-                "}";
-    }
 }

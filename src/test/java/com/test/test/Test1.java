@@ -1,5 +1,6 @@
 package com.test.test;
 
+import com.lz.mybatis.plugin.plugins.LambdaUtils;
 import com.lz.mybatis.plugin.utils.SqlParseUtils;
 import com.lz.mybatis.plugin.utils.t.Tuple2;
 import org.junit.Test;
@@ -8,6 +9,7 @@ public class Test1 {
 
     @Test
     public void test1(){
+
         Tuple2<Boolean,String> a = SqlParseUtils.testSelect(TestUserMapper.class,"selectByIF").getData();
         System.out.println(a.getSecond());
     }
@@ -92,16 +94,19 @@ public class Test1 {
 
 
 
-
-
-
-
-
     @Test
     public void test13(){
         Tuple2<Boolean,String> a = SqlParseUtils.testSelect(TestUserMapper.class,"selectTestUserByIds").getData();
         System.out.println(a.getSecond());
     }
+
+
+    @Test
+    public void test14(){
+        Tuple2<Boolean,String> a = SqlParseUtils.testSelect(TestUserMapper.class,"selectUserAccountBorrowByLeftJoinOnsNew").getData();
+        System.out.println(a.getSecond());
+    }
+
 }
 
 

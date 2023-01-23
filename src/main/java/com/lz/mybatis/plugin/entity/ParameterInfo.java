@@ -86,7 +86,7 @@ public class ParameterInfo {
     private boolean isMax;
     private boolean isMin;
     private boolean isWhere;
-    private String aliasValue;
+    private String[] aliasValue;
     private boolean isExclude;
     private String rowValue;
 
@@ -115,15 +115,13 @@ public class ParameterInfo {
         isExclude = exclude;
     }
 
-    public String getAliasValue() {
+    public String[] getAliasValue() {
         return aliasValue;
     }
 
-    public void setAliasValue(String aliasValue) {
+    public void setAliasValue(String[] aliasValue) {
         this.aliasValue = aliasValue;
     }
-
-
 
     public boolean isAlias() {
         return isAlias;

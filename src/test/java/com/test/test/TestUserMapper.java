@@ -55,7 +55,6 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
     //目前不支持批量更新
     int updateCoverTestUserById(TestUser testUser);
 
-
     //目前不支持批量更新
     int updateTestUserById(TestUser testUser);
 
@@ -74,7 +73,6 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
 
     @Realy
     int deleteTestUserById(Long id);
-
 
     // @In注解中的值，对应数据库列字段
     List<String> selectTestUserByIds(String userName, @IN @Row("id") List<TestUser> id);
@@ -103,22 +101,28 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
     List<TestUser> selectCompanyVisibleByCompanyId(Long companyId);
 
 
-    @Mapping("t.*,t1.account_id,t2.borrow_id")
+    @Mapping(value = "t.*,t1.account_id,t2.borrow_id",
+            mk = {
+                    @MK(key = "t1.account_id", value = "AccountId"),
+                    @MK(key = "t2.borrow_id", value = "bowrowId")
+            })
     @LeftJoinOns({
             @Item(value = TestAccount.class, as = "t1", on = "t.account_id = t1.id"),
             @Item(value = TestBorrow.class, as = "t2", on = "t.borrow_id = t2.id")})
-    @AS("user")
     List<TestUser> selectUserAccountBorrowByLeftJoinOns(@AS("t2") Long companyId);
 
+    @Mapping(value = {"t.*", TestAccount.account_id, TestBorrow.borrow_id}, as = {"_", "accountId", "borrowId"})
+    @LeftJoinOns({
+            @Item(value = TestAccount.class, left = TestAccount.user_id, right = TestUser.id_),
+            @Item(value = TestBorrow.class, left = TestBorrow.user_id, right = TestUser.id_)})
+    List<TestUser> selectUserAccountBorrowByLeftJoinOnsNew(@Column(TestBorrow.company_id) Long companyId);
 
-    @Mapping(value = {" t.* ,t1.name as accountName ,t2.borrow_no as brrowNo"},as = {"b","c",""})
     @Froms({
             @Item(value = TestAccount.class, as = "t1"),
             @Item(value = TestBorrow.class, as = "t2")})
     @Where("t.account_id = t1.id and t.borrow_id=t2.id")
     @AS("user")
     List<TestUser> selectUserAccountBorrowByFrom(@Column("t1.companyxx") @IF Long companyId, @IF Long brrowId, @IF @IsNotNull String userName);
-
 
     @Max("id")
     BigDecimal selectUserAccountBorrowByMax(@IF Long companyId, @IF Long brrowId, @IF @IsNotNull String userName);
@@ -130,6 +134,7 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
             @Item(value = TestBorrow.class, as = "t2", on = "t.borrow_id = t2.id")})
     BigDecimal selectUserAccountBorrowByMax1(@Column @IF Long companyId, @IF Long brrowId, @IF @IsNotNull String userName);
 
+
     @Count
     Long selectUserAccountByCount(@Column(TestBorrow.gmt_create) @IF Long companyId, @IF Long brrowId, @IF @IsNotNull String userName);
 
@@ -139,19 +144,18 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
     List<TestUser> selectPageInfo(Page page, @AS("t2") String userName);
 
 
+
     @OrderByIdDesc
     @OrderBy({" a.id desc ", "b.id asc "})
     @Order({
-            @By(value = {"id", "mobile"}, type = OrderType.DESC),
-            @By(value = {"username"}, type = OrderType.ASC),
+            @By(value = {TestUser.id_, TestUser.mobile_}, type = OrderType.DESC),
+            @By(value = {TestUser.username_}, type = OrderType.ASC),
     })
     List<MyUserPhone> selectPageInfoXXX(Page page, MyUserPhone userPhone, @OrderBy("xx") String sort);
 
-
-    @GroupBy("user_id")
+    @GroupBy(TestUser.username_)
     int countByProductIdGroupByUserId(@DateFormat("%Y-%m-%d") Date gmtCreate, Long productId, @IsNotEmpty String userId);
 
-    @ResultMapping(count = @Count(distinct = @Distinct(TestBorrow.id_)))
     int countByProductIdGroupByUserIdxxxxxx(@DateFormat("%Y-%m-%d") Date gmtCreate, Long productId, @IsNotEmpty String userId);
 
 

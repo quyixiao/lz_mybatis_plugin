@@ -16,18 +16,22 @@ import java.util.Date;
  */
 
 
-@TableName("lz_test_account")
+@TableName("lz_test_borrow")
 public class TestBorrow implements java.io.Serializable {
-    //用户名
-    public static final String username_ = "com.test.test.username";
-    //用户名
-    public static final String id_ = "com.test.test.username";
-    //用户名
-    public static final String gmt_create = "com.test.test.username";
 
-
-
-
+    public static final String id_ = "com.test.test.TestBorrow:id";
+    public static final String is_delete = "com.test.test.TestBorrow:is_delete";
+    public static final String gmt_create = "com.test.test.TestBorrow:gmt_create";
+    public static final String gmt_modified = "com.test.test.TestBorrow:gmt_modified";
+    public static final String type_ = "com.test.test.TestBorrow:type";
+    public static final String borrow_id = "com.test.test.TestBorrow:borrow_id";
+    public static final String user_id = "com.test.test.TestBorrow:user_id";
+    public static final String real_name = "com.test.test.TestBorrow:real_name";
+    public static final String mobile_ = "com.test.test.TestBorrow:mobile";
+    public static final String username_ = "com.test.test.TestBorrow:username";
+    public static final String task_id = "com.test.test.TestBorrow:task_id";
+    public static final String staff_id = "com.test.test.TestBorrow:staff_id";
+    public static final String company_id = "com.test.test.TestBorrow:company_id";
 
     //主键id
     @TableId
@@ -42,21 +46,27 @@ public class TestBorrow implements java.io.Serializable {
     //0
     private Integer type;
     //版本号
-    private Long branchId;
+    private Long borrowId;
     //真实名称
     private String realName;
     //手机号码
     private String mobile;
     //用户名
     private String username;
-
-
-
     //任务 id
     private Long taskId;
     //员工 id
     private Long staffId;
+    private Long userId;
+    private Long companyId;
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public TestBorrow() {
     }
@@ -156,22 +166,12 @@ public class TestBorrow implements java.io.Serializable {
         this.type = type;
     }
 
-    /**
-     * 版本号
-     *
-     * @return
-     */
-    public Long getBranchId() {
-        return branchId;
+    public Long getBorrowId() {
+        return borrowId;
     }
 
-    /**
-     * 版本号
-     *
-     * @param branchId
-     */
-    public void setBranchId(Long branchId) {
-        this.branchId = branchId;
+    public void setBorrowId(Long borrowId) {
+        this.borrowId = borrowId;
     }
 
     /**
@@ -264,20 +264,4 @@ public class TestBorrow implements java.io.Serializable {
         this.staffId = staffId;
     }
 
-    @Override
-    public String toString() {
-        return "TestUser{" +
-                ",id=" + id +
-                ",isDelete=" + isDelete +
-                ",gmtCreate=" + gmtCreate +
-                ",gmtModified=" + gmtModified +
-                ",type=" + type +
-                ",branchId=" + branchId +
-                ",realName=" + realName +
-                ",mobile=" + mobile +
-                ",username=" + username +
-                ",taskId=" + taskId +
-                ",staffId=" + staffId +
-                "}";
-    }
 }

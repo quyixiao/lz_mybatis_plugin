@@ -26,11 +26,10 @@ public class SqlParseUtils {
     public final static String GMT_MODIFIED = "gmtModified";
     public final static String GMT_CREATE = "gmtCreate";
 
-
     public final static String TABLE_ID = "TableId";
     public final static String BY = "By";
     public final static String ID = "id";
-
+    public final static ThreadLocal<SqlContext> THREAD_LOCAL = new ThreadLocal();
 
     public static String TAB = "    ";
     private static final List<Class<?>> primitiveTypes = new ArrayList<>(8);
@@ -88,92 +87,134 @@ public class SqlParseUtils {
 
     public static PluginTuple testSelect(Class clazz, String methodName) {
         SqlCommandType sqlCommandType = SqlCommandType.SELECT;
-
-
-       String  tableName = SqlParseUtils.findTableName(clazz);
-
-        return parse(tableName, primaryC, tableBaseInfo, sqlCommandType, getMethod(clazz, methodName), null);
+        EntryInfo entryInfo= SqlParseUtils.findTableName(clazz);
+        return parse(entryInfo, primaryC, tableBaseInfo, sqlCommandType, getMethod(clazz, methodName), null);
     }
 
     public static PluginTuple testInsert(Class clazz, String methodName) {
         SqlCommandType sqlCommandType = SqlCommandType.INSERT;
-        String  tableName = SqlParseUtils.findTableName(clazz);
-        return parse(tableName, primaryC, tableBaseInfo, sqlCommandType, getMethod(clazz, methodName), null);
+        EntryInfo entryInfo = SqlParseUtils.findTableName(clazz);
+        return parse(entryInfo, primaryC, tableBaseInfo, sqlCommandType, getMethod(clazz, methodName), null);
     }
 
     public static PluginTuple testUpdate(Class clazz, String methodName) {
         SqlCommandType sqlCommandType = SqlCommandType.UPDATE;
-        String  tableName = SqlParseUtils.findTableName(clazz);
-        return parse(tableName, primaryC, tableBaseInfo, sqlCommandType, getMethod(clazz, methodName), null);
+        EntryInfo entryInfo= SqlParseUtils.findTableName(clazz);
+        return parse(entryInfo, primaryC, tableBaseInfo, sqlCommandType, getMethod(clazz, methodName), null);
     }
 
     public static PluginTuple testDelete(Class clazz, String methodName) {
         SqlCommandType sqlCommandType = SqlCommandType.DELETE;
-        String  tableName = SqlParseUtils.findTableName(clazz);
-        return parse(tableName, primaryC, tableBaseInfo, sqlCommandType, getMethod(clazz, methodName), null);
+        EntryInfo entryInfo = SqlParseUtils.findTableName(clazz);
+        return parse(entryInfo, primaryC, tableBaseInfo, sqlCommandType, getMethod(clazz, methodName), null);
     }
 
     public static PluginTuple testCount(Class clazz, String methodName) {
         SqlCommandType sqlCommandType = SqlCommandType.UNKNOWN;
-        String  tableName = SqlParseUtils.findTableName(clazz);
-        return parse(tableName, primaryC, tableBaseInfo, sqlCommandType, getMethod(clazz, methodName), null);
+        EntryInfo entryInfo= SqlParseUtils.findTableName(clazz);
+        return parse(entryInfo, primaryC, tableBaseInfo, sqlCommandType, getMethod(clazz, methodName), null);
     }
 
-    public static PluginTuple parse(String tableName, List<String> primaryColumns, TableBaseInfo tableInfo,
-                                    SqlCommandType sqlCommandType, Method method, Class entityType) {
-        if(primaryColumns == null || primaryColumns.size() == 0 ){
-            primaryColumns = primaryC;
-        }
-        if(tableInfo == null){
-            tableInfo = tableBaseInfo;
-        }
-        DefaultParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
-        String[] parameterNames = parameterNameDiscoverer.getParameterNames(method);
-        StringBuilder sb = new StringBuilder();
-        if (SqlCommandType.SELECT.equals(sqlCommandType)) {
-            if (method.getName().startsWith("count")) {
-                return parseCount(tableName, tableInfo, parameterNames, method);
-            } else if (method.getReturnType().equals(Page.class)) {
-                return parseSelectPage(tableName, tableInfo, parameterNames, method, entityType);
-            } else {
-                return parseSelect(false, tableName, tableInfo, parameterNames, method);
-            }
-        } else if (SqlCommandType.INSERT.equals(sqlCommandType)) {
-            if (method.getName().startsWith("insertOrUpdate")) {
-                Tuple2<Boolean, String> tupleInsert = parseInsert(tableName, parameterNames, method,tableInfo).getData();
-                String insertSql = removeScript(tupleInsert.getSecond());
-                Tuple2<Boolean, String> tupleUpdate = parseUpdate(tableName, parameterNames, method,tableInfo).getData();
-                String updateSql = removeScript(tupleUpdate.getSecond());
-                StringBuilder sBuild = new StringBuilder();
-                sBuild.append("<script> ").append("\n");
-                sBuild.append("<choose>").append("\n");
-                sBuild.append("<when ");
 
-                sBuild.append("test=\"");
-                for (int i = 0; i < primaryColumns.size(); i++) {
-                    if (i != 0) {
-                        sBuild.append(" AND ");
-                    }
-                    sBuild.append(primaryColumns.get(i) + " != null ");
-                }
-                sBuild.append("\"");
-                sBuild.append(" >").append("\n");
-                sBuild.append(updateSql);
-                sBuild.append(" </when>").append("\n");
-                sBuild.append(" <otherwise>").append("\n");
-                sBuild.append(insertSql);
-                sBuild.append(" </otherwise>").append("\n");
-                sBuild.append(" </choose>").append("\n");
-                sBuild.append(" </script>").append("\n");
-                return new PluginTuple(false, sBuild.toString());
+
+    public static SqlContext getSqlContext(){
+        SqlContext sqlContext = THREAD_LOCAL .get();
+        if(sqlContext == null){
+            sqlContext = new SqlContext();
+            THREAD_LOCAL.set(sqlContext);
+        }
+        return sqlContext;
+    }
+
+    public static PluginTuple parse(EntryInfo entryInfo, List<String> primaryColumns, TableBaseInfo tableInfo,
+                                    SqlCommandType sqlCommandType, Method method, Class entityType) {
+        StringBuilder sb = new StringBuilder();
+        try {
+            getSqlContext().setPrimaryEntryInfo(entryInfo);
+            if(primaryColumns == null || primaryColumns.size() == 0 ){
+                primaryColumns = primaryC;
             }
-            return parseInsert(tableName, parameterNames, method,tableInfo);
-        } else if (SqlCommandType.UPDATE.equals(sqlCommandType)) {
-            return parseUpdate(tableName, parameterNames, method,tableInfo);
-        } else if (SqlCommandType.DELETE.equals(sqlCommandType)) {
-            return parseDelete(tableName, tableInfo, parameterNames, method);
+            if(tableInfo == null){
+                tableInfo = tableBaseInfo;
+            }
+            DefaultParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
+            String[] parameterNames = parameterNameDiscoverer.getParameterNames(method);
+            String tableName = entryInfo.getTableName();
+            if (SqlCommandType.SELECT.equals(sqlCommandType)) {
+                if (method.getName().startsWith("count")) {
+                    return parseCount(entryInfo, tableInfo, parameterNames, method);
+                } else if (method.getReturnType().equals(Page.class)) {
+                    return parseSelectPage(tableName, tableInfo, parameterNames, method, entityType);
+                } else {
+                    return parseSelect(false, entryInfo, tableInfo, parameterNames, method);
+                }
+            } else if (SqlCommandType.INSERT.equals(sqlCommandType)) {
+                if (method.getName().startsWith("insertOrUpdate")) {
+                    Tuple2<Boolean, String> tupleInsert = parseInsert(tableName, parameterNames, method,tableInfo).getData();
+                    String insertSql = removeScript(tupleInsert.getSecond());
+                    Tuple2<Boolean, String> tupleUpdate = parseUpdate(tableName, parameterNames, method,tableInfo).getData();
+                    String updateSql = removeScript(tupleUpdate.getSecond());
+                    StringBuilder sBuild = new StringBuilder();
+                    sBuild.append("<script> ").append("\n");
+                    sBuild.append("<choose>").append("\n");
+                    sBuild.append("<when ");
+
+                    sBuild.append("test=\"");
+                    for (int i = 0; i < primaryColumns.size(); i++) {
+                        if (i != 0) {
+                            sBuild.append(" AND ");
+                        }
+                        sBuild.append(primaryColumns.get(i) + " != null ");
+                    }
+                    sBuild.append("\"");
+                    sBuild.append(" >").append("\n");
+                    sBuild.append(updateSql);
+                    sBuild.append(" </when>").append("\n");
+                    sBuild.append(" <otherwise>").append("\n");
+                    sBuild.append(insertSql);
+                    sBuild.append(" </otherwise>").append("\n");
+                    sBuild.append(" </choose>").append("\n");
+                    sBuild.append(" </script>").append("\n");
+                    return new PluginTuple(false, sBuild.toString());
+                }
+                return parseInsert(tableName, parameterNames, method,tableInfo);
+            } else if (SqlCommandType.UPDATE.equals(sqlCommandType)) {
+                return parseUpdate(tableName, parameterNames, method,tableInfo);
+            } else if (SqlCommandType.DELETE.equals(sqlCommandType)) {
+                return parseDelete(tableName, tableInfo, parameterNames, method);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            THREAD_LOCAL.remove();
         }
         return new PluginTuple(true, sb.toString());
+    }
+
+    public static String getAs(String value) {
+        StringBuilder sb = new StringBuilder();
+        char values[] = value.toCharArray();
+        sb.append(values[0]);
+        boolean flag = false;
+        for (int i = 1; i < value.length(); i++) {
+            char c = values[i];
+            if (flag) {
+                flag = false;
+                sb.append(c);
+            }
+            if (c == '_') {
+                flag = true;
+            }
+        }
+        String as =  sb.toString();
+        String old = as ;
+        int i = 0 ;
+        while(getSqlContext().asList.contains(as)){
+            i ++;
+            as = old +"_"+ i;
+        }
+
+        return as;
     }
 
 
@@ -274,35 +315,16 @@ public class SqlParseUtils {
         return new PluginTuple(true, sql.toString(), "", resultMapId, resultMap.toString());
     }
 
-    public static PluginTuple parseSelect(boolean isCount, String tableName,TableBaseInfo tableInfo, String[] parameterNames, Method method) {
+    public static PluginTuple parseSelect(boolean isCount, EntryInfo entryInfo,TableBaseInfo tableInfo, String[] parameterNames, Method method) {
         Class parameterTypes[] = method.getParameterTypes();
         ParameterInfo[] parameterInfos = getMethodParameterInfoByAnnotation(method);
         StringBuilder sql = new StringBuilder();
-        sql.append("<script> \n");
-        sql.append(TAB).append("SELECT");
-        String avg = getAvg(method);
-        String max = getMax(method);
-        String min = getMin(method);
-        String sum = getSum(method);
-        String mapping = getMapping(method);
-        if (isCount) {
-            sql.append(" IFNULL(COUNT(*),0) ");
-        } else if (methodHasAnnotation(method, Count.class)) {
-            sql.append(" IFNULL(COUNT(").append(getCount(method)).append("),0) ");
-        } else if (StringUtils.isNotEmpty(avg)) {
-            sql.append(" IFNULL(AVG").append("(").append(avg).append("),0) ");
-        } else if (StringUtils.isNotEmpty(max)) {
-            sql.append(" IFNULL(MAX").append("(").append(max).append("),0) ");
-        } else if (StringUtils.isNotEmpty(min)) {
-            sql.append(" IFNULL(MIN").append("(").append(min).append("),0) ");
-        } else if (StringUtils.isNotEmpty(sum)) {
-            sql.append(" IFNULL(SUM").append("(").append(sum).append("),0) ");
-        } else if (StringUtils.isNotEmpty(mapping)) {
-            sql.append(" ").append(mapping).append(" ");
-        } else {
-            sql.append(" * ");
-        }
+        // 如果没有配置别名，则使用默认别名
         String alias = getAlias(method);
+        if(StringUtils.isBlank(alias)){
+            alias = entryInfo.getAs();
+        }
+        String tableName = entryInfo.getTableName();
         String wheir = getWhere(method);
         if (methodHasAnnotation(method, Froms.class)) {
             alias = StringUtils.isEmpty(alias) ? "t" : alias;       //默认当前表的别名为 t
@@ -317,20 +339,50 @@ public class SqlParseUtils {
             sql.append(tuple2.getFirst());
             wheir += " " + tuple2.getSecond();
         } else {
-            sql.append(" FROM ").append(tableName).append(alias);
+            sql.append(" FROM ").append(tableName).append(" ").append(alias);
         }
 
-        sql.append(doGetSqlCondition(wheir, alias, parameterTypes, parameterInfos, parameterNames,tableInfo,method));
-
-
+        sql.append(doGetSqlCondition(wheir, alias, parameterTypes, parameterInfos, parameterNames, tableInfo, method));
         sql.append(getGroupBy(method));
         sql.append(getHaving(method));
         sql.append(getOrderBySql(method, parameterInfos, parameterNames));
         sql.append(getLimit(method));
         sql.append(" \n</script>");
+        sql.insert(0, getMapper(isCount, method));
         return new PluginTuple(true, sql.toString().trim());
     }
 
+    public static String getMapper(boolean isCount, Method method) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("<script> \n");
+        sql.append(TAB).append("SELECT");
+        String avg = getAvg(method);
+        String max = getMax(method);
+        String min = getMin(method);
+        String sum = getSum(method);
+        String countDistinct = getCountDistince(method);
+        String mapping = getMapping(method);
+        if (isCount) {
+            sql.append(" IFNULL(COUNT(*),0) ");
+        } else if (methodHasAnnotation(method, Count.class)) {
+            sql.append(" IFNULL(COUNT(").append(getCount(method)).append("),0) ");
+        } else if (StringUtils.isNotEmpty(countDistinct)) {
+            sql.append(" IFNULL(COUNT(DISTINCT").append("(").append(countDistinct).append(")),0) ");
+        } else if (StringUtils.isNotEmpty(avg)) {
+            sql.append(" IFNULL(AVG").append("(").append(avg).append("),0) ");
+        } else if (StringUtils.isNotEmpty(max)) {
+            sql.append(" IFNULL(MAX").append("(").append(max).append("),0) ");
+        } else if (StringUtils.isNotEmpty(min)) {
+            sql.append(" IFNULL(MIN").append("(").append(min).append("),0) ");
+        } else if (StringUtils.isNotEmpty(sum)) {
+            sql.append(" IFNULL(SUM").append("(").append(sum).append("),0) ");
+        } else if (StringUtils.isNotEmpty(mapping)) {
+            sql.append(" ").append(mapping).append(" ");
+        } else {
+            sql.append(" * ");
+        }
+        return sql.toString();
+    }
 
     public static String doGetSqlCondition(String wheir, String alias, Class parameterTypes[], ParameterInfo[] parameterInfos, String[] parameterNames,TableBaseInfo tableInfo,Method method) {
         StringBuilder sql = new StringBuilder();
@@ -344,7 +396,7 @@ public class SqlParseUtils {
                 appendWhere(wheir, sql);
             }
             for (int i = 0; i < parameterTypes.length; i++) {//遍历所有的参数
-                sql.append(" ").append(getCondition(sql, alias, "", parameterTypes, parameterInfos, parameterNames, i,method));
+                sql.append("\n").append(" ").append(getCondition(sql, alias, "", parameterTypes, parameterInfos, parameterNames, i,method));
             }
         } else {
             if (StringUtils.isNotEmpty(tableInfo.getIsDelete())) {
@@ -354,8 +406,6 @@ public class SqlParseUtils {
         }
         return sql.toString();
     }
-
-
 
 
     public static void appendWhere(String wheir, StringBuilder sql) {
@@ -716,7 +766,7 @@ public class SqlParseUtils {
     }
 
 
-    public static PluginTuple parseCount(String tableName, TableBaseInfo tableInfo, String[] parameterNames, Method method) {
+    public static PluginTuple parseCount(EntryInfo tableName, TableBaseInfo tableInfo, String[] parameterNames, Method method) {
         return parseSelect(true, tableName, tableInfo, parameterNames, method);
     }
 
@@ -749,15 +799,16 @@ public class SqlParseUtils {
         if (!isBasicDataTypes(parameterTypes[i]) && !Collection.class.isAssignableFrom(parameterTypes[i])) {//如果参数不是基本数据类型
             return notBasicDataTypeHandler(condition, parameterTypes, parameterInfos, parameterNames, i,method);
         }
-        String column = getColumName(parameterInfos[i], parameterNames[i]);
+        String column = getColumName(parameterInfos[i].isAlias(),parameterInfos[i], parameterNames[i]);
         //如果字段有别名
         if (parameterInfos[i].isAlias()) {
-            column = parameterInfos[i].getAliasValue() + "." + column;
+            column = parameterInfos[i].getAliasValue()[0] + "." + column;
         } else {
             if(column.indexOf(".") == -1 ){
                 column = columPre + column;
             }
         }
+
         String conditionName = conditionNamePre + getConditionName(parameterInfos[i], parameterNames[i]);           //设置变量前缀
         if (parameterInfos[i].isEmpty()) {
             condition.append("(").append(column).append(" IS NULL OR ").append(column).append(" = '' ").append(")");
@@ -903,7 +954,7 @@ public class SqlParseUtils {
         if (isDateTypes(parameterTypes[i]) || parameterInfos[i].isDateFormat()) {
             if (parameterInfos[i].isDateFormat()) {
                 String dateformate = ifNullGetDefault(parameterInfos[i].getDateFormatParam(), "%Y-%m-%d %H:%i:%S");
-                condition.append(" DATE_FORMAT(" + columnName + ", '" + dateformate + "')  "
+                condition.append("DATE_FORMAT(" + columnName + ", '" + dateformate + "')  "
                         + flag +
                         "  DATE_FORMAT(#{" + conditionName + "}, '" + dateformate + "')");
             } else {
@@ -1013,17 +1064,43 @@ public class SqlParseUtils {
         return sb.toString();
     }
 
-
-    public static String getColumName(ParameterInfo parameterInfo, String parameterName) {
+    public static String getColumName(boolean hasAlias,ParameterInfo parameterInfo, String parameterName) {
         StringBuilder condition = new StringBuilder();
         if (StringUtils.isNotEmpty(parameterInfo.getColumn())) {
-            condition.append(parameterInfo.getColumn());
+            String colum = parameterInfo.getColumn();
+            if(colum.contains(":")){
+                String colums[] = colum.split(":");
+                colum = colums[0];
+                String as = null;
+                try {
+                    Class clazz = Class.forName(colum);
+                    if(clazz == getSqlContext().primaryEntryInfo.getClazz()){
+                        as =  getSqlContext().primaryEntryInfo.getAs();
+                    }else{
+                        for(EntryInfo entryInfo : getSqlContext().getOtherEntryInfo()){
+                            if(clazz == entryInfo.getClazz()){
+                                as =  entryInfo.getAs();
+                            }
+                        }
+                    }
+                    // 获取别名+ 数据库列名
+                    condition.append(as + "." + colums[1] );
+                }catch (Exception e ){
+                    e.printStackTrace();
+                }
+            }else{
+                condition.append(parameterInfo.getColumn());
+            }
         } else {
-            condition.append(StringUtils.getDataBaseColumn(parameterName));
+            //如果已经有别名注解
+            if (hasAlias) {
+                condition.append(StringUtils.getDataBaseColumn(parameterName));
+            } else {
+                condition.append(getSqlContext().primaryEntryInfo.getAs() + "." + StringUtils.getDataBaseColumn(parameterName));
+            }
         }
         return condition.toString();
     }
-
 
 
     public static String ifNullGetDefault(String priority, String defaultValue) {
@@ -1044,18 +1121,17 @@ public class SqlParseUtils {
         return condition.toString();
     }
 
-
     public static Tuple2<String, String> getLeftJoinOnsBySql(Method method, ParameterInfo[] parameterInfos, String[] parameterNames,TableBaseInfo tableInfo) {
         StringBuilder sql = new StringBuilder();
         StringBuilder sql2 = new StringBuilder();
-
         List<ItemInfo> orderByInfos = getLeftJoinOnsItemsListByMethod(method);
         int i = 0;
         for (ItemInfo itemInfo : orderByInfos) {
-            String tableName = SqlParseUtils.findTableName(itemInfo.getClazz());
-            sql.append(" LEFT JOIN ").append(tableName).append(" ").append(itemInfo.getAs()).append(" ON ").append(itemInfo.getOn());
+            EntryInfo entryInfo = SqlParseUtils.findTableName(itemInfo.getClazz());
+            String tableName = entryInfo.getTableName();
+            sql.append("\n LEFT JOIN ").append(tableName).append(" ").append(itemInfo.getAs()).append(" ON ").append(itemInfo.getOn());
             if (i > 0) {
-                sql2.append(" AND ");
+                sql2.append("\n AND ");
             }
             sql2.append(itemInfo.getAs()).append(".").append(tableInfo.getIsDelete() + " = 0");
             i++;
@@ -1063,22 +1139,25 @@ public class SqlParseUtils {
         return new Tuple2<>(sql.toString(), sql2.toString());
     }
 
-
     public static Tuple2<String, String> getFromsBySql(Method method, ParameterInfo[] parameterInfos, String[] parameterNames,TableBaseInfo tableInfo) {
         StringBuilder sql = new StringBuilder();
         List<ItemInfo> orderByInfos = getFromsItemsListByMethod(method);
         StringBuilder sql2 = new StringBuilder();
         int i = 0;
         for (ItemInfo itemInfo : orderByInfos) {
-            String tableName = SqlParseUtils.findTableName(itemInfo.getClazz());
-            sql.append(" , ").append(tableName).append(" ").append(itemInfo.getAs());
+            EntryInfo entryInfo = SqlParseUtils.findTableName(itemInfo.getClazz());
+            String as = itemInfo.getAs();
+            if(StringUtils.isBlank(as)){
+                as = entryInfo.getAs();
+            }
+            String tableName = entryInfo.getTableName();
+            sql.append(" , ").append(tableName).append(" ").append(as);
             if (i > 0) {
                 sql2.append(" AND ");
             }
-
-            sql2.append(itemInfo.getAs()).append(".").append(tableInfo.getIsDelete() + " = 0 ");
-
+            sql2.append(as).append(".").append(tableInfo.getIsDelete() + " = 0 ");
             i++;
+            getSqlContext().getOtherEntryInfo().add(new EntryInfo(tableName, as, itemInfo.getClazz()));
         }
         return new Tuple2<>(sql.toString(), sql2.toString());
     }
@@ -1094,14 +1173,14 @@ public class SqlParseUtils {
                         flag = false;
                         sql.append(" ORDER BY ");
                     }
+
                     String[] bys = parameterInfo.getBys();
                     for (int j = 0; j < bys.length; j++) {
                         if(isNotEndOrderBy(sql)){
                             sql.append(",");
                         }
-                        sql.append(bys[j]).append(" ").append("${").append(parameterNames[i]).append("}");
+                        sql.append(getEntryColum(bys[j])).append(" ").append("${").append(parameterNames[i]).append("}");
                     }
-
                 }
             }
         }
@@ -1117,7 +1196,7 @@ public class SqlParseUtils {
                     if(isNotEndOrderBy(sql)){
                         sql.append(",");
                     }
-                    sql.append(b);
+                    sql.append(getEntryColum(b));
                 }
             }
         }
@@ -1132,7 +1211,7 @@ public class SqlParseUtils {
                     if(isNotEndOrderBy(sql)){
                         sql.append(",");
                     }
-                    sql.append(by);
+                    sql.append(getEntryColum(by));
                     if (OrderType.DESC.equals(orderByInfo.getOrderType())) {
                         sql.append(" DESC ");
                     } else {
@@ -1142,17 +1221,15 @@ public class SqlParseUtils {
             }
         }
 
-
         if (isOrderByIdDesc(method)) {
             if (flag) {
                 sql.append(" ORDER BY ");
             }
-            if(isNotEndOrderBy(sql)){
+            if (isNotEndOrderBy(sql)) {
                 sql.append(",");
             }
-            sql.append(" id DESC ");
+            sql.append(" " + getSqlContext().primaryEntryInfo.getAs() + ".id DESC ");
         }
-
 
         if (isOrderByIdDescLimit_1(method)) {
             if (flag) {
@@ -1162,9 +1239,8 @@ public class SqlParseUtils {
             if(isNotEndOrderBy(sql)){
                 sql.append(",");
             }
-            sql.append(" id DESC LIMIT 1 ");
+            sql.append(" " + getSqlContext().primaryEntryInfo.getAs() +".id DESC LIMIT 1 ");
         }
-
 
         String temp = sql.toString();
         if (temp.endsWith(",")) {
@@ -1180,35 +1256,72 @@ public class SqlParseUtils {
     public static String getAvg(Method method) {
         Avg avg = method.getAnnotation(Avg.class);
         if (avg != null) {
-            return avg.value();
+            return getEntryColum(avg.value());
         }
         return null;
     }
-
 
 
     public static String getSum(Method method) {
         Sum avg = method.getAnnotation(Sum.class);
         if (avg != null) {
-            return avg.value();
+            return getEntryColum(avg.value());
         }
         return null;
     }
-
 
     public static String getMax(Method method) {
         Max avg = method.getAnnotation(Max.class);
         if (avg != null) {
-            return avg.value();
+            return getEntryColum(avg.value());
         }
         return null;
     }
 
-
     public static String getMapping(Method method) {
         Mapping avg = method.getAnnotation(Mapping.class);
         if (avg != null) {
-            return " " + avg.value() + " ";
+            String value[] = avg.value();
+            if (value.length == 1) {
+                return " " + value[0] + " ";
+            }
+            StringBuilder sb = new StringBuilder();
+            String as[] = avg.as();
+            MK[] mks = avg.mk();
+            if (as != null && as.length > 0) {
+                for (int i = 0; i < value.length; i++) { //如果是AS ，则需要一一对应
+                    String a = as[i];
+                    sb.append(getEntryColum(value[i]));
+                    if (!"_".equals(a)) {
+                        sb.append(" ").append("as").append(" ").append(a);
+                    }
+                    if (i < value.length - 1) {
+                        sb.append(",");
+                    }
+                }
+            } else if (mks != null && mks.length > 0) {
+                for (int i = 0; i < value.length; i++) { //如果是AS ，则需要一一对应
+                    String v = getEntryColum(value[i]);
+                    sb.append(v);
+                    for (int j = 0; j < mks.length; j++) {
+                        String key = getEntryColum(mks[j].key());
+                        if (v.equals(key)) {
+                            sb.append(" ").append("as").append(" ").append(mks[j].value());
+                        }
+                    }
+                    if (i < value.length - 1) {
+                        sb.append(",");
+                    }
+                }
+            }else{
+                for (int i = 0; i < value.length; i++) { //如果是AS ，则需要一一对应
+                    String v = getEntryColum(value[i]);
+                    sb.append(v);
+                    if (i < value.length - 1) {
+                        sb.append(",");
+                    }
+                }
+            }
         }
         return "";
     }
@@ -1216,13 +1329,13 @@ public class SqlParseUtils {
     public static String getGroupBy(Method method) {
         GroupBy avg = method.getAnnotation(GroupBy.class);
         if (avg != null) {
-            String a = " GROUP BY ";
+            String a = "\n GROUP BY ";
             String[] xx = avg.value();
             for (int i = 0; i < xx.length; i++) {
                 if (i == 0) {
-                    a += xx[i];
+                    a += getEntryColum(xx[i]);
                 } else {
-                    a += "," + xx[i];
+                    a += "," + getEntryColum(xx[i]);
                 }
             }
             return a ;
@@ -1234,7 +1347,7 @@ public class SqlParseUtils {
     public static String getHaving(Method method) {
         Having avg = method.getAnnotation(Having.class);
         if (avg != null) {
-            return " HAVING " + avg.value() + " ";
+            return " HAVING " + getEntryColum(avg.value()) + " ";
         }
         return "";
     }
@@ -1243,7 +1356,7 @@ public class SqlParseUtils {
     public static String getMin(Method method) {
         Min avg = method.getAnnotation(Min.class);
         if (avg != null) {
-            return avg.value();
+            return getEntryColum(avg.value());
         }
         return null;
     }
@@ -1251,7 +1364,7 @@ public class SqlParseUtils {
     public static String getAlias(Method method) {
         AS avg = method.getAnnotation(AS.class);
         if (avg != null) {
-            return avg.value();
+            return getEntryColum(avg.value()[0]);
         }
         return "";
     }
@@ -1260,9 +1373,40 @@ public class SqlParseUtils {
     public static String getCount(Method method) {
         Count avg = method.getAnnotation(Count.class);
         if (avg != null) {
-            return avg.value();
+            return getEntryColum(avg.value());
         }
         return "*";
+    }
+
+    public static String getCountDistince(Method method) {
+        CountDistinct avg = method.getAnnotation(CountDistinct.class);
+        if (avg != null) {
+            return getEntryColum(avg.value());
+        }
+        return "";
+    }
+
+    public static String getEntryColum(String value) {
+        if (value.contains(":")) {
+            String colums[] = value.split(":");
+            try {
+                Class clazz = getSqlContext().primaryEntryInfo.getClazz();
+                Class c = Class.forName(colums[0]);
+
+                if (clazz == c) {
+                    return getSqlContext().primaryEntryInfo.getAs() + "." + colums[1];
+                } else {
+                    for (EntryInfo entryInfo : getSqlContext().otherEntryInfo) {
+                        if (entryInfo.getClazz() == c) {
+                            return entryInfo.getAs() + "." + colums[1];
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return value;
     }
 
     public static boolean methodHasAnnotation(Method method, Class clazz) {
@@ -1273,7 +1417,6 @@ public class SqlParseUtils {
         return false;
     }
 
-
     public static String getWhere(Method method) {
         Where avg = method.getAnnotation(Where.class);
         if (avg != null) {
@@ -1281,7 +1424,6 @@ public class SqlParseUtils {
         }
         return "";
     }
-
 
     public static String getLimit(Method method) {
         StringBuilder sql = new StringBuilder();
@@ -1392,7 +1534,7 @@ public class SqlParseUtils {
             parameterInfo.setColumn(value);
         } else if ("AS".equals(annotationName)) {
             parameterInfo.setAlias(true);
-            parameterInfo.setAliasValue(value);
+            parameterInfo.setAliasValue((String[])obj);
         } else if ("OrderByIdDesc".equals(annotationName)) {
             parameterInfo.setOrderByIdDesc(true);
         } else if ("OrderByIdDescLimit_1".equals(annotationName)) {
@@ -1544,8 +1686,29 @@ public class SqlParseUtils {
             if (bys != null && bys.length > 0) {
                 for (Item by : bys) {
                     Class[] value = getAnnotationValue(by);
+                    EntryInfo entryInfo = SqlParseUtils.findTableName(value[0]);
                     String as = getAnnotationValueByMethodName(by, "as");
+                    if(StringUtils.isBlank(as)){
+                        as = getAs(entryInfo.getTableName());
+                    }
+                    getSqlContext().otherEntryInfo.add(new EntryInfo(entryInfo.getTableName(),as ,value[0]));
+                }
+
+                for (Item by : bys) {
+                    Class[] value = getAnnotationValue(by);
+                    EntryInfo entryInfo = SqlParseUtils.findTableName(value[0]);
+                    String as = getAnnotationValueByMethodName(by, "as");
+                    if(StringUtils.isBlank(as)){
+                        as = getAs(entryInfo.getTableName());
+                    }
                     String on = getAnnotationValueByMethodName(by, "on");
+                    if(StringUtils.isBlank(on)){
+                        String left = getAnnotationValueByMethodName(by, "left");
+                        left = getEntryColum(left);
+                        String right = getAnnotationValueByMethodName(by, "right");
+                        right = getEntryColum(right);
+                        on = left +" = " + right;
+                    }
                     byList.add(new ItemInfo(value[0], as, on));
                 }
             }
@@ -1779,11 +1942,8 @@ public class SqlParseUtils {
 
     public static Class getActualType(Method method ,int index) {
         Type[] types =method.getGenericParameterTypes();
-
         ParameterizedType pType = (ParameterizedType)types[index];
-
         //获取方法参数泛型类型，那么就为Date
-
         Type type = pType.getActualTypeArguments()[0];
         try {
             return  Class.forName(type.getTypeName());
@@ -1793,31 +1953,38 @@ public class SqlParseUtils {
         return null;
     }
 
-
-
-    public static String findTableName(Class<?> type) {
-        String tableName = null;
+    public static EntryInfo findTableName(Class<?> type) {
         //获取接口定义上的泛型类型
         //一个类可能实现多个接口,每个接口上定义的泛型类型都可取到
-        tableName = SqlParseUtils.getAnnotationValueByTypeName(type, CustomerMapperBuilder.TABLENAME);
+        EntryInfo entryInfo = null;
+        String tableName = SqlParseUtils.getAnnotationValueByTypeName(type, CustomerMapperBuilder.TABLENAME);
+        String as  = SqlParseUtils.getAnnotationValueByTypeName(type, CustomerMapperBuilder.AS);
         if (StringUtils.isNotEmpty(tableName)) {
-            return tableName;
-        }
-        Type[] interfacesTypes = type.getGenericInterfaces();
-        for (Type t : interfacesTypes) {
-            Type[] genericType2 = ((ParameterizedType) t).getActualTypeArguments();
-            for (Type t2 : genericType2) {
-                try {
-                    Class c = Class.forName(t2.getTypeName());
-                    tableName = SqlParseUtils.getAnnotationValueByTypeName(c, CustomerMapperBuilder.TABLENAME);
-                    if (StringUtils.isNotEmpty(tableName)) {
-                        break;
+            entryInfo =  new EntryInfo(tableName,as,type);
+        }else{
+            Type[] interfacesTypes = type.getGenericInterfaces();
+            for (Type t : interfacesTypes) {
+                Type[] genericType2 = ((ParameterizedType) t).getActualTypeArguments();
+                for (Type t2 : genericType2) {
+                    try {
+                        Class c = Class.forName(t2.getTypeName());
+                        tableName = SqlParseUtils.getAnnotationValueByTypeName(c, CustomerMapperBuilder.TABLENAME);
+                        as  = SqlParseUtils.getAnnotationValueByTypeName(c, CustomerMapperBuilder.AS);
+                        if (StringUtils.isNotEmpty(tableName)) {
+                            entryInfo =  new EntryInfo(tableName,as,c);
+                            break;
+                        }
+                    } catch (Exception e) {
+
                     }
-                } catch (Exception e) {
                 }
             }
         }
-        return tableName;
+        // 如果没有配置as注解，则通过表名得到
+        if(StringUtils.isBlank(entryInfo.getAs())){
+            entryInfo.setAs(getAs(entryInfo.getTableName()));
+        }
+        return entryInfo;
     }
 
 

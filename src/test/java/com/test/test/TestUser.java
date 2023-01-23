@@ -18,6 +18,20 @@ import java.util.Date;
 
 @TableName("lz_test_user")
 public class TestUser implements java.io.Serializable {
+
+    public static final String id_ = "com.test.test.TestUser:id";
+    public static final String is_delete = "com.test.test.TestUser:is_delete";
+    public static final String gmt_create = "com.test.test.TestUser:gmt_create";
+    public static final String gmt_modified = "com.test.test.TestUser:gmt_modified";
+    public static final String type_ = "com.test.test.TestUser:type";
+    public static final String branch_id = "com.test.test.TestUser:branch_id";
+    public static final String real_name = "com.test.test.TestUser:real_name";
+    public static final String mobile_ = "com.test.test.TestUser:mobile";
+    public static final String username_ = "com.test.test.TestUser:username";
+    public static final String task_id = "com.test.test.TestUser:task_id";
+    public static final String staff_id = "com.test.test.TestUser:staff_id";
+
+
     //主键id
     @TableId
     @By
