@@ -28,6 +28,21 @@ public class StringUtils {
         }
         return false;
     }
+    // 判断整数数字的正则表达式
+    private static Pattern NUMBER_PATTERN = Pattern.compile("^[-\\+]?[\\d]*$");
+
+    /**
+     *校验是否为数字
+     */
+    public static boolean checkStrIsNum(String str) {
+        Matcher isNum = NUMBER_PATTERN.matcher(str);
+        if (!isNum.matches()) {
+            return false;
+        }
+        return true;
+    }
+
+
 
     /**
      * 空字符

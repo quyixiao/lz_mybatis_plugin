@@ -950,7 +950,7 @@ public class SqlParseUtils {
 
     public static String getEQNEGTLTGELE(ParameterInfo[] parameterInfos, Class[] parameterTypes, String column, String conditionName, String flag, int i) {
         StringBuilder condition = new StringBuilder();
-        String columnName = ifNullGetDefault(parameterInfos[i].getColumn(), column);
+        String columnName = ifNullGetDefault(getEntryColum(parameterInfos[i].getColumn()), column);
         if (isDateTypes(parameterTypes[i]) || parameterInfos[i].isDateFormat()) {
             if (parameterInfos[i].isDateFormat()) {
                 String dateformate = ifNullGetDefault(parameterInfos[i].getDateFormatParam(), "%Y-%m-%d %H:%i:%S");
@@ -1387,7 +1387,7 @@ public class SqlParseUtils {
     }
 
     public static String getEntryColum(String value) {
-        if (value.contains(":")) {
+        if (StringUtils.isNotBlank(value) && value.contains(":")) {
             String colums[] = value.split(":");
             try {
                 Class clazz = getSqlContext().primaryEntryInfo.getClazz();
