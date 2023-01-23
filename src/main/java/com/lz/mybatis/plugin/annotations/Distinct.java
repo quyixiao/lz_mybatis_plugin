@@ -4,10 +4,7 @@ import java.lang.annotation.*;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.PARAMETER, ElementType.FIELD})
-public @interface Column {
+@Target({ElementType.METHOD, ElementType.FIELD})
+public @interface Distinct {
     String value() default "";
-
-
-
 }

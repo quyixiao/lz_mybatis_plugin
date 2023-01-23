@@ -8,4 +8,7 @@ import java.lang.annotation.*;
 public @interface Count {
 
     String value() default "*";
+
+    Distinct[] distinct() default {};
+
 }

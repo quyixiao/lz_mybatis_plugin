@@ -16,7 +16,6 @@
 package com.lz.mybatis.plugin.plugins;
 
 
-
 import com.lz.mybatis.plugin.exception.MybatisPlusException;
 import com.lz.mybatis.plugin.plugins.support.*;
 import com.lz.mybatis.plugin.plugins.toolkit.CollectionUtils;
@@ -36,17 +35,12 @@ import static java.util.Locale.ENGLISH;
  * @author HCL, MieMie
  * @since 2018-05-10
  */
-public final class Lambda {
+public final class LambdaUtils {
 
     /**
      * 字段映射
      */
     private static final Map<String, Map<String, ColumnCache>> COLUMN_CACHE_MAP = new ConcurrentHashMap<>();
-
-    public static String E(){
-        return "xxx";
-    }
-
 
     /**
      * 该缓存可能会在任意不定的时间被清除

@@ -5,54 +5,169 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7c2740fd-230c-4d18-9ef1-6bfcb278a445" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/entity/SFunctionInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/exception/MybatisPlusException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/Lambda.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/Pambda.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/SFunction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/annotation/KeySequence.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/annotation/TableLogic.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/annotation/Version.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/BiIntFunction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/ColumnCache.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/Constants.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/DbType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/FieldFill.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/FieldStrategy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/GlobalConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/IKeyGenerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/IdType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/LambdaMeta.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/ProxyLambdaMeta.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/ReflectionKit.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/SerializedLambdaMeta.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/SetAccessibleAction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/SqlCondition.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/StringEscape.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/StringPool.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/TableField.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/TableFieldInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/TableInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/support/TableInfoHelper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/toolkit/ArrayUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/toolkit/Assert.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/toolkit/ClassUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/toolkit/CollectionUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/toolkit/ExceptionUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/toolkit/SqlScriptUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/test/test/LamTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/Distinct.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/MappingAS.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/ResultMapping.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/AS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/AS.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/By.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/By.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/Column.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/Column.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/IN.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/IN.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/utils/StringUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/utils/StringUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/test/AATest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/test/test/AATest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/Count.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/Count.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/IFNull.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/IFNull.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/Mapping.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/Mapping.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/Max.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/annotations/Max.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/entity/SFunctionInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/entity/SFunctionInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/Lambda.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lz/mybatis/plugin/plugins/LambdaUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/test/LamTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/test/test/LamTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/test/TestBorrow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/test/test/TestBorrow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/test/test/TestUserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/test/test/TestUserMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/config/ResolverBeanPostProcessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/config/ResolverBeanPostProcessor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/StringUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/StringUtils.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/test/test/AATest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/test/test/AATest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/test/test/TestUserMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/test/test/TestUserMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/AND.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/AS.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Avg.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/By.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Column.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Count.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/CurrPage.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/DateFormat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Delete.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Div.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/EQ.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Exclude.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Froms.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/GE.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/GT.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/GmtCreate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/GmtModified.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/GroupBy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Having.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/IF.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/IFNull.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/IN.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Index.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Insert.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/IsDelete.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/IsEmpty.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/IsNotEmpty.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/IsNotNull.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/IsNull.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Item.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/LE.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/LIKE.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/LIMIT.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/LLIKE.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/LT.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/LeftJoinOns.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Mapping.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Max.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Min.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Mul.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/NE.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/NotIn.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/OR.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Order.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/OrderBy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/OrderByIdDesc.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/OrderByIdDescLimit_1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/OrderType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/PageSize.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Plus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/RLIKE.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Realy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Row.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Select.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Sub.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Sum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/TableId.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/TableName.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Update.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/annotations/Where.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/config/CustomerJdbc3KeyGenerator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/config/CustomerMapperBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/config/ResolverBeanPostProcessor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/entity/ByInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/entity/ItemInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/entity/OrderByInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/entity/Page.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/entity/ParameterInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/entity/TableBaseInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/entity/TableInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/exception/MybatisPlusException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/mapper/TableRowMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/ArrayUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/Assert.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/BiIntFunction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/CollectionUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/ColumnCache.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/Constants.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/DbType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/FieldFill.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/FieldStrategy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/GlobalConfig$DbConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/GlobalConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/IKeyGenerator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/IdType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/LambdaMeta.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/LambdaUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/ProxyLambdaMeta.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/ReflectionKit.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/SFunction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/SerializedLambdaMeta.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/SetAccessibleAction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/SqlCondition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/SqlScriptUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/StringEscape.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/StringPool.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/TableField.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/TableFieldInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/TableInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/TableInfoHelper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/annotation/KeySequence.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/annotation/TableLogic.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/annotation/Version.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/toolkit/ClassUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/plugins/toolkit/ExceptionUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/service/MyBatisBaomidouService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/DF_Const.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/POrderUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/SqlParseUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/StringUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/t/ISuperTuple.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/t/PluginTuple.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/t/SuperTuple.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/t/Tuple1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/t/Tuple10.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/t/Tuple11.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/t/Tuple2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/t/Tuple3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/t/Tuple4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/t/Tuple5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/t/Tuple6.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/t/Tuple7.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/t/Tuple8.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/lz/mybatis/plugin/utils/t/Tuple9.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/lz_mybatis_plugin-13.0-SNAPSHOT-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/lz_mybatis_plugin-13.0-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.test.test.Test1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.test.test.Test1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/Test.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/test/test/AATest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/test/test/BBTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/test/test/LamTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/test/test/MyBaseMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/test/test/MyUserPhone.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/test/test/Test1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/test/test/TestAccount.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/test/test/TestAccountMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/test/test/TestBorrow.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/test/test/TestBorrowMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/test/test/TestUser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/test/test/TestUserMapper.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -395,6 +510,9 @@
       <workItem from="1673495504825" duration="205000" />
       <workItem from="1674096699215" duration="4443000" />
       <workItem from="1674132058829" duration="1911000" />
+      <workItem from="1674192338809" duration="1794000" />
+      <workItem from="1674267331858" duration="8247000" />
+      <workItem from="1674434080218" duration="586000" />
     </task>
     <servers />
   </component>

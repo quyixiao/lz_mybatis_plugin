@@ -18,6 +18,17 @@ import java.util.Date;
 
 @TableName("lz_test_account")
 public class TestBorrow implements java.io.Serializable {
+    //用户名
+    public static final String username_ = "com.test.test.username";
+    //用户名
+    public static final String id_ = "com.test.test.username";
+    //用户名
+    public static final String gmt_create = "com.test.test.username";
+
+
+
+
+
     //主键id
     @TableId
     @By
@@ -38,6 +49,9 @@ public class TestBorrow implements java.io.Serializable {
     private String mobile;
     //用户名
     private String username;
+
+
+
     //任务 id
     private Long taskId;
     //员工 id

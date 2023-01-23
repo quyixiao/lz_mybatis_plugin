@@ -7,5 +7,5 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD,ElementType.PARAMETER})
 public @interface AS {
 
-    String value() default "";
+    String[] value() default "";
 }

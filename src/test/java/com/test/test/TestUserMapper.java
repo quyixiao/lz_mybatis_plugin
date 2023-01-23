@@ -2,9 +2,6 @@ package com.test.test;
 
 import com.lz.mybatis.plugin.annotations.*;
 import com.lz.mybatis.plugin.entity.Page;
-import com.lz.mybatis.plugin.entity.ParameterInfo;
-import com.lz.mybatis.plugin.plugins.Lambda;
-import com.lz.mybatis.plugin.plugins.Pambda;
 import org.apache.ibatis.annotations.Param;
 
 import java.math.BigDecimal;
@@ -59,7 +56,6 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
     int updateCoverTestUserById(TestUser testUser);
 
 
-
     //目前不支持批量更新
     int updateTestUserById(TestUser testUser);
 
@@ -80,9 +76,8 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
     int deleteTestUserById(Long id);
 
 
-
     // @In注解中的值，对应数据库列字段
-    List<String> selectTestUserByIds(String userName ,@IN @Row("id") List<TestUser>  id);
+    List<String> selectTestUserByIds(String userName, @IN @Row("id") List<TestUser> id);
 
     // @In注解中的值，对应数据库列字段
     int deleteTestUserByIds(@IN("id") List<Long> ids);
@@ -116,7 +111,7 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
     List<TestUser> selectUserAccountBorrowByLeftJoinOns(@AS("t2") Long companyId);
 
 
-    @Mapping(" t.* ,t1.name as accountName ,t2.borrow_no as brrowNo")
+    @Mapping(value = {" t.* ,t1.name as accountName ,t2.borrow_no as brrowNo"},as = {"b","c",""})
     @Froms({
             @Item(value = TestAccount.class, as = "t1"),
             @Item(value = TestBorrow.class, as = "t2")})
@@ -133,26 +128,31 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
     @LeftJoinOns({
             @Item(value = TestAccount.class, as = "t1", on = "t.account_id = t1.id"),
             @Item(value = TestBorrow.class, as = "t2", on = "t.borrow_id = t2.id")})
-    BigDecimal selectUserAccountBorrowByMax1(@Column("t1.companyxx") @IF Long companyId, @IF Long brrowId, @IF @IsNotNull String userName);
+    BigDecimal selectUserAccountBorrowByMax1(@Column @IF Long companyId, @IF Long brrowId, @IF @IsNotNull String userName);
 
     @Count
-    Long selectUserAccountByCount(@Column("t1.companyxx") @IF Long companyId, @IF Long brrowId, @IF @IsNotNull String userName);
+    Long selectUserAccountByCount(@Column(TestBorrow.gmt_create) @IF Long companyId, @IF Long brrowId, @IF @IsNotNull String userName);
 
     @LeftJoinOns({
             @Item(value = TestAccount.class, as = "t1", on = "t.account_id = t1.id"),
             @Item(value = TestBorrow.class, as = "t2", on = "t.borrow_id = t2.id")})
-    List<TestUser> selectPageInfo(Page page,@AS("t2") String userName);
+    List<TestUser> selectPageInfo(Page page, @AS("t2") String userName);
 
 
     @OrderByIdDesc
-    @OrderBy({" a.id desc ","b.id asc "})
+    @OrderBy({" a.id desc ", "b.id asc "})
     @Order({
             @By(value = {"id", "mobile"}, type = OrderType.DESC),
             @By(value = {"username"}, type = OrderType.ASC),
     })
-    List<MyUserPhone> selectPageInfoXXX(Page page, MyUserPhone userPhone,  @OrderBy("xx") String sort);
+    List<MyUserPhone> selectPageInfoXXX(Page page, MyUserPhone userPhone, @OrderBy("xx") String sort);
 
 
     @GroupBy("user_id")
     int countByProductIdGroupByUserId(@DateFormat("%Y-%m-%d") Date gmtCreate, Long productId, @IsNotEmpty String userId);
+
+    @ResultMapping(count = @Count(distinct = @Distinct(TestBorrow.id_)))
+    int countByProductIdGroupByUserIdxxxxxx(@DateFormat("%Y-%m-%d") Date gmtCreate, Long productId, @IsNotEmpty String userId);
+
+
 }

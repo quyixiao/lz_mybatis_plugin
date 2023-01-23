@@ -7,10 +7,14 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD})
 public @interface Item {
 
-    Class<?> []value() default {};
+    Class<?>[] value() default {};
 
-    String  as() default "";
+    String as() default "";
 
-    String  on() default "";
+    String on() default "";
+
+    String left() default "";
+
+    String right() default "";
 
 }
