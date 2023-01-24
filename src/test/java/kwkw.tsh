@@ -1,7 +1,9 @@
 
 
-select * from 
-(select 1 as xxx, totalCount, (totalCount + 6 - 1) / 6 as pageCount, 6 as pageSize, if(2=0,1,2) as currPage from (select count(*) as totalCount from lz_test_user WHERE username = 'zhangsan' AND mobile = '18458195149' AND IS_DELETE = 0 ) a) t1 
-left join 
-(select * , 1 as xxx from lz_test_user WHERE username = 'zhangsan' AND mobile = '18458195149' AND IS_DELETE = 0 limit 0,6 ) t2 
-on t1.xxx = t2.xxx 
+mybatis实用小插件 https://blog.csdn.net/quyixiao/article/details/114735913
+
+
+
+
+
+工作中日志打印 https://blog.csdn.net/quyixiao/article/details/115369035
