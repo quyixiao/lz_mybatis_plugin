@@ -105,9 +105,18 @@ public class Test1 {
         Tuple2<Boolean,String> a = SqlParseUtils.testSelect(TestUserMapper.class,"selectUserAccountBorrowByLeftJoinOnsNew").getData();
         System.out.println(a.getSecond());
     }
+
+
     @Test
-    public void test15(){
-        Tuple2<Boolean,String> a = SqlParseUtils.testSelect(TestUserMapper.class,"selectUserAccountByCountNew").getData();
+    public void test15() {
+        Tuple2<Boolean, String> a = SqlParseUtils.testSelect(TestUserMapper.class, "selectUserAccountByCountNew").getData();
+        System.out.println(a.getSecond());
+    }
+
+
+    @Test
+    public void test16() {
+        Tuple2<Boolean, String> a = SqlParseUtils.testSelect(TestUserMapper.class, "selectUserAccountBorrowByFrom").getData();
         System.out.println(a.getSecond());
     }
 

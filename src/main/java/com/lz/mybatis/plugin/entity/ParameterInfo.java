@@ -7,65 +7,37 @@ import java.util.List;
 
 public class ParameterInfo {
     private String param;
-
     private String column;
-
     private String value;
-
     private boolean isAnd = true;
-
     private boolean isOr;
-
     private boolean isEq = true;
-
-
     private boolean isNe;
-
     private boolean isGt;
-
     private boolean isLt;
-
     private boolean isGe;
-
     private boolean isLe;
-
     private boolean isLike;
-
     private boolean isLLike;
-
     private boolean isRLike;
-
-
+    private boolean isLBracket;    //是否是左括号
+    private boolean isRBracket;    //是否是右括号
     private boolean isIn;
-
     private boolean notIn;
-
     private boolean isEmpty;
-
     private boolean isNull;
-
     private boolean isNotEmpty;
-
     private boolean isOrderByIdDesc;
-
     private boolean isOrderByIdDescLimit_1;
-
     private boolean isNotNull;
-
     private boolean isDiv;
-
     private boolean isSub;
-
     private boolean isMul;
-
     private boolean isPlus;
-
     private boolean isIF;
     private List<String> ifParams;
-
     private boolean ifNull;
     private List<String> ifNullParams;
-
     private boolean isDateFormat;
     private String dateFormatParam;
     private boolean isBy;
@@ -533,6 +505,22 @@ public class ParameterInfo {
 
     public void setCurrPage(boolean currPage) {
         isCurrPage = currPage;
+    }
+
+    public boolean isLBracket() {
+        return isLBracket;
+    }
+
+    public void setLBracket(boolean LBracket) {
+        isLBracket = LBracket;
+    }
+
+    public boolean isRBracket() {
+        return isRBracket;
+    }
+
+    public void setRBracket(boolean RBracket) {
+        isRBracket = RBracket;
     }
 
     @Override

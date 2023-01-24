@@ -13,8 +13,11 @@ public @interface Item {
 
     String on() default "";
 
-    String left() default "";
+    OptType opt () default OptType.EQ;
 
-    String right() default "";
+    String[] left() default {};
+
+    String[] right() default {};
+
 
 }

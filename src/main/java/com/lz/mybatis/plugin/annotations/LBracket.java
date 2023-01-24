@@ -4,11 +4,15 @@ import java.lang.annotation.*;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD})
-public @interface Where {
+@Target({ElementType.PARAMETER,ElementType.TYPE,ElementType.FIELD})
+public @interface LBracket {
 
     String value() default "";
 
-    Item[] condition() default {};
-
 }
+
+
+
+
+
+

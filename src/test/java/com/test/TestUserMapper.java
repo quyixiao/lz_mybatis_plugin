@@ -2,6 +2,7 @@ package com.test;
 
 import com.lz.mybatis.plugin.annotations.*;
 import com.lz.mybatis.plugin.entity.Page;
+import com.lz.mybatis.plugin.entity.UserInfo;
 import org.apache.ibatis.annotations.Param;
 
 import java.math.BigDecimal;
@@ -15,15 +16,29 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
 
     List<TestUser> selectByUserNameMobile(String username, @OR String mobile);
 
-
     @LIMIT(10)
     List<TestUser> selectUserByRealName(@LIKE String realName, @LLIKE String mobile);
+
+
+
+    @LIMIT(10)
+    List<TestUser> selectUserByRealNameObject1(@LIKE String realName,@LBracket @LLIKE String mobile ,@OR @RBracket String password);
+
+
+
+    @LIMIT(10)
+    List<TestUser> selectUserByRealNameObject2(@LIKE String realName,@LBracket @LLIKE String mobile , UserInfo userInfo );
+
+    @LIMIT(10)
+    List<TestUser> selectUserByRealNameObject3(@LIKE String realName, @LLIKE String mobile , UserInfo userInfo );
+
+
+
 
     //对于这种情况 taskId 和 staffId 传入的值可以是 null
     List<TestUser> selectByTaskId(@IsNull Long taskId, @IsNotNull Long staffId);
 
     List<TestUser> selectAll();
-
 
     List<TestUser> selectByIF(@IFNull Long companyId);
 
@@ -101,43 +116,67 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
     List<TestUser> selectCompanyVisibleByCompanyId(Long companyId);
 
 
-    @Mapping(value = "t.*,t1.account_id,t2.borrow_id",
+
+    @Mapping(value = "t.*,t1.account_id as AccountId,t2.borrow_id as bowrowId")
+    @LeftJoinOns({
+            @Item(value = TestAccount.class, as = "t1", on = "t.account_id = t1.id"),
+            @Item(value = TestBorrow.class, as = "t2", on = "t.borrow_id = t2.id")})
+    List<TestUser> selectUserAccountBorrowByLeftJoinOnsOld(@AS("t2") Long companyId);
+
+
+
+    @Mapping(value = {"t.*", TestAccount.account_id, TestBorrow.borrow_id}, as = {"_", "accountId", "borrowId"})
+    @LeftJoinOns({
+            @Item(value = TestAccount.class, as = "t1", on = "t.account_id = t1.id"),
+            @Item(value = TestBorrow.class, as = "t2", on = "t.borrow_id = t2.id")})
+    List<TestUser> selectUserAccountBorrowByLeftJoinOnsNew(@Column(TestBorrow.company_id) Long companyId);
+
+
+
+    @Mapping(value = {"t.*", TestAccount.account_id, TestBorrow.borrow_id},
             mk = {
-                    @MK(key = "t1.account_id", value = "AccountId"),
-                    @MK(key = "t2.borrow_id", value = "bowrowId")
+                    @MK(key = TestAccount.account_id, value = "AccountId"),
+                    @MK(key = TestBorrow.borrow_id, value = "bowrowId")
             })
     @LeftJoinOns({
             @Item(value = TestAccount.class, as = "t1", on = "t.account_id = t1.id"),
             @Item(value = TestBorrow.class, as = "t2", on = "t.borrow_id = t2.id")})
-    List<TestUser> selectUserAccountBorrowByLeftJoinOns(@AS("t2") Long companyId);
+    List<TestUser> selectUserAccountBorrowByLeftJoinOnsNew1(@AS("t2") Long companyId);
+
+
+
 
     @Mapping(value = {"t.*", TestAccount.account_id, TestBorrow.borrow_id}, as = {"_", "accountId", "borrowId"})
     @LeftJoinOns({
             @Item(value = TestAccount.class, left = TestAccount.user_id, right = TestUser.id_),
             @Item(value = TestBorrow.class, left = TestBorrow.user_id, right = TestUser.id_)})
-    List<TestUser> selectUserAccountBorrowByLeftJoinOnsNew(@Column(TestBorrow.company_id) Long companyId);
+    List<TestUser> selectUserAccountBorrowByLeftJoinOnsNew2(@Column(TestBorrow.company_id) Long companyId);
+
 
     @Froms({
             @Item(value = TestAccount.class, as = "t1"),
             @Item(value = TestBorrow.class, as = "t2")})
-    @Where("t.account_id = t1.id and t.borrow_id=t2.id")
-    @AS("user")
+    //@Where("t.account_id = t1.id and t.borrow_id=t2.id")
+    @Where(condition = {
+            @Item(left = TestAccount.user_id,opt = OptType.EQ, right = "1"),
+            @Item(left = TestBorrow.mobile_,opt = OptType.EQ, right = "'18458591xx'")
+    })
     List<TestUser> selectUserAccountBorrowByFrom(@Column("t1.companyxx") @IF Long companyId, @IF Long brrowId, @IF @IsNotNull String userName);
 
-    @Max("id")
-    BigDecimal selectUserAccountBorrowByMax(@IF Long companyId, @IF Long brrowId, @IF @IsNotNull String userName);
+
+    @Max(TestUser.id_)
+    BigDecimal selectUserAccountBorrowByMax( Long companyId,@OR@LBracket Long brrowId,@OR  String username,@RBracket @IF @IsNotNull String userName);
 
 
-    @Max("t.id")
+    @Max(TestUser.id_)
     @LeftJoinOns({
-            @Item(value = TestAccount.class, as = "t1", on = "t.account_id = t1.id"),
-            @Item(value = TestBorrow.class, as = "t2", on = "t.borrow_id = t2.id")})
+            @Item(value = TestAccount.class,left = TestAccount.account_id, right = TestUser.id_),
+            @Item(value = TestBorrow.class, left = TestBorrow.borrow_id, right = TestUser.id_)})
     BigDecimal selectUserAccountBorrowByMax1(@Column @IF Long companyId, @IF Long brrowId, @IF @IsNotNull String userName);
 
 
     @Count
     Long selectUserAccountByCount(@Column(TestUser.branch_id) @IF Long companyId, @IF Long brrowId, @IF @IsNotNull String userName);
-
 
 
     @CountDistinct(TestUser.id_)
@@ -150,7 +189,6 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
     List<TestUser> selectPageInfo(Page page, @AS("t2") String userName);
 
 
-
     @OrderByIdDesc
     @OrderBy({" a.id desc ", "b.id asc "})
     @Order({
@@ -158,6 +196,8 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
             @By(value = {TestUser.username_}, type = OrderType.ASC),
     })
     List<MyUserPhone> selectPageInfoXXX(Page page, MyUserPhone userPhone, @OrderBy("xx") String sort);
+
+
 
     @GroupBy(TestUser.username_)
     int countByProductIdGroupByUserId(@DateFormat("%Y-%m-%d") Date gmtCreate, Long productId, @IsNotEmpty String userId);

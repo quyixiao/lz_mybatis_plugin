@@ -8,6 +8,7 @@ public class EntryInfo {
 
 
     public EntryInfo() {
+
     }
 
 

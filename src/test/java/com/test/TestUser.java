@@ -18,7 +18,6 @@ import java.util.Date;
 
 @TableName("lz_test_user")
 public class TestUser implements java.io.Serializable {
-
     public static final String id_ = "com.test.TestUser:id";
     public static final String is_delete = "com.test.TestUser:is_delete";
     public static final String gmt_create = "com.test.TestUser:gmt_create";
@@ -30,7 +29,6 @@ public class TestUser implements java.io.Serializable {
     public static final String username_ = "com.test.TestUser:username";
     public static final String task_id = "com.test.TestUser:task_id";
     public static final String staff_id = "com.test.TestUser:staff_id";
-
 
     //主键id
     @TableId

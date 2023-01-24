@@ -17,6 +17,8 @@ package com.lz.mybatis.plugin.plugins;
 
 
 import com.lz.mybatis.plugin.exception.MybatisPlusException;
+import com.lz.mybatis.plugin.function.LBiFunction1;
+import com.lz.mybatis.plugin.function.LBiFunction2;
 import com.lz.mybatis.plugin.plugins.support.*;
 import com.lz.mybatis.plugin.plugins.toolkit.CollectionUtils;
 
@@ -41,6 +43,9 @@ public final class LambdaUtils {
      * 字段映射
      */
     private static final Map<String, Map<String, ColumnCache>> COLUMN_CACHE_MAP = new ConcurrentHashMap<>();
+
+
+
 
     /**
      * 该缓存可能会在任意不定的时间被清除

@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SqlContext {
+
+
     public EntryInfo primaryEntryInfo;
+
     public List<EntryInfo> otherEntryInfo = new ArrayList<>();
     public List<String> asList = new ArrayList<>();
 
@@ -23,7 +26,5 @@ public class SqlContext {
     public void setOtherEntryInfo(List<EntryInfo> otherEntryInfo) {
         this.otherEntryInfo = otherEntryInfo;
     }
-
-
 
 }
