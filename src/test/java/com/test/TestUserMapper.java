@@ -110,6 +110,11 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
 
     int updateUserAmount(@Sub int amount, Long id);
 
+
+    int updateUserAmountCondition(@Sub int amount , @Plus int count,  Long userId ,@By  String userName ,@By @IF @LIKE  String password,@By Long id);
+
+
+
     void updateCurRedPrtInvalidRedPrtById(@Sub BigDecimal curRedPrt, @Plus BigDecimal invalidRedPrt, Long id);
 
 

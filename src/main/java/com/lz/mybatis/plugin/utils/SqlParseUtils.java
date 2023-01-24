@@ -937,7 +937,7 @@ public class SqlParseUtils {
         if(parameterInfos[i].isRBracket()){
             condition.append(" ) ");
         }
-        return condition.toString().trim();
+        return condition.toString().trim() + "\n";
     }
 
     private static String notBasicDataTypeHandler(StringBuilder oldSql, Class[] parameterTypes, ParameterInfo parameterInfos[], String[] parameterNames, int i,Method method) {// 如果是不个对象，获取对象的所对应的sql
@@ -1328,7 +1328,19 @@ public class SqlParseUtils {
         if (avg != null) {
             String value[] = avg.value();
             if (value.length == 1) {
-                return " " + value[0] + " ";
+                if(value[0].contains(":")){
+                    String vs[] = value[0].split(",");
+                    StringBuilder sb = new StringBuilder();
+                    for(int i = 0 ;i < vs.length ;i ++){
+                        sb.append(getEntryColum(vs[i]));
+                        if(i < vs.length - 1 ){
+                            sb.append(",");
+                        }
+                    }
+                    return " " + sb.toString() + " ";
+                }else{
+                    return " " + value[0] + " ";
+                }
             }
             StringBuilder sb = new StringBuilder();
             String as[] = avg.as();
