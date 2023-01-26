@@ -7,4 +7,5 @@ import java.lang.annotation.*;
 @Target({ElementType.PARAMETER,ElementType.FIELD})
 public @interface IFNull {
     String[] value() default {};
+
 }

@@ -11,4 +11,6 @@ import java.lang.annotation.*;
 @Target({ElementType.PARAMETER, ElementType.FIELD, ElementType.METHOD})
 public @interface OrderBy {
     String[] value() default {};
+
+    OrderType[] type() default OrderType.DESC;
 }

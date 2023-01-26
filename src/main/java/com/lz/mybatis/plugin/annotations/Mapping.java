@@ -7,8 +7,10 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface Mapping {
+    String[] value() default "";
 
+    String[] as() default {};
 
-    String value() default "";
+    MK[] mk() default {};
 
 }

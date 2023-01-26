@@ -1,10 +1,8 @@
 package com.lz.mybatis.plugin.config;
 
 
-import com.lz.mybatis.plugin.entity.ParameterInfo;
+import com.lz.mybatis.plugin.entity.EntryInfo;
 import com.lz.mybatis.plugin.entity.TableBaseInfo;
-import com.lz.mybatis.plugin.entity.TableInfo;
-import com.lz.mybatis.plugin.mapper.TableRowMapper;
 import com.lz.mybatis.plugin.service.MyBatisBaomidouService;
 import com.lz.mybatis.plugin.utils.SqlParseUtils;
 import com.lz.mybatis.plugin.utils.StringUtils;
@@ -42,9 +40,7 @@ import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeAliasRegistry;
 import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.UnknownTypeHandler;
-import org.springframework.jdbc.core.JdbcTemplate;
 
-import javax.sql.DataSource;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.util.*;
@@ -59,12 +55,13 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
     private Configuration configuration = null;
     private MapperBuilderAssistant assistant = null;
     private Class<?> type = null;
-    private String tableName;
+    private EntryInfo entryInfo;
 
     private TableBaseInfo tableColumns;
     private List<String> primaryColumns;
 
     public final static String TABLENAME = "TableName";
+    public final static String AS = "AS";
     public MyBatisBaomidouService myBatisBaomidouService;
     protected final TypeAliasRegistry typeAliasRegistry;
     private Class entityType;
@@ -97,17 +94,12 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
 
         // 获取表名,看Mapper的继承类中有没有配置泛型，如果配置泛型，看泛型对象是否有@TableName注解，如果有@TableName注解
         // 获取@TableName注解的 value 作为表名称
-        tableName = SqlParseUtils.findTableName(type);
-
+        entryInfo = SqlParseUtils.findTableName(type);
 
         entityType = SqlParseUtils.findEntityType(type);    //找到实体名称
 
-        if (StringUtils.isEmpty(tableName)) { //
-            tableName = SqlParseUtils.getAnnotationValueByTypeName(type, TABLENAME);
-        }
         //如果表名为空，则直接退出
-        if (StringUtils.isEmpty(tableName)) {
-
+        if (StringUtils.isEmpty(entryInfo.getTableName())) {
             return;
         }
         //通过 jdbc 获取表信息，主要是表的主键列 和 表的所有列
@@ -260,7 +252,7 @@ public class CustomerMapperBuilder extends MapperAnnotationBuilder {
     }*/
 
     private PluginTuple buildSqlSourceFromStrings(Method method, Class<?> parameterTypeClass, LanguageDriver languageDriver, SqlCommandType sqlCommandType) {
-        Tuple5<Boolean, String, String, String, String> data = SqlParseUtils.parse(tableName, primaryColumns, tableColumns, sqlCommandType, method, entityType).getData();
+        Tuple5<Boolean, String, String, String, String> data = SqlParseUtils.parse(entryInfo, primaryColumns, tableColumns, sqlCommandType, method, entityType).getData();
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, data.getSecond().trim(), parameterTypeClass);
         if(myBatisBaomidouService !=null){
             myBatisBaomidouService.info( type.getSimpleName() + "." + method.getName()  +"\t" +  data.getSecond());

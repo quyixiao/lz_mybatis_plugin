@@ -9,4 +9,6 @@ public @interface Where {
 
     String value() default "";
 
+    Item[] condition() default {};
+
 }
