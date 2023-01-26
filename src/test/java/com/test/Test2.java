@@ -9,31 +9,12 @@ public class Test2 {
 
     @Test
     public void test5() {
-        Tuple2<Boolean, String> a = TestParseUtils.testSql(TestUserMapper::insertOrUpdateTestUser).getData();
-        System.out.println(a.getSecond());
-    }
-
-
-    @Test
-    public void test6() {
-        Tuple2<Boolean, String> a = TestParseUtils.testSql(TestUserMapper::selectUserByRealNameObject1).getData();
-        System.out.println(a.getSecond());
-    }
-
-
-    @Test
-    public void test7() {
-        Tuple2<Boolean, String> a = TestParseUtils.testSql(TestUserMapper::selectUserByRealNameObject2).getData();
+        Tuple2<Boolean, String> a = TestParseUtils.testSql(TestUserMapper::selectPageInfoXXX).getData();
         System.out.println(a.getSecond());
     }
 
 
 
-    @Test
-    public void test3() {
-        Tuple2<Boolean, String> a = TestParseUtils.testSql(TestUserMapper::selectUserByRealNameObject3).getData();
-        System.out.println(a.getSecond());
-    }
 
 
 }

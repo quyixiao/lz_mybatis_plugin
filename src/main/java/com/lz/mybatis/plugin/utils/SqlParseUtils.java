@@ -1218,7 +1218,6 @@ public class SqlParseUtils {
                         flag = false;
                         sql.append(" ORDER BY ");
                     }
-
                     String[] bys = parameterInfo.getBys();
                     for (int j = 0; j < bys.length; j++) {
                         if(isNotEndOrderBy(sql)){
@@ -1231,20 +1230,39 @@ public class SqlParseUtils {
         }
 
         if (isOrderBy(method)) {
-            String[] bys = getMethodOrderArrayByMethod(method);
+            OrderBy orderBy = method.getAnnotation(OrderBy.class);
+            String[] bys = getAnnotationValue(orderBy);
+            OrderType type [] = getAnnotationValueByMethodName(orderBy, "type");
             if (bys != null && bys.length > 0) {
                 if (flag) {
                     flag = false;
                     sql.append(" ORDER BY ");
                 }
-                for (String b : bys) {
-                    if(isNotEndOrderBy(sql)){
+
+                for (int i =0 ;i < bys.length ;i ++) {
+                    String b = bys[i];
+                    if (isNotEndOrderBy(sql)) {
                         sql.append(",");
                     }
-                    sql.append(getEntryColum(b));
+                    String order = getEntryColum(b);
+                    sql.append(order);
+                    if (!order.trim().toLowerCase().contains("asc") ||
+                            !order.trim().toLowerCase().contains("desc")) {
+                        if (type != null && i < type.length) {
+                            OrderType orderType = type[i];
+                            if (orderType.equals(OrderType.ASC)) {
+                                sql.append(" ASC");
+                            } else {
+                                sql.append(" DESC");
+                            }
+                        } else {
+                            sql.append(" DESC");
+                        }
+                    }
                 }
             }
         }
+
         List<OrderByInfo> orderByInfos = getMethodOrderByListByMethod(method);
         if (orderByInfos != null && orderByInfos.size() > 0) {
             if (flag) {

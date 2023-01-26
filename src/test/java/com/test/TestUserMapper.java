@@ -194,13 +194,9 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
     List<TestUser> selectPageInfo(Page page, @AS("t2") String userName);
 
 
-    @OrderByIdDesc
-    @OrderBy({" a.id desc ", "b.id asc "})
-    @Order({
-            @By(value = {TestUser.id_, TestUser.mobile_}, type = OrderType.DESC),
-            @By(value = {TestUser.username_}, type = OrderType.ASC),
-    })
-    List<MyUserPhone> selectPageInfoXXX(Page page, MyUserPhone userPhone, @OrderBy("xx") String sort);
+
+    @OrderBy(TestUser.id_)
+    List<MyUserPhone> selectPageInfoXXX(Page page, MyUserPhone userPhone, @OrderBy(TestUser.username_) String sort);
 
 
 
