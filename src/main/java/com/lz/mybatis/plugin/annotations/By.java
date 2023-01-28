@@ -7,8 +7,9 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD,ElementType.PARAMETER,ElementType.FIELD})
 public @interface By {
 
+
     String [] value() default {};
 
-    OrderType type() default OrderType.ASC;
+    OrderType type() default OrderType.DESC;
 
 }

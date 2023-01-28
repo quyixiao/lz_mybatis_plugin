@@ -937,7 +937,7 @@ public class SqlParseUtils {
         if(parameterInfos[i].isRBracket()){
             condition.append(" ) ");
         }
-        return condition.toString().trim() + "\n";
+        return condition.toString().trim();
     }
 
     private static String notBasicDataTypeHandler(StringBuilder oldSql, Class[] parameterTypes, ParameterInfo parameterInfos[], String[] parameterNames, int i,Method method) {// 如果是不个对象，获取对象的所对应的sql

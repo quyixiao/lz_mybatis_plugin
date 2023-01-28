@@ -7,9 +7,11 @@ import java.lang.annotation.*;
  *
  * LT 就是 LESS THAN OR EQUAL 小于
  *
- *
  * <
+ *
+ *
  */
+// gmt_create  <![CDATA[ < ]]>  #{startTimeLT}
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER,ElementType.FIELD})
