@@ -13,10 +13,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import java.lang.reflect.*;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -507,6 +504,9 @@ public class SqlParseUtils {
             bf.append(TAB).append(TAB).append(TAB).append("(").append("\n");
             bf.append(TAB).append(TAB).append(TAB).append("<trim suffixOverrides=\",\">").append("\n");
             for (Field field : fields) {
+
+
+
                 String realFieldName = getRealFieldName(field);
                 String column = StringUtils.getDataBaseColumn(realFieldName);
                 if (column.equals(tableInfo.getId()) ||column.equals(tableInfo.getIsDelete())
@@ -597,6 +597,9 @@ public class SqlParseUtils {
         } else {
             fields = paramterType.getDeclaredFields();
         }
+
+        fields = sortFields(fields);
+
         if (isAssignableFromCollection(paramterType) || paramterType.isArray()) {
             String collection = paramterType.isArray() ? "array" : "list";
             bf.append(TAB).append(TAB).append("update").append(" ").append(tableName).append("\n");
@@ -2011,6 +2014,9 @@ public class SqlParseUtils {
         // 用来存放所有的属性域
         List<Field> fieldList = new ArrayList<>();
         for (Field field : fields) {
+            if (Modifier.isFinal(field.getModifiers())){    //如果是静态类型
+                continue;
+            }
             fieldList.add(field);
         }
         // 这个比较排序的语法依赖于java 1.8
