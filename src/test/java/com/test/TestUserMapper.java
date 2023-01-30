@@ -84,7 +84,7 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
 
     //如果想写多个更新条件，在字段前面加 @by注解，值得注意的是，所有的方法参数名称都应该和数据库中的字段对应，在自动生成 sql时，
     // 会将驼峰参数名转化为数据库字段
-    void updateTestUserUserNamePassword(String username, String mobile, @By Long id, @By Long taskId);
+    void updateTestUserUserNamePasswordxxxx(String username, String mobile, @By Long id, @By Long taskId);
 
     @Realy
     int deleteTestUserById(Long id);

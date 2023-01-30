@@ -135,7 +135,6 @@ public class SqlParseUtils {
                                     SqlCommandType sqlCommandType, Method method, Class entityType) {
         StringBuilder sb = new StringBuilder();
         try {
-
             getSqlContext().setPrimaryEntryInfo(entryInfo);
             getSqlContext().asList.add(entryInfo.getAs());
             String tableAlas = getAlias(method);
@@ -848,7 +847,7 @@ public class SqlParseUtils {
             return notBasicDataTypeHandler(condition, parameterTypes, parameterInfos, parameterNames, i,method);
         }
 
-        String column = getColumName(parameterInfos[i].isAlias(),parameterInfos[i], parameterNames[i]);
+        String column = getColumName(parameterInfos[i].isAlias(),parameterInfos[i], parameterNames[i], method);
         //如果字段有别名
         if (parameterInfos[i].isAlias()) {
             column = parameterInfos[i].getAliasValue()[0] + "." + column;
@@ -1112,7 +1111,7 @@ public class SqlParseUtils {
         return sb.toString();
     }
 
-    public static String getColumName(boolean hasAlias,ParameterInfo parameterInfo, String parameterName) {
+    public static String getColumName(boolean hasAlias,ParameterInfo parameterInfo, String parameterName,Method method) {
         StringBuilder condition = new StringBuilder();
         if (StringUtils.isNotEmpty(parameterInfo.getColumn())) {
             String colum = parameterInfo.getColumn();
@@ -1144,10 +1143,33 @@ public class SqlParseUtils {
             if (hasAlias) {
                 condition.append(StringUtils.getDataBaseColumn(parameterName));
             } else {
-                condition.append(getSqlContext().primaryEntryInfo.getAs() + "." + StringUtils.getDataBaseColumn(parameterName));
+                boolean isSelect = false;
+                String methodName = method.getName();
+                if (methodName.startsWith("count") || methodName.startsWith("select") || methodName.startsWith("get")) {
+                    isSelect = true;
+                } else if (methodHasAnnotation(method, Count.class, Select.class, Sum.class, Max.class, Min.class, Avg.class)) {
+                    isSelect = true;
+                }
+
+                if (isSelect) {
+                    condition.append(getSqlContext().primaryEntryInfo.getAs() + "." + StringUtils.getDataBaseColumn(parameterName));
+                } else {
+                    condition.append(StringUtils.getDataBaseColumn(parameterName));
+                }
             }
         }
         return condition.toString();
+    }
+
+
+    public static boolean methodHasAnnotation(Method method , Class ... annos){
+       for(Class ann: annos){
+           Annotation annotation = method.getAnnotation(ann);
+           if(annotation != null){
+                return true;
+           }
+       }
+       return false;
     }
 
 
@@ -1204,6 +1226,7 @@ public class SqlParseUtils {
             }
             sql2.append(as).append(".").append(tableInfo.getIsDelete() + " = 0 ");
             i++;
+
             getSqlContext().getOtherEntryInfo().add(new EntryInfo(tableName, as, itemInfo.getClazz()));
             getSqlContext().asList.add(as);
         }
