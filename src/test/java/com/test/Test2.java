@@ -9,7 +9,7 @@ public class Test2 {
 
     @Test
     public void test5() {
-        Tuple2<Boolean, String> a = TestParseUtils.testSql(TestUserMapper::updateUserAmount).getData();
+        Tuple2<Boolean, String> a = TestParseUtils.testSql(TestUserMapper::selectUserAccountBorrowByFrom).getData();
         System.out.println(a.getSecond());
     }
 

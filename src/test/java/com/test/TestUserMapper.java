@@ -82,9 +82,10 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
     //根据数组批量更新数据
     void updateBatchArray(TestUser[] toArray);
 
+
     //如果想写多个更新条件，在字段前面加 @by注解，值得注意的是，所有的方法参数名称都应该和数据库中的字段对应，在自动生成 sql时，
     // 会将驼峰参数名转化为数据库字段
-    void updateTestUserUserNamePasswordxxxx(String username, String mobile, @By Long id, @By Long taskId);
+    int updateTestUserUserNamePasswordxxxx(String username, String mobile, @By Long id, @By Long taskId);
 
     @Realy
     int deleteTestUserById(Long id);
@@ -112,6 +113,7 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
 
 
     int updateUserAmountCondition(@Sub int amount, @Plus int count, Long userId, @By String userName, @By @IF @LIKE String password, @By Long id);
+    int updateUserAmountConditionXX(@Sub int amount, @Plus int count, Long userId, @By String userName, @By @IF @LIKE String password, @By Long id);
 
 
 
@@ -164,9 +166,9 @@ public interface TestUserMapper extends MyBaseMapper<TestUser> {
     //@Where("t.account_id = t1.id and t.borrow_id=t2.id")
     @Where(condition = {
             @Item(left = TestAccount.user_id,opt = OptType.EQ, right = "1"),
-            @Item(left = TestBorrow.mobile_,opt = OptType.EQ, right = "'18458591xx'")
+            @Item(left = TestBorrow.mobile_,opt = OptType.LIKE, right = "'18458591xx'")
     })
-    List<TestUser> selectUserAccountBorrowByFrom(@Column("t1.companyxx") @IF Long companyId, @IF Long brrowId, @IF @IsNotNull String userName);
+    List<TestUser> selectUserAccountBorrowByFrom(@Column("t1.companyxx") @IF Long companyId, @IF Long brrowId, @IF @IsNotEmpty String userName);
 
 
     @Max(TestUser.id_)

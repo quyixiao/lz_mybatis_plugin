@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SqlContext {
-
-
     public EntryInfo primaryEntryInfo;
-
+    public boolean isMultiTable = false;
     public List<EntryInfo> otherEntryInfo = new ArrayList<>();
     public List<String> asList = new ArrayList<>();
 
@@ -27,4 +25,19 @@ public class SqlContext {
         this.otherEntryInfo = otherEntryInfo;
     }
 
+    public boolean isMultiTable() {
+        return isMultiTable;
+    }
+
+    public void setMultiTable(boolean multiTable) {
+        isMultiTable = multiTable;
+    }
+
+    public List<String> getAsList() {
+        return asList;
+    }
+
+    public void setAsList(List<String> asList) {
+        this.asList = asList;
+    }
 }
