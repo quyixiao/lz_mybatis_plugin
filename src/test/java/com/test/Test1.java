@@ -20,11 +20,6 @@ public class Test1 {
         System.out.println(a.getSecond());
     }
 
-    @Test
-    public void test3(){
-        Tuple2<Boolean,String> a = SqlParseUtils.testSelect(TestUserMapper.class,"selectUserAccountBorrowByLeftJoinOns").getData();
-        System.out.println(a.getSecond());
-    }
 
     @Test
     public void test4(){

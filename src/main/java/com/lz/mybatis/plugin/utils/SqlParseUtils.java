@@ -1473,6 +1473,9 @@ public class SqlParseUtils {
     public static String getEntryColum(String value) {
         if (StringUtils.isNotBlank(value) && value.contains(":")) {
             String colums[] = value.split(":");
+            if(!getSqlContext().isMultiTable){
+                return colums[1];
+            }
             try {
                 Class clazz = getSqlContext().primaryEntryInfo.getClazz();
                 Class c = Class.forName(colums[0]);
